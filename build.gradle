@@ -1,9 +1,37 @@
 group 'org.ibankapp'
+//archivesBaseName = 'ibankapp-base'
 version '1.0.0-SNAPSHOT'
 def artifactId = 'ibankapp-base'
 
 apply plugin: 'java'
 apply plugin: 'maven'
+apply plugin: 'signing'
+
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    sign configurations.archives
+}
 
 repositories {
     mavenCentral()
@@ -11,18 +39,68 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
-    compile 'javax.persistence:persistence-api:1.0.2'
+    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
 }
 
 uploadArchives {
     repositories {
         mavenDeployer {
-            repository(url: "http://123.56.45.216:8081/nexus/content/repositories/snapshots") {
-                authentication(userName: "admin", password: "admin123")
+            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
             }
-            pom.version = "$project.version"
-            pom.artifactId = "$artifactId"
-            pom.groupId = "$project.group"
+
+            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                authentication(userName: ossrhUsername, password: ossrhPassword)
+            }
+
+            pom.project {
+                name 'ibankapp Base'
+                packaging 'jar'
+                // optionally artifactId can be defined here
+                description 'the base moudle of ibankapp series'
+                url 'http://www.ibankapp.org'
+
+                scm {
+                    connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
+                    developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
+                    url 'https://github.com/ibankapp/ibankapp-base/tree/master'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'codelder'
+                        name 'dawndew'
+                        email 'codelder@ibankapp.org'
+                    }
+                    developer {
+                        id 'esailor'
+                        name 'esailor'
+                        email 'liulj@ibankapp.org'
+                    }
+                }
+            }
         }
     }
 }
+
+//uploadArchives {
+//    repositories {
+//        mavenDeployer {
+//            repository(url: "http://123.56.45.216:8081/nexus/content/repositories/snapshots") {
+//                authentication(userName: "admin", password: "admin123")
+//            }
+//            pom.version = "$project.version"
+//            pom.artifactId = "$artifactId"
+//            pom.groupId = "$project.group"
+//        }
+//    }
+//}
