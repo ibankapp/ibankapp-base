@@ -58,7 +58,7 @@ public class PropertyUtil {
      *
      * @param key
      *
-     * @return
+     * @return 属性描述
      */
     public static String getProperty(String key) {
         if (key != null) {
@@ -75,7 +75,7 @@ public class PropertyUtil {
      * @param key
      * @param appendMsg
      *
-     * @return
+     * @return 属性描述
      */
     public static String getProperty(String key, String appendMsg) {
         String property = getProperty(key);
@@ -98,7 +98,7 @@ public class PropertyUtil {
      * @param key
      * @param appendMsgs
      *
-     * @return
+     * @return 属性描述
      */
     public static String getProperty(String key, String[] appendMsgs) {
         String property = getProperty(key);
@@ -118,7 +118,7 @@ public class PropertyUtil {
      * @param appendMsg
      * @param appendMsg1
      *
-     * @return
+     * @return 属性描述
      */
     public static String getProperty(String key, String appendMsg, String appendMsg1) {
         String property = getProperty(key);
