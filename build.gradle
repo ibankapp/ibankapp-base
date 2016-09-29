@@ -1,7 +1,5 @@
 group 'org.ibankapp'
-//archivesBaseName = 'ibankapp-base'
 version '1.0.0-SNAPSHOT'
-def artifactId = 'ibankapp-base'
 
 apply plugin: 'java'
 apply plugin: 'maven'
@@ -47,6 +45,13 @@ uploadArchives {
         mavenDeployer {
             beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
+            if(!this.hasProperty('ossrhUsername')){
+                ext {
+                    ossrhUsername = ''
+                    ossrhPassword = ''
+                }
+            }
+
             repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
                 authentication(userName: ossrhUsername, password: ossrhPassword)
             }
@@ -91,16 +96,3 @@ uploadArchives {
         }
     }
 }
-
-//uploadArchives {
-//    repositories {
-//        mavenDeployer {
-//            repository(url: "http://123.56.45.216:8081/nexus/content/repositories/snapshots") {
-//                authentication(userName: "admin", password: "admin123")
-//            }
-//            pom.version = "$project.version"
-//            pom.artifactId = "$artifactId"
-//            pom.groupId = "$project.group"
-//        }
-//    }
-//}
