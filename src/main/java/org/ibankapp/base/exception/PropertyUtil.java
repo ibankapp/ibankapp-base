@@ -80,10 +80,6 @@ public class PropertyUtil {
     public static String getProperty(String key, String appendMsg) {
         String property = getProperty(key);
 
-        System.out.println(key);
-        System.out.println(property);
-        System.out.println(appendMsg);
-
         if ((appendMsg != null) && (key != null)) {
             property = MessageFormat.format(property, appendMsg);
         }
