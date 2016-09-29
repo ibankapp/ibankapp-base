@@ -2,8 +2,37 @@ group 'org.ibankapp'
 version '1.0.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
+apply plugin: 'jacoco'
 
-sourceCompatibility = 1.5
+allprojects {
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
+}
+
+task javadocJar(type: Jar) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+artifacts {
+    archives javadocJar, sourcesJar
+}
+
+signing {
+    if (this.hasProperty('ossrhUsername')) {
+        sign configurations.archives
+    }
+}
 
 repositories {
     mavenCentral()
@@ -11,4 +40,68 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
 }
+
+uploadArchives {
+
+    if (this.hasProperty('ossrhUsername')) {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name 'ibankapp Base'
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description 'the base moudle of ibankapp series'
+                    url 'http://www.ibankapp.org'
+
+                    scm {
+                        connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
+                        developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
+                        url 'https://github.com/ibankapp/ibankapp-base/tree/master'
+                    }
+
+                    licenses {
+                        license {
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id 'codelder'
+                            name 'dawndew'
+                            email 'codelder@ibankapp.org'
+                        }
+                        developer {
+                            id 'esailor'
+                            name 'esailor'
+                            email 'liulj@ibankapp.org'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+}
+
+check.dependsOn jacocoTestReport
+
