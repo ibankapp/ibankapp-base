@@ -4,6 +4,7 @@ version '1.0.0-SNAPSHOT'
 apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
+apply plugin: 'jacoco'
 
 allprojects {
     gradle.projectsEvaluated {
