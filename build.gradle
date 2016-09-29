@@ -28,7 +28,9 @@ artifacts {
 }
 
 signing {
-    sign configurations.archives
+    if (this.hasProperty('ossrhUsername')) {
+        sign configurations.archives
+    }
 }
 
 repositories {
@@ -41,55 +43,51 @@ dependencies {
 }
 
 uploadArchives {
-    repositories {
-        mavenDeployer {
-            beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            if(!this.hasProperty('ossrhUsername')){
-                ext {
-                    ossrhUsername = ''
-                    ossrhPassword = ''
-                }
-            }
+    if (this.hasProperty('ossrhUsername')) {
+        repositories {
+            mavenDeployer {
+                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                authentication(userName: ossrhUsername, password: ossrhPassword)
-            }
-
-            pom.project {
-                name 'ibankapp Base'
-                packaging 'jar'
-                // optionally artifactId can be defined here
-                description 'the base moudle of ibankapp series'
-                url 'http://www.ibankapp.org'
-
-                scm {
-                    connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
-                    developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
-                    url 'https://github.com/ibankapp/ibankapp-base/tree/master'
+                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
                 }
 
-                licenses {
-                    license {
-                        name 'The Apache License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                    authentication(userName: ossrhUsername, password: ossrhPassword)
+                }
+
+                pom.project {
+                    name 'ibankapp Base'
+                    packaging 'jar'
+                    // optionally artifactId can be defined here
+                    description 'the base moudle of ibankapp series'
+                    url 'http://www.ibankapp.org'
+
+                    scm {
+                        connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
+                        developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
+                        url 'https://github.com/ibankapp/ibankapp-base/tree/master'
                     }
-                }
 
-                developers {
-                    developer {
-                        id 'codelder'
-                        name 'dawndew'
-                        email 'codelder@ibankapp.org'
+                    licenses {
+                        license {
+                            name 'The Apache License, Version 2.0'
+                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
                     }
-                    developer {
-                        id 'esailor'
-                        name 'esailor'
-                        email 'liulj@ibankapp.org'
+
+                    developers {
+                        developer {
+                            id 'codelder'
+                            name 'dawndew'
+                            email 'codelder@ibankapp.org'
+                        }
+                        developer {
+                            id 'esailor'
+                            name 'esailor'
+                            email 'liulj@ibankapp.org'
+                        }
                     }
                 }
             }
