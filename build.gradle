@@ -35,10 +35,10 @@ signing {
 }
 
 repositories {
-//    mavenCentral()
-    maven {
-        url "http://123.56.45.216:8081/nexus/content/groups/public"
-    }
+    mavenCentral()
+//    maven {
+//        url "http://123.56.45.216:8081/nexus/content/groups/public"
+//    }
 }
 
 dependencies {
