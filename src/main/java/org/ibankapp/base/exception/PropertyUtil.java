@@ -46,8 +46,6 @@ public class PropertyUtil {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-
-                throw new BaseException().initCause(e);
             }
         }
     }
@@ -120,7 +118,7 @@ public class PropertyUtil {
         String property = getProperty(key);
 
         if (property == null) {
-            throw new BaseException("E-BASE-000002", key);
+            throw new BaseException("E-BASE-000003", key);
         }
 
         if ((appendMsg != null) && (key != null)) {
