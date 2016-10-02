@@ -1,4 +1,4 @@
-package org.ibankapp.base.utils;
+package org.ibankapp.base.util;
 
 import org.ibankapp.base.exception.BaseException;
 

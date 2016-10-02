@@ -3,6 +3,7 @@ package org.ibankapp.base.persistence;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 /**
  * jpa持久化数据操作接口
@@ -26,9 +27,9 @@ public interface IJpaDao {
      * 执行jpql语句并返回查询结果
      *
      * @param jpql jpql查询语句
-     * @return 查询结果集
+     * @return 查询对象
      */
-    List createQuery(String jpql);
+    Query createQuery(String jpql);
 
     /**
      * 保存持久化数据

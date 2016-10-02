@@ -1,12 +1,13 @@
-package org.ibankapp.base.test;
+package org.ibankapp.base.util.test;
 
 import org.ibankapp.base.exception.BaseException;
-import org.ibankapp.base.utils.PropertyUtil;
-import org.junit.Assert;
+import org.ibankapp.base.util.PropertyUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import static org.junit.Assert.*;
 
 import static org.hamcrest.CoreMatchers.isA;
 
@@ -31,7 +32,7 @@ public class PropertyUtilTest {
     public void testGetValueByKey() {
         String message = PropertyUtil.getProperty("E-TEST-000001");
 
-        Assert.assertEquals("无参数测试", message);
+        assertEquals("无参数测试", message);
     }
 
     /**
@@ -41,7 +42,7 @@ public class PropertyUtilTest {
     public void testGetValueByKeyWithMultiNullParam() {
         String message = PropertyUtil.getProperty("E-TEST-000004", (String[]) null);
 
-        Assert.assertEquals("多个单数测试{0},{1}以及{2}", message);
+        assertEquals("多个单数测试{0},{1}以及{2}", message);
     }
 
     /**
@@ -52,7 +53,7 @@ public class PropertyUtilTest {
         String[] params = {"参数A", "参数B", "参数C"};
         String message = PropertyUtil.getProperty("E-TEST-000004", params);
 
-        Assert.assertEquals("多个单数测试参数A,参数B以及参数C", message);
+        assertEquals("多个单数测试参数A,参数B以及参数C", message);
     }
 
     /**
@@ -62,7 +63,7 @@ public class PropertyUtilTest {
     public void testGetValueByKeyWithOneNullParam() {
         String message = PropertyUtil.getProperty("E-TEST-000002", (String) null);
 
-        Assert.assertEquals("一个参数{0}测试", message);
+        assertEquals("一个参数{0}测试", message);
     }
 
     /**
@@ -72,7 +73,7 @@ public class PropertyUtilTest {
     public void testGetValueByKeyWithOneParam() {
         String message = PropertyUtil.getProperty("E-TEST-000002", "参数A");
 
-        Assert.assertEquals("一个参数参数A测试", message);
+        assertEquals("一个参数参数A测试", message);
     }
 
     /**
@@ -82,7 +83,7 @@ public class PropertyUtilTest {
     public void testGetValueByKeyWithTwoParam() {
         String message = PropertyUtil.getProperty("E-TEST-000003", "参数A", "参数B");
 
-        Assert.assertEquals("两个参数参数A和参数B测试", message);
+        assertEquals("两个参数参数A和参数B测试", message);
     }
 
     /**
@@ -92,7 +93,7 @@ public class PropertyUtilTest {
     public void testGetValueByKeyWithTwoParamFirstNull() {
         String message = PropertyUtil.getProperty("E-TEST-000003", null, "参数B");
 
-        Assert.assertEquals("两个参数null和参数B测试", message);
+        assertEquals("两个参数null和参数B测试", message);
     }
 
 
@@ -103,7 +104,7 @@ public class PropertyUtilTest {
     public void testGetValueByKeyWithTwoParamSecondNull() {
         String message = PropertyUtil.getProperty("E-TEST-000003", "参数A", null);
 
-        Assert.assertEquals("两个参数参数A和null测试", message);
+        assertEquals("两个参数参数A和null测试", message);
     }
 
     /**
@@ -111,8 +112,8 @@ public class PropertyUtilTest {
      */
     @Test
     public void testGetValueByNotExistKey() {
-        String message=PropertyUtil.getProperty("E-TEST");
-        Assert.assertNull(message);
+        String message = PropertyUtil.getProperty("E-TEST");
+        assertNull(message);
     }
 
     /**
@@ -185,6 +186,6 @@ public class PropertyUtilTest {
     public void testNewPropertyUtil() {
         PropertyUtil util = new PropertyUtil();
 
-        Assert.assertNotNull(util);
+        assertNotNull(util);
     }
 }
