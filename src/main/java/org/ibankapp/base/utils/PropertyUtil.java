@@ -112,9 +112,9 @@ public class PropertyUtil {
             throw new BaseException("E-BASE-000003", key);
         }
 
-        if (appendMsg != null) {
+//        if (appendMsg != null) {
             property = MessageFormat.format(property, appendMsg, appendMsg1);
-        }
+//        }
 
         return property;
     }
