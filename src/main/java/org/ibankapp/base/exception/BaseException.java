@@ -1,6 +1,8 @@
 package org.ibankapp.base.exception;
 
 
+import org.ibankapp.base.util.PropertyUtil;
+
 public class BaseException extends RuntimeException{
 
 

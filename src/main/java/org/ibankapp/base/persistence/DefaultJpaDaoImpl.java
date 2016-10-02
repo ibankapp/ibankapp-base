@@ -1,8 +1,11 @@
 package org.ibankapp.base.persistence;
 
+import org.ibankapp.base.exception.BaseException;
+
 import javax.annotation.Resource;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -12,7 +15,7 @@ import java.util.List;
  * @version 1.0.0, 16/09/21
  */
 @SuppressWarnings("unused")
-public class JpaDaoImpl implements IJpaDao {
+public class DefaultJpaDaoImpl implements IJpaDao {
 
     /**
      * jpa 实体管理器
@@ -32,8 +35,11 @@ public class JpaDaoImpl implements IJpaDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public List createQuery(String jpql) {
-        return entityManager.createQuery(jpql).getResultList();
+    public Query createQuery(String jpql) {
+        if(jpql==null || jpql.trim().length()==0){
+            throw new BaseException("E-BASE-000004");
+        }
+        return entityManager.createQuery(jpql);
     }
 
     @Override
