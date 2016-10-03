@@ -1,7 +1,5 @@
 package org.ibankapp.base.persistence;
 
-import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 
@@ -48,14 +46,14 @@ public interface IJpaDao {
      *
      * @return 实体管理器
      */
-    public EntityManager getEntityManager();
+    EntityManager getEntityManager();
 
     /**
      * 设置实体管理器
      *
      * @param entityManager 实体管理器
      */
-    public void setEntityManager(EntityManager entityManager);
+    void setEntityManager(EntityManager entityManager);
 
     /**
      * 按实体类主键获取指定实体类的持久化对象
@@ -64,5 +62,5 @@ public interface IJpaDao {
      * @param id    实体类Id
      * @return 实体类持久化对象
      */
-    Object get(Class clazz, Object id);
+    <T> T get(Class<T> clazz, Object id);
 }

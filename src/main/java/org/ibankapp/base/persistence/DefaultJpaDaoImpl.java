@@ -3,10 +3,8 @@ package org.ibankapp.base.persistence;
 import org.ibankapp.base.exception.BaseException;
 
 import javax.annotation.Resource;
-
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
-import java.util.List;
 
 /**
  * jpa持久化数据操作实现类
@@ -14,7 +12,6 @@ import java.util.List;
  * @author codelder
  * @version 1.0.0, 16/09/21
  */
-@SuppressWarnings("unused")
 public class DefaultJpaDaoImpl implements IJpaDao {
 
     /**
@@ -34,9 +31,8 @@ public class DefaultJpaDaoImpl implements IJpaDao {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
     public Query createQuery(String jpql) {
-        if(jpql==null || jpql.trim().length()==0){
+        if (jpql == null || jpql.trim().length() == 0) {
             throw new BaseException("E-BASE-000004");
         }
         return entityManager.createQuery(jpql);
@@ -64,7 +60,7 @@ public class DefaultJpaDaoImpl implements IJpaDao {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object get(Class clazz, Object id) {
+    public <T> T get(Class<T> clazz, Object id) {
         return entityManager.find(clazz, id);
     }
 }
