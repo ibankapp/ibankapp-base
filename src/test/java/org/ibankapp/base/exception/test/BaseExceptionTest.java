@@ -1,12 +1,12 @@
 package org.ibankapp.base.exception.test;
 
 import org.ibankapp.base.exception.BaseException;
-
-import static org.junit.Assert.*;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import static org.junit.Assert.assertEquals;
+
 
 public class BaseExceptionTest {
 
@@ -34,6 +34,19 @@ public class BaseExceptionTest {
     @Test
     public void testGetMessageId() {
         BaseException e = new BaseException("E-BASE-000001");
+        assertEquals("E-BASE-000001", e.getMessageId());
+    }
+
+    @Test
+    public void testBaseExceptionWithTwoParams() {
+        BaseException e =new BaseException("E-BASE-000001","参数A","参数B");
+        assertEquals("E-BASE-000001", e.getMessageId());
+    }
+
+    @Test
+    public void testBaseExceptionWithMultiParams() {
+        String[] params = {"参数A","参数B","参数C"};
+        BaseException e =new BaseException("E-BASE-000001",params);
         assertEquals("E-BASE-000001", e.getMessageId());
     }
 

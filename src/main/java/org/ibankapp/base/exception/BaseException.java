@@ -3,7 +3,7 @@ package org.ibankapp.base.exception;
 
 import org.ibankapp.base.util.PropertyUtil;
 
-public class BaseException extends RuntimeException{
+public class BaseException extends RuntimeException {
 
 
     private static final long serialVersionUID = 8639994227897113279L;
@@ -31,12 +31,7 @@ public class BaseException extends RuntimeException{
 
     public BaseException(String messageId, String param) {
         this.messageId = messageId;
-        if (messageId.equals("999999")) {
-            this.message = param;
-        } else {
-            this.message = PropertyUtil.getProperty(messageId, param);
-        }
-
+        this.message = PropertyUtil.getProperty(messageId, param);
     }
 
 

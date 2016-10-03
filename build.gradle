@@ -3,7 +3,6 @@ version '1.0.0-SNAPSHOT'
 
 apply plugin: 'java'
 apply plugin: 'maven'
-apply plugin: 'signing'
 apply plugin: 'jacoco'
 
 allprojects {
@@ -14,43 +13,48 @@ allprojects {
     }
 }
 
-task javadocJar(type: Jar) {
-    classifier = 'javadoc'
-    from javadoc
-}
 
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
 
-artifacts {
-    archives javadocJar, sourcesJar
-}
-
-signing {
-    if (this.hasProperty('ossrhUsername')) {
-        sign configurations.archives
-    }
-}
 
 repositories {
     mavenCentral()
 //    maven {
 //        url "http://123.56.45.216:8081/nexus/content/groups/public"
-//    }
+//    }core
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile group:'org.easymock',name:'easymock',version:'3.4'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group:'org.powermock',name:'powermock-api-mockito',version:'1.6.5'
+    testCompile group:'org.powermock',name:'powermock-module-junit4',version:'1.6.5'
+//    testCompile group:'org.mockito',name:'mockito-core',version:'2.1.0-RC.2'
+    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '4.3.11.Final'
+    testCompile 'org.hibernate:hibernate-entitymanager:4.3.11.Final'
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
+    testCompile group:'javax.el',name:'javax.el-api',version:'2.2.4'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
     compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.4.Final'
 }
 
-uploadArchives {
+if (this.hasProperty('ossrhUsername')) {
 
-    if (this.hasProperty('ossrhUsername')) {
+    apply plugin: 'signing'
+
+    task javadocJar(type: Jar) {
+        classifier = 'javadoc'
+        from javadoc
+    }
+
+    task sourcesJar(type: Jar) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    artifacts {
+        archives javadocJar, sourcesJar
+    }
+
+    uploadArchives {
         repositories {
             mavenDeployer {
                 beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
@@ -98,6 +102,11 @@ uploadArchives {
                 }
             }
         }
+    }
+
+    signing {
+        sign configurations.archives
+
     }
 }
 

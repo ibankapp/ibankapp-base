@@ -36,7 +36,7 @@ public class Model implements Serializable {
      * @return 主键
      */
     @Id
-    @Column(length = 32)
+    @Column(length = 36)
     public String getId() {
         return id;
     }
