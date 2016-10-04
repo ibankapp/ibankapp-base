@@ -32,8 +32,6 @@ public class PropertyUtil {
             is = Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
             props.load(is);
         } catch (NullPointerException | IOException e) {
-            e.printStackTrace();
-
             throw new BaseException().initCause(e);
         } finally {
             try {
@@ -111,10 +109,8 @@ public class PropertyUtil {
         if (property == null) {
             throw new BaseException("E-BASE-000003", key);
         }
-
-//        if (appendMsg != null) {
-            property = MessageFormat.format(property, appendMsg, appendMsg1);
-//        }
+        
+        property = MessageFormat.format(property, appendMsg, appendMsg1);
 
         return property;
     }
