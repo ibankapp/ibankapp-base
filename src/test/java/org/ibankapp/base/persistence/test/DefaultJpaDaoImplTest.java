@@ -16,6 +16,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 public class DefaultJpaDaoImplTest {
 
@@ -38,7 +39,7 @@ public class DefaultJpaDaoImplTest {
     public void removeAll(){
         jpaDao.beginTrans();
         jpaDao.getEntityManager().clear();
-        jpaDao.createQuery("delete TestModel").executeUpdate();
+        jpaDao.query("delete TestModel").executeUpdate();
         jpaDao.commitTrans();
     }
 
@@ -55,8 +56,49 @@ public class DefaultJpaDaoImplTest {
         jpaDao.commitTrans();
 
         @SuppressWarnings("unchecked")
-        List<TestModel> models = (List<TestModel>) jpaDao.createQuery("from TestModel").getResultList();
+        List<TestModel> models = (List<TestModel>) jpaDao.query("from TestModel").getResultList();
         assertEquals(1,models.size());
+
+
+    }
+
+    @Test
+    public void testMerge(){
+        TestModel model = new TestModel();
+        model.setName("test1");
+        jpaDao.beginTrans();
+        jpaDao.persist(model);
+        TestModel testModel=jpaDao.get(TestModel.class,model.getId());
+        assertEquals("test1",testModel.getName());
+        jpaDao.commitTrans();
+
+        jpaDao.beginTrans();
+        TestModel model1 = new TestModel();
+        model1.setName("test2");
+        model1.setId(model.getId());
+        jpaDao.merge(model1);
+        testModel=jpaDao.get(TestModel.class,model.getId());
+        assertEquals("test2",testModel.getName());
+        jpaDao.commitTrans();
+
+    }
+
+    @Test
+    public void testRemove(){
+        TestModel model = new TestModel();
+        model.setName("test1");
+        jpaDao.beginTrans();
+        jpaDao.persist(model);
+        TestModel testModel=jpaDao.get(TestModel.class,model.getId());
+        assertEquals("test1",testModel.getName());
+        jpaDao.commitTrans();
+
+        jpaDao.beginTrans();
+        testModel=jpaDao.get(TestModel.class,model.getId());
+        jpaDao.remove(testModel);
+        testModel=jpaDao.get(TestModel.class,model.getId());
+        assertNull(testModel);
+        jpaDao.commitTrans();
 
     }
 
@@ -70,7 +112,7 @@ public class DefaultJpaDaoImplTest {
         jpaDao.rollbackTrans();
 
         @SuppressWarnings("unchecked")
-        List<TestModel> models = (List<TestModel>) jpaDao.createQuery("from TestModel").getResultList();
+        List<TestModel> models = (List<TestModel>) jpaDao.query("from TestModel").getResultList();
         assertEquals(0,models.size());
 
     }
@@ -82,14 +124,14 @@ public class DefaultJpaDaoImplTest {
         thrown.expect(BaseException.class);
         thrown.expectMessage("jpql语句不能为空");
 
-        jpaDao.createQuery(null);
+        jpaDao.query(null);
     }
 
     @Test
     public void testCreateQueryWithEmptyJpql() {
         thrown.expect(BaseException.class);
         thrown.expectMessage("jpql语句不能为空");
-        jpaDao.createQuery(" ");
+        jpaDao.query(" ");
     }
 
     @Test

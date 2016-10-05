@@ -1,6 +1,7 @@
 package org.ibankapp.base.persistence;
 
 import org.ibankapp.base.exception.BaseException;
+import org.ibankapp.base.validation.BeanValidator;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -31,7 +32,19 @@ public class DefaultJpaDaoImpl implements IJpaDao {
     }
 
     @Override
-    public Query createQuery(String jpql) {
+    public void merge(Model model) {
+        BeanValidator.validate(model);
+        entityManager.merge(model);
+    }
+
+    @Override
+    public void persist(Model model) {
+        BeanValidator.validate(model);
+        entityManager.persist(model);
+    }
+
+    @Override
+    public Query query(String jpql) {
         if (jpql == null || jpql.trim().length() == 0) {
             throw new BaseException("E-BASE-000004");
         }
@@ -39,8 +52,8 @@ public class DefaultJpaDaoImpl implements IJpaDao {
     }
 
     @Override
-    public void persist(Model model) {
-        entityManager.persist(model);
+    public void remove(Model model) {
+        entityManager.remove(model);
     }
 
     @Override
