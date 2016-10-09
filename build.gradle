@@ -32,8 +32,11 @@ dependencies {
     testCompile 'org.hibernate:hibernate-entitymanager:4.3.11.Final'
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
     testCompile group:'javax.el',name:'javax.el-api',version:'2.2.4'
+    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.4.Final'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
-    compile group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.4.Final'
+    compile group:'javax.validation',name:'validation-api',version:'1.1.0.Final'
+    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
 }
 
 if (this.hasProperty('ossrhUsername')) {

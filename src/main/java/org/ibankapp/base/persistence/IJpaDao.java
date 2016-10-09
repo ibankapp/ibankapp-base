@@ -22,19 +22,35 @@ public interface IJpaDao {
     void commitTrans();
 
     /**
-     * 执行jpql语句并返回查询结果
+     * 将实体类对象持久化,如model同id的数据存在在数据库中,
+     * 用model的数据更新它,如不存在,新增model数据到数据库,
+     * model对象还保持在游离态
+     *
+     * @param model 实体类对象
+     */
+    void merge(Model model);
+
+    /**
+     * 将实体类对象持久化,并将model状态变为持久态
+     *
+     * @param model 实体类对象
+     */
+    void persist(Model model);
+
+    /**
+     * 执行jpql语句并返回查询对象
      *
      * @param jpql jpql查询语句
      * @return 查询对象
      */
-    Query createQuery(String jpql);
+    Query query(String jpql);
 
     /**
-     * 保存持久化数据
+     * 将持久态的实体对象model从数据库中删除
      *
-     * @param model 实体类
+     * @param model 持久态实体类对象
      */
-    void persist(Model model);
+    void remove(Model model);
 
     /**
      * 回滚当前事务
@@ -44,14 +60,14 @@ public interface IJpaDao {
     /**
      * 获取实体管理器
      *
-     * @return 实体管理器
+     * @return JPA实体管理器
      */
     EntityManager getEntityManager();
 
     /**
      * 设置实体管理器
      *
-     * @param entityManager 实体管理器
+     * @param entityManager JPA实体管理器
      */
     void setEntityManager(EntityManager entityManager);
 
