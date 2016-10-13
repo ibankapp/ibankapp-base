@@ -87,19 +87,8 @@ public class IdentifierValidation {
             Collections.addAll(set, '1');
         }
 
-        if (!set.contains(uscic.charAt(1))) {
-            return false;
-        }
-
-        if (!StringUtils.isNumeric(uscic.substring(2, 8))) {
-            return false;
-        }
-
-        if (!isOcc(uscic.substring(8, 17))) {
-            return false;
-        }
-
-        return getUscicCheckBit(uscic.substring(0, 17)) == uscic.charAt(17);
+        return set.contains(uscic.charAt(1)) && StringUtils.isNumeric(uscic.substring(2, 8)) &&
+                isOcc(uscic.substring(8, 17)) && getUscicCheckBit(uscic.substring(0, 17)) == uscic.charAt(17);
 
     }
 
