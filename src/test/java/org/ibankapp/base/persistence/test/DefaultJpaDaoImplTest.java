@@ -46,7 +46,8 @@ public class DefaultJpaDaoImplTest {
 
     @After
     public void removeAll(){
-        jpaDao.beginTrans();
+        if(!jpaDao.getEntityManager().getTransaction().isActive())
+            jpaDao.beginTrans();
         jpaDao.getEntityManager().clear();
         jpaDao.query("delete TestModel").executeUpdate();
         jpaDao.commitTrans();
@@ -203,5 +204,8 @@ public class DefaultJpaDaoImplTest {
     public void testSetEntityManager() {
         jpaDao.setEntityManager(jpaDao.getEntityManager());
     }
+
+
+
 
 }

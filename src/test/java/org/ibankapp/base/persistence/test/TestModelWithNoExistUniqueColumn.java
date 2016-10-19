@@ -18,8 +18,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TEST_MODEL")
-@Unique(properties = {"name"},message = "姓名重复")
-public class TestModel extends Model {
+@Unique(properties = {"type"},message = "姓名重复")
+public class TestModelWithNoExistUniqueColumn extends Model {
 
     private String name;
 

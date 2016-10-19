@@ -10,7 +10,8 @@
 package org.ibankapp.base.persistence;
 
 import org.ibankapp.base.exception.BaseException;
-import org.ibankapp.base.validation.BeanValidator;
+import org.ibankapp.base.validation.validators.BeanValidator;
+import org.ibankapp.base.validation.validators.UniqueValidator;
 
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
@@ -45,6 +46,7 @@ public class DefaultJpaDaoImpl implements IJpaDao {
         if (model.getId() == null || model.getId().trim().length() == 0) {
             model.setId(model.generateId());
         }
+        UniqueValidator.validate(model,entityManager);
         BeanValidator.validate(model);
         entityManager.merge(model);
     }
@@ -54,6 +56,7 @@ public class DefaultJpaDaoImpl implements IJpaDao {
         if (model.getId() == null || model.getId().trim().length() == 0) {
             model.setId(model.generateId());
         }
+        UniqueValidator.validate(model,entityManager);
         BeanValidator.validate(model);
         entityManager.persist(model);
     }

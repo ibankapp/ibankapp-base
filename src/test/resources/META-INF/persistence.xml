@@ -11,6 +11,11 @@
     <persistence-unit name="ibankapp" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         <class>org.ibankapp.base.persistence.test.TestModel</class>
+        <class>org.ibankapp.base.persistence.test.TestModelWithInheritedUnique</class>
+        <class>org.ibankapp.base.persistence.test.TestModelWithUniques</class>
+        <class>org.ibankapp.base.persistence.test.TestModelWithInheritedUniques</class>
+        <class>org.ibankapp.base.persistence.test.TestModelWithNoExistUniqueColumn</class>
+        <class>org.ibankapp.base.persistence.test.TestModelWithTwoColumnUnique</class>
         <properties>
             <property name="connection.driver_class" value="org.h2.Driver"/>
             <property name="hibernate.jdbc.Schema" value="ibankapp"/>
@@ -18,6 +23,7 @@
             <property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="javax.persistence.validation.mode" value="none"/>
         </properties>
     </persistence-unit>
 </persistence>

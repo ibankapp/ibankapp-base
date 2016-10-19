@@ -12,7 +12,7 @@ package org.ibankapp.base.validation.test;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.ibankapp.base.exception.BaseException;
-import org.ibankapp.base.validation.BeanValidator;
+import org.ibankapp.base.validation.validators.BeanValidator;
 
 import static org.junit.Assert.*;
 
