@@ -9,27 +9,22 @@
 
 package org.ibankapp.base.persistence.test;
 
-import org.ibankapp.base.persistence.Model;
-import org.ibankapp.base.validation.constraints.Unique;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "TEST_MODEL")
-@Unique(properties = {"name"},message = "姓名重复")
-public class TestModel extends Model {
+@Table(name="TEST_MODELWITHUNIQUE")
+public class TestModelWithInheritedUnique extends TestModelWithUnique {
 
-    private String name;
+    private String type;
 
     @Column
-    public String getName() {
-        return name;
+    public String getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(String type) {
+        this.type = type;
     }
-
 }
