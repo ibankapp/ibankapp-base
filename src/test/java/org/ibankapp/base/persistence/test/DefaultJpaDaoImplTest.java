@@ -13,6 +13,7 @@ package org.ibankapp.base.persistence.test;
 import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.persistence.DefaultJpaDaoImpl;
 import org.ibankapp.base.persistence.Model;
+import org.ibankapp.base.persistence.test.model.TestModel;
 import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
@@ -204,8 +205,4 @@ public class DefaultJpaDaoImplTest {
     public void testSetEntityManager() {
         jpaDao.setEntityManager(jpaDao.getEntityManager());
     }
-
-
-
-
 }

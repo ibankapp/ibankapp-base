@@ -11,16 +11,17 @@ package org.ibankapp.base.validation.test;
 
 import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.persistence.DefaultJpaDaoImpl;
-import org.ibankapp.base.persistence.test.*;
+import org.ibankapp.base.persistence.test.model.TestModel;
+import org.ibankapp.base.validation.test.model.*;
 import org.ibankapp.base.validation.validators.UniqueValidator;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.InheritanceType;
 import javax.persistence.Persistence;
 
 public class UniqueValidatorTest {
@@ -185,5 +186,23 @@ public class UniqueValidatorTest {
     @Test
     public void testNewUniqueValidator(){
         new UniqueValidator();
+    }
+
+    @Test
+    public void testUniqueAndNum(){
+        thrown.expect(BaseException.class);
+        thrown.expectMessage("唯一约束校验失败,ENUM重复");
+
+        TestModelWithEumAndUnique model = new TestModelWithEumAndUnique();
+        model.setStatus(InheritanceType.SINGLE_TABLE);
+        jpaDao.beginTrans();
+        jpaDao.persist(model);
+        jpaDao.commitTrans();
+
+        model = new TestModelWithEumAndUnique();
+        model.setStatus(InheritanceType.SINGLE_TABLE);
+        jpaDao.beginTrans();
+        jpaDao.persist(model);
+        jpaDao.commitTrans();
     }
 }

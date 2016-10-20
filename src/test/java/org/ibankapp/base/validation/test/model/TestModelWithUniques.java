@@ -16,19 +16,26 @@
  * in the root directory or <http://www.apache.org/licenses/>.
  */
 
-package org.ibankapp.base.persistence.test;
+
+package org.ibankapp.base.validation.test.model;
 
 import org.ibankapp.base.persistence.Model;
 import org.ibankapp.base.validation.constraints.Unique;
+import org.ibankapp.base.validation.constraints.Uniques;
 
 import javax.persistence.Column;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-@MappedSuperclass
-@Unique(properties = {"name"},message = "姓名重复")
-public class TestModelWithUnique extends Model {
+@Entity
+@Table(name = "TEST_MODELTESTWITHUNIQUES")
+@Uniques(constraints = {@Unique(properties = {"name"}, message = "姓名重复"),
+        @Unique(properties = "type", message = "类型重复")})
+public class TestModelWithUniques extends Model {
 
     private String name;
+
+    private String type;
 
     @Column
     public String getName() {
@@ -39,4 +46,12 @@ public class TestModelWithUnique extends Model {
         this.name = name;
     }
 
+    @Column
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
