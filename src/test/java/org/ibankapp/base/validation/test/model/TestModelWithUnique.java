@@ -25,21 +25,19 @@
  * in the root directory or <http://www.apache.org/licenses/>.
  */
 
-package org.ibankapp.base.persistence.test;
+package org.ibankapp.base.validation.test.model;
 
 import org.ibankapp.base.persistence.Model;
 import org.ibankapp.base.validation.constraints.Unique;
 
 import javax.persistence.Column;
-import javax.persistence.Entity;
+import javax.persistence.MappedSuperclass;
 
-@Entity
-@Unique(properties = {"name","type"},message = "姓名及类型重复")
-public class TestModelWithTwoColumnUnique extends Model {
+@MappedSuperclass
+@Unique(properties = {"name"},message = "姓名重复")
+public class TestModelWithUnique extends Model {
 
     private String name;
-
-    private int type;
 
     @Column
     public String getName() {
@@ -50,12 +48,4 @@ public class TestModelWithTwoColumnUnique extends Model {
         this.name = name;
     }
 
-    @Column
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
 }

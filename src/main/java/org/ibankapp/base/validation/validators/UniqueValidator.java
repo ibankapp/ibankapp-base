@@ -18,7 +18,7 @@
 
 package org.ibankapp.base.validation.validators;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.validation.constraints.Unique;
 import org.ibankapp.base.validation.constraints.Uniques;
@@ -40,6 +40,7 @@ public class UniqueValidator {
 
     public static <T> void validate(T bean, EntityManager em) {
 
+        System.out.println(bean.getClass());
         List<Unique> uniqueList = new ArrayList<>();
 
         if(bean.getClass().isAnnotationPresent(Uniques.class)){
@@ -65,7 +66,7 @@ public class UniqueValidator {
 
             for (String property : properties) {
                 try {
-                    condition = cb.and(condition, cb.equal(root.get(property), BeanUtils.getProperty(bean, property)));
+                    condition = cb.and(condition, cb.equal(root.get(property), PropertyUtils.getProperty(bean, property)));
                 } catch (Exception e) {
                     throw new BaseException("E-BASE-000001", e.getMessage()).initCause(e);
                 }
