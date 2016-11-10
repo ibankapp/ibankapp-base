@@ -10,7 +10,7 @@
 package org.ibankapp.base.validation.test;
 
 import org.ibankapp.base.exception.BaseException;
-import org.ibankapp.base.persistence.DefaultJpaDaoImpl;
+import org.ibankapp.base.persistence.test.*;
 import org.ibankapp.base.persistence.test.model.TestModel;
 import org.ibankapp.base.validation.test.model.*;
 import org.ibankapp.base.validation.validators.UniqueValidator;
@@ -18,35 +18,46 @@ import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
+import javax.annotation.Resource;
 import javax.persistence.InheritanceType;
-import javax.persistence.Persistence;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {TestContextConfig.class})
 public class UniqueValidatorTest {
+
+    @Resource
+    private TestModelRepository repository;
+
+    @Resource
+    private TestModelWithEumAndUniqueRepository testModelWithEumAndUniqueRepository;
+
+    @Resource
+    private TestModelWithNoExistUniqueColumnRepository testModelWithNoExistUniqueColumnRepository;
+
+    @Resource
+    private TestModelWithTwoColumnUniqueRepository testModelWithTwoColumnUniqueRepository;
+
+    @Resource
+    private TestModelWithUniqueRepository testModelWithUniqueRepository;
+
+    @Resource
+    private TestModelWithUniquesRepository testModelWithUniquesRepository;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private final DefaultJpaDaoImpl jpaDao = new DefaultJpaDaoImpl();
-
-    public UniqueValidatorTest() {
-
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("ibankapp");
-        EntityManager entityManager = factory.createEntityManager();
-
-        jpaDao.setEntityManager(entityManager);
-
-    }
-
     @After
     public void removeAll(){
-        if(!jpaDao.getEntityManager().getTransaction().isActive())
-            jpaDao.beginTrans();
-        jpaDao.getEntityManager().clear();
-        jpaDao.query("delete TestModel").executeUpdate();
-        jpaDao.commitTrans();
+        repository.deleteAll();
+        testModelWithEumAndUniqueRepository.deleteAll();
+        testModelWithTwoColumnUniqueRepository.deleteAll();
+        testModelWithNoExistUniqueColumnRepository.deleteAll();
+        testModelWithUniquesRepository.deleteAll();
+        testModelWithUniqueRepository.deleteAll();
     }
 
     @Test
@@ -56,16 +67,14 @@ public class UniqueValidatorTest {
         thrown.expectMessage("唯一约束校验失败,姓名重复");
 
         TestModel model = new TestModel();
+        model.setId("aaaaa");
         model.setName("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        repository.save(model);
 
         model = new TestModel();
+        model.setId("bbbbb");
         model.setName("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        repository.save(model);
     }
 
     @Test
@@ -75,16 +84,14 @@ public class UniqueValidatorTest {
         thrown.expectMessage("Unable to locate");
 
         TestModelWithNoExistUniqueColumn model = new TestModelWithNoExistUniqueColumn();
+        model.setId("aaa");
         model.setName("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithNoExistUniqueColumnRepository.save(model);
 
         model = new TestModelWithNoExistUniqueColumn();
+        model.setId("bbb");
         model.setName("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithNoExistUniqueColumnRepository.save(model);
     }
 
     @Test
@@ -94,35 +101,14 @@ public class UniqueValidatorTest {
         thrown.expectMessage("唯一约束校验失败,姓名重复");
 
         TestModelWithInheritedUnique model = new TestModelWithInheritedUnique();
+        model.setId("aaa");
         model.setName("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithUniqueRepository.save(model);
 
         model = new TestModelWithInheritedUnique();
+        model.setId("bbb");
         model.setName("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
-    }
-
-    @Test
-    public void testUniques(){
-
-        thrown.expect(BaseException.class);
-        thrown.expectMessage("唯一约束校验失败,类型重复");
-
-        TestModelWithUniques model = new TestModelWithUniques();
-        model.setType("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
-
-        model = new TestModelWithUniques();
-        model.setType("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithUniqueRepository.save(model);
     }
 
     @Test
@@ -132,36 +118,32 @@ public class UniqueValidatorTest {
         thrown.expectMessage("唯一约束校验失败,姓名及类型重复");
 
         TestModelWithTwoColumnUnique model = new TestModelWithTwoColumnUnique();
+        model.setId("aaa");
         model.setType(1);
         model.setName("test2");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithTwoColumnUniqueRepository.save(model);
 
         model = new TestModelWithTwoColumnUnique();
+        model.setId("bbb");
         model.setType(1);
         model.setName("test2");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithTwoColumnUniqueRepository.save(model);
     }
 
     @Test
     public void testUniqueTwoColumnNoError(){
 
         TestModelWithTwoColumnUnique model = new TestModelWithTwoColumnUnique();
+        model.setId("aaa");
         model.setType(1);
         model.setName("test2");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithTwoColumnUniqueRepository.save(model);
 
         model = new TestModelWithTwoColumnUnique();
+        model.setId("bbb");
         model.setType(2);
         model.setName("test2");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithTwoColumnUniqueRepository.save(model);
     }
 
     @Test
@@ -171,16 +153,14 @@ public class UniqueValidatorTest {
         thrown.expectMessage("唯一约束校验失败,类型重复");
 
         TestModelWithInheritedUniques model = new TestModelWithInheritedUniques();
+        model.setId("aaa");
         model.setType("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithUniquesRepository.save(model);
 
         model = new TestModelWithInheritedUniques();
+        model.setId("bbb");
         model.setType("test1");
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithUniquesRepository.save(model);
     }
 
     @Test
@@ -195,14 +175,12 @@ public class UniqueValidatorTest {
 
         TestModelWithEumAndUnique model = new TestModelWithEumAndUnique();
         model.setStatus(InheritanceType.SINGLE_TABLE);
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        model.setId("aaa");
+        testModelWithEumAndUniqueRepository.save(model);
 
         model = new TestModelWithEumAndUnique();
+        model.setId("bbb");
         model.setStatus(InheritanceType.SINGLE_TABLE);
-        jpaDao.beginTrans();
-        jpaDao.persist(model);
-        jpaDao.commitTrans();
+        testModelWithEumAndUniqueRepository.save(model);
     }
 }
