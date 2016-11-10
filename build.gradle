@@ -34,15 +34,19 @@ dependencies {
     testCompile group:'org.powermock',name:'powermock-api-mockito',version:'1.6.5'
     testCompile group:'org.powermock',name:'powermock-module-junit4',version:'1.6.5'
 //    testCompile group:'org.mockito',name:'mockito-core',version:'2.1.0-RC.2'
-    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.3.Final'
-    testCompile 'org.hibernate:hibernate-entitymanager:5.2.3.Final'
+    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
+    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
     testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
     testCompile group:'javax.el',name:'javax.el-api',version:'2.2.4'
-    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.2.4.Final'
+    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.0.Final'
+    testCompile group:'org.springframework',name:'spring-test',version:'4.2.8.RELEASE'
+    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '2.5.1'
     compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
     compile group:'javax.validation',name:'validation-api',version:'1.1.0.Final'
     compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
     compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+    compile 'org.springframework.data:spring-data-jpa:1.10.4.RELEASE'
 }
 
 if (this.hasProperty('ossrhUsername')) {
