@@ -18,10 +18,9 @@ public class StringUtilTest {
     @Test
     public void testIsEmpty(){
 
-        String s = null;
         Assert.assertTrue(StringUtil.isEmpty(null));
 
-        s= "";
+        String s = "";
         Assert.assertTrue(StringUtil.isEmpty(s));
 
         s=" ";
