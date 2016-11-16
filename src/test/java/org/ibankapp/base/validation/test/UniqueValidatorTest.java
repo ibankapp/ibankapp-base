@@ -67,7 +67,6 @@ public class UniqueValidatorTest {
         thrown.expectMessage("唯一约束校验失败,姓名重复");
 
         TestModel model = new TestModel();
-        model.setId("aaaaa");
         model.setName("test1");
         repository.save(model);
 

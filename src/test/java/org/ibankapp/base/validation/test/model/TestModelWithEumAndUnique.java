@@ -18,6 +18,7 @@
 
 package org.ibankapp.base.validation.test.model;
 
+import org.ibankapp.base.model.Model;
 import org.ibankapp.base.validation.constraints.Unique;
 
 import javax.persistence.*;
@@ -25,21 +26,9 @@ import javax.persistence.*;
 @Entity
 @Unique(properties = "status",message = "ENUM重复")
 @Table
-public class TestModelWithEumAndUnique{
-
-    private String id;
+public class TestModelWithEumAndUnique extends Model{
 
     private InheritanceType status;
-
-    @Id
-    @Column(length =32)
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Column
     @Enumerated(EnumType.STRING)
