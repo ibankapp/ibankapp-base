@@ -36,31 +36,19 @@
 
 package org.ibankapp.base.validation.test.model;
 
+import org.ibankapp.base.model.Model;
 import org.ibankapp.base.validation.constraints.Unique;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 
 @Entity
 @Unique(properties = {"name","type"},message = "姓名及类型重复")
-public class TestModelWithTwoColumnUnique {
-
-    private String id;
+public class TestModelWithTwoColumnUnique extends Model {
 
     private String name;
 
     private int type;
-
-    @Id
-    @Column(length = 32)
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     @Column
     public String getName() {
