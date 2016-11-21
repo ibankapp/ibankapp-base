@@ -19,6 +19,7 @@ public class Consumer implements EventConsumer {
 
         if (event instanceof DemoEvent) {
             System.out.println(((DemoEvent) event).getMessage());
+            System.out.println(event.getTimestamp());
         }
     }
 }
