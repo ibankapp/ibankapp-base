@@ -10,13 +10,13 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="1.0">
     <persistence-unit name="ibankapp" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
-        <class>org.ibankapp.base.persistence.test.model.TestModel</class>
-        <class>org.ibankapp.base.validation.test.model.TestModelWithInheritedUnique</class>
-        <class>org.ibankapp.base.validation.test.model.TestModelWithUniques</class>
-        <class>org.ibankapp.base.validation.test.model.TestModelWithInheritedUniques</class>
-        <class>org.ibankapp.base.validation.test.model.TestModelWithNoExistUniqueColumn</class>
-        <class>org.ibankapp.base.validation.test.model.TestModelWithTwoColumnUnique</class>
-        <class>org.ibankapp.base.validation.test.model.TestModelWithEumAndUnique</class>
+        <class>org.ibankapp.base.persistences.test.model.TestModel</class>
+        <class>org.ibankapp.base.validations.test.model.TestModelWithInheritedUnique</class>
+        <class>org.ibankapp.base.validations.test.model.TestModelWithUniques</class>
+        <class>org.ibankapp.base.validations.test.model.TestModelWithInheritedUniques</class>
+        <class>org.ibankapp.base.validations.test.model.TestModelWithNoExistUniqueColumn</class>
+        <class>org.ibankapp.base.validations.test.model.TestModelWithTwoColumnUnique</class>
+        <class>org.ibankapp.base.validations.test.model.TestModelWithEumAndUnique</class>
         <properties>
             <property name="connection.driver_class" value="org.h2.Driver"/>
             <property name="hibernate.jdbc.Schema" value="ibankapp"/>
