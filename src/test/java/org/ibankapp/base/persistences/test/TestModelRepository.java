@@ -9,9 +9,10 @@
 
 package org.ibankapp.base.persistences.test;
 
+import org.ibankapp.base.persistences.BaseJpaRepository;
 import org.ibankapp.base.persistences.test.model.TestModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TestModelRepository extends JpaRepository<TestModel,String> {
+public interface TestModelRepository extends BaseJpaRepository<TestModel,String> {
 
 }

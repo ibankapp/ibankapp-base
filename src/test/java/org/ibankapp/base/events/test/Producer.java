@@ -13,13 +13,12 @@ import org.ibankapp.base.events.Event;
 import org.ibankapp.base.events.EventConsumer;
 import org.ibankapp.base.events.EventRegister;
 
-import java.util.Map;
 
-public class Producer {
+class Producer {
 
     private EventRegister register;
 
-    public void fireEvent(){
+    void fireEvent(){
 
         DemoEvent event = new DemoEvent(this);
 
@@ -29,23 +28,19 @@ public class Producer {
 
     }
 
-    public <E extends Event,C extends EventConsumer> void addListener(Class<E> clazz, C consumer){
+    <E extends Event,C extends EventConsumer> void addListener(Class<E> clazz, C consumer){
         register.addListener(clazz,consumer);
     }
 
-    public <E extends Event,C extends EventConsumer> void removeListener(Class<E> clazz, C consumer){
+    <E extends Event,C extends EventConsumer> void removeListener(Class<E> clazz, C consumer){
         register.removeListener(clazz,consumer);
     }
 
-    public void removeAllListeners(){
+    void removeAllListeners(){
         register.removeAllListeners();
     }
 
-    public EventRegister getRegister() {
-        return register;
-    }
-
-    public void setRegister(EventRegister register) {
+    void setRegister(EventRegister register) {
         this.register = register;
     }
 }
