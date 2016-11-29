@@ -11,7 +11,7 @@ package org.ibankapp.base.events.test;
 
 import org.ibankapp.base.events.Event;
 
-public class DemoEvent  extends Event{
+class DemoEvent  extends Event{
 
     private String message;
     /**
