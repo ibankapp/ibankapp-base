@@ -11,10 +11,11 @@ package org.ibankapp.base.events.test;
 
 import org.ibankapp.base.events.Event;
 import org.ibankapp.base.events.EventConsumer;
+import org.ibankapp.base.events.EventProducer;
 import org.ibankapp.base.events.EventRegister;
 
 
-class Producer {
+class Producer implements EventProducer {
 
     private EventRegister register;
 
@@ -28,11 +29,11 @@ class Producer {
 
     }
 
-    <E extends Event,C extends EventConsumer> void addListener(Class<E> clazz, C consumer){
+    public <E extends Event,C extends EventConsumer> void addListener(Class<E> clazz, C consumer){
         register.addListener(clazz,consumer);
     }
 
-    <E extends Event,C extends EventConsumer> void removeListener(Class<E> clazz, C consumer){
+    public <E extends Event,C extends EventConsumer> void removeListener(Class<E> clazz, C consumer){
         register.removeListener(clazz,consumer);
     }
 
