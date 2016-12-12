@@ -11,16 +11,17 @@ package org.ibankapp.base.events.test;
 
 import org.ibankapp.base.events.Event;
 
-class DemoEvent  extends Event{
+class DemoEvent extends Event {
 
     private String message;
+
     /**
      * Constructs a prototypical Event.
      *
      * @param source The object on which the Event initially occurred.
      * @throws IllegalArgumentException if source is null.
      */
-    public DemoEvent(Object source) {
+    DemoEvent(Object source) {
         super(source);
     }
 

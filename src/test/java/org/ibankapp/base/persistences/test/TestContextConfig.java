@@ -11,6 +11,11 @@ package org.ibankapp.base.persistences.test;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import org.ibankapp.base.events.EventRegister;
+import org.ibankapp.base.events.test.Consumer;
+import org.ibankapp.base.events.test.Producer;
+import org.ibankapp.base.events.test.SecondConsumer;
 import org.ibankapp.base.persistences.BaseJpaRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +25,10 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import java.util.Properties;
+
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
-import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
@@ -60,6 +66,25 @@ public class TestContextConfig {
 
     }
 
+    @Bean
+    EventRegister register() {
+        return new EventRegister();
+    }
+
+    @Bean
+    Producer producer() {
+        return new Producer();
+    }
+
+    @Bean
+    Consumer consumer() {
+        return new Consumer();
+    }
+
+    @Bean
+    SecondConsumer secondConsumer() {
+        return new SecondConsumer();
+    }
 
     @Bean
     JpaTransactionManager transactionManager(EntityManagerFactory entityManagerFactory) {
