@@ -10,50 +10,56 @@
 package org.ibankapp.base.events.test;
 
 import org.ibankapp.base.events.EventRegister;
+import org.ibankapp.base.persistences.test.TestContextConfig;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
+
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = {TestContextConfig.class})
 public class EventTest {
 
-    private Producer producer = new Producer();
+    @Resource
+    private Producer producer;
 
-    private Consumer consumer = new Consumer();
+    @Resource
+    private Consumer consumer;
 
-    private SecondConsumer secondConsumer = new SecondConsumer();
+    @Resource
+    private EventRegister register;
 
+    @Resource
+    private SecondConsumer secondConsumer;
 
-    @Before
-    public void init() {
-        EventRegister register = new EventRegister();
-        producer.setRegister(register);
-    }
 
     @After
-    public void remove(){
-        producer.removeAllListeners();
+    public void remove() {
+        register.removeAllListeners();
     }
 
     @Test
     public void testEvent() {
-        producer.addListener(DemoEvent.class, consumer);
+        register.addListener(DemoEvent.class, consumer);
         producer.fireEvent();
     }
 
     @Test
     public void testSecondConsumerEvent() {
-        producer.addListener(DemoEvent.class, consumer);
-        producer.addListener(DemoEvent.class, secondConsumer);
+        register.addListener(DemoEvent.class, consumer);
+        register.addListener(DemoEvent.class, secondConsumer);
         producer.fireEvent();
     }
 
     @Test
-    public void testRemoveListener(){
-        producer.removeListener(DemoEvent.class,consumer);
-        producer.addListener(DemoEvent.class,consumer);
-        producer.removeListener(DemoEvent.class,consumer);
-        producer.removeListener(DemoEvent.class,consumer);
+    public void testRemoveListener() {
+        register.removeListener(DemoEvent.class, consumer);
+        register.addListener(DemoEvent.class, consumer);
+        register.removeListener(DemoEvent.class, consumer);
+        register.removeListener(DemoEvent.class, consumer);
         producer.fireEvent();
     }
-
 }

@@ -9,13 +9,14 @@
 
 package org.ibankapp.base.events.test;
 
-import org.ibankapp.base.events.Event;
-import org.ibankapp.base.events.EventConsumer;
 import org.ibankapp.base.events.EventRegister;
 
+import javax.annotation.Resource;
 
-class Producer {
 
+public class Producer{
+
+    @Resource
     private EventRegister register;
 
     void fireEvent(){
@@ -25,22 +26,5 @@ class Producer {
         event.setMessage("send a message");
 
         register.fireEvent(event);
-
-    }
-
-    <E extends Event,C extends EventConsumer> void addListener(Class<E> clazz, C consumer){
-        register.addListener(clazz,consumer);
-    }
-
-    <E extends Event,C extends EventConsumer> void removeListener(Class<E> clazz, C consumer){
-        register.removeListener(clazz,consumer);
-    }
-
-    void removeAllListeners(){
-        register.removeAllListeners();
-    }
-
-    void setRegister(EventRegister register) {
-        this.register = register;
     }
 }

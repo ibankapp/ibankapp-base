@@ -38,6 +38,5 @@ public class BaseJpaRespositoryTest {
         List<TestModel> models = repository.findAll();
         Assert.assertEquals(1,models.size());
         Assert.assertEquals("aaa",models.get(0).getId());
-
     }
 }

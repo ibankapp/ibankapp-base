@@ -21,7 +21,7 @@ package org.ibankapp.base.events.test;
 import org.ibankapp.base.events.Event;
 import org.ibankapp.base.events.EventConsumer;
 
-class SecondConsumer implements EventConsumer {
+public class SecondConsumer implements EventConsumer {
 
     @Override
     public void onEvent(Event event) {

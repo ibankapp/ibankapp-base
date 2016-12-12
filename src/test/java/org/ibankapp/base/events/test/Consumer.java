@@ -12,7 +12,7 @@ package org.ibankapp.base.events.test;
 import org.ibankapp.base.events.Event;
 import org.ibankapp.base.events.EventConsumer;
 
-class Consumer implements EventConsumer {
+public class Consumer implements EventConsumer {
 
     @Override
     public void onEvent(Event event) {
