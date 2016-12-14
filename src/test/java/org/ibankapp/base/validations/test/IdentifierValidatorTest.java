@@ -57,9 +57,6 @@ public class IdentifierValidatorTest {
     @Test
     public void testOCCInvalid() {
 
-        thrown.expect(BaseException.class);
-        thrown.expectMessage("证件号码不合法");
-
         TestModelWithIdentifier  model = new TestModelWithIdentifier();
         model.setIdtp(Idtp.OCC);
         model.setIdno("818520900");
