@@ -5,4 +5,4 @@ jdk:
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 after_failure:
-  - cat target/surefire-reports/*.txt
+  - cat /home/travis/build/codelder/ibankapp-base/build/reports/tests/test/index.html
