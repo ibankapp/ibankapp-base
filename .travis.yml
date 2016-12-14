@@ -4,5 +4,5 @@ jdk:
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
-after_failure:
-  - cat /home/travis/build/codelder/ibankapp-base/build/reports/tests/test/classes/org.ibankapp.base.validations.test.IdentifierValidatorTest.html
+script:
+  gradlew check --debug
