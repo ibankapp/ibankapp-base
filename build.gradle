@@ -7,131 +7,237 @@
  * in the root directory or <http://www.apache.org/licenses/>.
  */
 
-group 'org.ibankapp'
-version '1.0.0-SNAPSHOT'
 
-apply plugin: 'java'
-apply plugin: 'maven'
-apply plugin: 'jacoco'
+subprojects {
 
-test.logging.setLevel(LogLevel.DEBUG)
+    group 'org.ibankapp'
+    version '1.0.0-SNAPSHOT'
 
-allprojects {
+    apply plugin: 'java'
+    apply plugin: 'maven'
+    apply plugin: 'jacoco'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
         }
     }
-}
 
-repositories {
-    mavenCentral()
-//    maven {
-//        url "http://123.56.45.216:8081/nexus/content/groups/public"
-//    }core
-}
+    if (this.hasProperty('ossrhUsername')) {
 
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    testCompile group:'org.powermock',name:'powermock-api-mockito',version:'1.6.5'
-    testCompile group:'org.powermock',name:'powermock-module-junit4',version:'1.6.5'
-//    testCompile group:'org.mockito',name:'mockito-core',version:'2.1.0-RC.2'
-    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
-    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
-    testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
-    testCompile group:'javax.el',name:'javax.el-api',version:'2.2.4'
-    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.0.Final'
-    testCompile group:'org.springframework',name:'spring-test',version:'4.2.8.RELEASE'
-    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '2.5.1'
-    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
-    compile group:'javax.validation',name:'validation-api',version:'1.1.0.Final'
-    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
-    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
-    compile group: 'log4j', name: 'log4j', version: '1.2.17'
-    compile 'org.springframework.data:spring-data-jpa:1.10.4.RELEASE'
-}
+        apply plugin: 'signing'
 
-if (this.hasProperty('ossrhUsername')) {
+        task javadocJar(type: Jar) {
+            classifier = 'javadoc'
+            from javadoc
+        }
 
-    apply plugin: 'signing'
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
+        }
 
-    task javadocJar(type: Jar) {
-        classifier = 'javadoc'
-        from javadoc
-    }
+        artifacts {
+            archives javadocJar, sourcesJar
+        }
 
-    task sourcesJar(type: Jar) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-    artifacts {
-        archives javadocJar, sourcesJar
-    }
-
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                    authentication(userName: ossrhUsername, password: ossrhPassword)
-                }
-
-                pom.project {
-                    name 'ibankapp Base'
-                    packaging 'jar'
-                    // optionally artifactId can be defined here
-                    description 'the base moudle of ibankapp series'
-                    url 'http://www.ibankapp.org'
-
-                    scm {
-                        connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
-                        developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
-                        url 'https://github.com/ibankapp/ibankapp-base/tree/master'
+                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
                     }
 
-                    licenses {
-                        license {
-                            name 'The Apache License, Version 2.0'
-                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                        }
+                    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
                     }
 
-                    developers {
-                        developer {
-                            id 'codelder'
-                            name 'dawndew'
-                            email 'codelder@ibankapp.org'
+                    pom.project {
+                        name 'ibankapp Base'
+                        packaging 'jar'
+                        // optionally artifactId can be defined here
+                        description 'the base moudle of ibankapp series'
+                        url 'http://www.ibankapp.org'
+
+                        scm {
+                            connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
+                            developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
+                            url 'https://github.com/ibankapp/ibankapp-base/tree/master'
                         }
-                        developer {
-                            id 'esailor'
-                            name 'esailor'
-                            email 'liulj@ibankapp.org'
+
+                        licenses {
+                            license {
+                                name 'The Apache License, Version 2.0'
+                                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            }
+                        }
+
+                        developers {
+                            developer {
+                                id 'codelder'
+                                name 'dawndew'
+                                email 'codelder@ibankapp.org'
+                            }
+                            developer {
+                                id 'esailor'
+                                name 'esailor'
+                                email 'liulj@ibankapp.org'
+                            }
                         }
                     }
                 }
             }
         }
+
+        signing {
+            sign configurations.archives
+
+        }
     }
 
-    signing {
-        sign configurations.archives
-
+    jacocoTestReport {
+        reports {
+            xml.enabled = true
+            html.enabled = true
+        }
     }
+
+    check.dependsOn jacocoTestReport
+
 }
-
-jacocoTestReport {
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
-
-check.dependsOn jacocoTestReport
-
+//group 'org.ibankapp'
+//version '1.0.0-SNAPSHOT'
+//
+//apply plugin: 'java'
+//apply plugin: 'maven'
+//apply plugin: 'jacoco'
+//
+//test.logging.setLevel(LogLevel.DEBUG)
+//
+//allprojects {
+//    gradle.projectsEvaluated {
+//        tasks.withType(JavaCompile) {
+//            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+//        }
+//    }
+//}
+//
+//repositories {
+//    mavenCentral()
+////    maven {
+////        url "http://123.56.45.216:8081/nexus/content/groups/public"
+////    }core
+//}
+//
+//dependencies {
+//    testCompile group: 'junit', name: 'junit', version: '4.12'
+//    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
+//    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.6.5'
+////    testCompile group:'org.mockito',name:'mockito-core',version:'2.1.0-RC.2'
+//    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
+//    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
+//    testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
+//    testCompile group: 'javax.el', name: 'javax.el-api', version: '2.2.4'
+//    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.0.Final'
+//    testCompile group: 'org.springframework', name: 'spring-test', version: '4.2.8.RELEASE'
+//    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '2.5.1'
+//    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
+//    compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
+//    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+//    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
+//    compile group: 'log4j', name: 'log4j', version: '1.2.17'
+//    compile 'org.springframework.data:spring-data-jpa:1.10.4.RELEASE'
+//}
+//
+//if (this.hasProperty('ossrhUsername')) {
+//
+//    apply plugin: 'signing'
+//
+//    task javadocJar(type: Jar) {
+//        classifier = 'javadoc'
+//        from javadoc
+//    }
+//
+//    task sourcesJar(type: Jar) {
+//        classifier = 'sources'
+//        from sourceSets.main.allSource
+//    }
+//
+//    artifacts {
+//        archives javadocJar, sourcesJar
+//    }
+//
+//    uploadArchives {
+//        repositories {
+//            mavenDeployer {
+//                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
+//
+//                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+//                    authentication(userName: ossrhUsername, password: ossrhPassword)
+//                }
+//
+//                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+//                    authentication(userName: ossrhUsername, password: ossrhPassword)
+//                }
+//
+//                pom.project {
+//                    name 'ibankapp Base'
+//                    packaging 'jar'
+//                    // optionally artifactId can be defined here
+//                    description 'the base moudle of ibankapp series'
+//                    url 'http://www.ibankapp.org'
+//
+//                    scm {
+//                        connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
+//                        developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
+//                        url 'https://github.com/ibankapp/ibankapp-base/tree/master'
+//                    }
+//
+//                    licenses {
+//                        license {
+//                            name 'The Apache License, Version 2.0'
+//                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                        }
+//                    }
+//
+//                    developers {
+//                        developer {
+//                            id 'codelder'
+//                            name 'dawndew'
+//                            email 'codelder@ibankapp.org'
+//                        }
+//                        developer {
+//                            id 'esailor'
+//                            name 'esailor'
+//                            email 'liulj@ibankapp.org'
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//
+//    signing {
+//        sign configurations.archives
+//
+//    }
+//}
+//
+//jacocoTestReport {
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//}
+//
+//check.dependsOn jacocoTestReport
+//
 
