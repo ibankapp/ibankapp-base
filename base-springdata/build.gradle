@@ -1,0 +1,13 @@
+dependencies {
+    compile 'org.springframework.data:spring-data-jpa:1.10.4.RELEASE'
+    compile project(':base-util')
+    compile project(':base-validation')
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
+    testCompile group:'org.springframework',name:'spring-test',version:'4.2.8.RELEASE'
+    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '2.5.1'
+    testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
+    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
+    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.0.Final'
+    testCompile group:'javax.el',name:'javax.el-api',version:'2.2.4'
+}
