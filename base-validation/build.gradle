@@ -1,16 +1,16 @@
 dependencies {
-    compile group:'javax.validation',name:'validation-api',version:'1.1.0.Final'
-    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
-    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
+    compile 'javax.validation:validation-api:1.1.0.Final'
+    compile 'commons-lang:commons-lang:2.6'
+    compile 'commons-beanutils:commons-beanutils:1.9.3'
     compile project(":base-persistence")
     compile project(":base-exception")
-    testCompile group: 'junit', name: 'junit', version: '4.11'
-    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '2.5.1'
-    testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
-    testCompile group:'org.springframework',name:'spring-test',version:'4.2.8.RELEASE'
-    testCompile group:'javax.el',name:'javax.el-api',version:'2.2.4'
-    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
+    testCompile 'junit:junit:4.11'
+    testCompile 'com.zaxxer:HikariCP:2.5.1'
+    testCompile 'com.h2database:h2:1.4.192'
+    testCompile 'org.springframework:spring-test:4.2.8.RELEASE'
+    testCompile 'javax.el:javax.el-api:2.2.4'
+    testCompile 'org.hibernate:hibernate-core:5.1.0.Final'
     testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
-    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.0.Final'
+    testCompile 'org.hibernate:hibernate-validator:5.1.0.Final'
     testCompile project(":base-springdata")
 }
