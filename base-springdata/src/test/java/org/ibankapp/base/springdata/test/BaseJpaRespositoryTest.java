@@ -48,4 +48,15 @@ public class BaseJpaRespositoryTest {
         Assert.assertEquals(1,models.size());
         Assert.assertEquals("aaa",models.get(0).getId());
     }
+
+    @Test
+    @Transactional
+    public void testSaveNoId(){
+
+        TestModel testModel = new TestModel();
+
+        repository.save(testModel);
+        List<TestModel> models = repository.findAll();
+        Assert.assertEquals(1,models.size());
+    }
 }
