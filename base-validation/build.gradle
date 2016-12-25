@@ -2,7 +2,6 @@ dependencies {
     compile 'javax.validation:validation-api:1.1.0.Final'
     compile 'commons-lang:commons-lang:2.6'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
-    compile project(":base-persistence")
     compile project(":base-exception")
     testCompile 'junit:junit:4.11'
     testCompile 'com.zaxxer:HikariCP:2.5.1'
@@ -12,5 +11,4 @@ dependencies {
     testCompile 'org.hibernate:hibernate-core:5.1.0.Final'
     testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
     testCompile 'org.hibernate:hibernate-validator:5.1.0.Final'
-    testCompile project(":base-springdata")
 }

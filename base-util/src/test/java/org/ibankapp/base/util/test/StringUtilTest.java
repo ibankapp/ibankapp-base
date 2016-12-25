@@ -9,7 +9,7 @@
 
 package org.ibankapp.base.util.test;
 
-import org.ibankapp.base.util.StringUtil;
+import org.ibankapp.base.util.StringUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,21 +18,21 @@ public class StringUtilTest {
     @Test
     public void testIsEmpty(){
 
-        Assert.assertTrue(StringUtil.isEmpty(null));
+        Assert.assertTrue(StringUtils.isEmpty(null));
 
         String s = "";
-        Assert.assertTrue(StringUtil.isEmpty(s));
+        Assert.assertTrue(StringUtils.isEmpty(s));
 
         s=" ";
-        Assert.assertTrue(StringUtil.isEmpty(s));
+        Assert.assertTrue(StringUtils.isEmpty(s));
 
         s="0";
-        Assert.assertFalse(StringUtil.isEmpty(s));
+        Assert.assertFalse(StringUtils.isEmpty(s));
 
     }
 
     @Test
     public void testNewStringUtil(){
-        new StringUtil();
+        new StringUtils();
     }
 }

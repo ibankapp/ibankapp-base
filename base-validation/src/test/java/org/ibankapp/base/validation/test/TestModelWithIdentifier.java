@@ -9,7 +9,6 @@
 
 package org.ibankapp.base.validation.test;
 
-
 import org.ibankapp.base.validation.constraint.Identifier;
 import org.ibankapp.base.validation.type.Idtp;
 
