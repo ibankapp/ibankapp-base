@@ -263,6 +263,8 @@ public class SortTest {
     @Test
     public void testToOrders() {
 
+        new QueryUtils();
+
         List<javax.persistence.criteria.Order> orders = QueryUtils.toOrders(null,null,null);
 
         Assert.assertEquals(0,orders.size());
