@@ -1,4 +1,19 @@
 dependencies {
-    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    compile 'commons-beanutils:commons-beanutils:1.9.3'
+    compile 'org.springframework.data:spring-data-jpa:1.10.5.RELEASE'
+    compile project(":base-util")
+    compile project(":base-exception")
+    compile project(":base-validation")
+    testCompile group: 'log4j', name: 'log4j', version: '1.2.17'
+    testCompile 'junit:junit:4.11'
+    testCompile 'com.zaxxer:HikariCP:2.5.1'
+    testCompile 'com.h2database:h2:1.4.192'
+    testCompile 'org.springframework:spring-test:4.2.8.RELEASE'
+    testCompile 'org.springframework:spring-context:4.2.8.RELEASE'
+    testCompile 'org.springframework:spring-orm:4.2.8.RELEASE'
+    testCompile 'javax.el:javax.el-api:2.2.4'
+    testCompile 'org.hibernate:hibernate-core:5.1.0.Final'
+    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
+    testCompile 'org.hibernate:hibernate-validator:5.1.0.Final'
 }
