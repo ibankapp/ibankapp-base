@@ -141,15 +141,6 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
         }
     }
 
-    public static enum NullHandling {
-
-        NATIVE,
-
-        NULLS_FIRST,
-
-        NULLS_LAST;
-    }
-
     public static class Order implements Serializable {
 
         private static final long serialVersionUID = 1522511010900108987L;
@@ -158,21 +149,18 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
         private final Direction direction;
         private final String property;
         private final boolean ignoreCase;
-        private final NullHandling nullHandling;
+//        private final NullHandling nullHandling;
 
         public Order(Direction direction, String property) {
-            this(direction, property, DEFAULT_IGNORE_CASE, null);
+            this(direction, property, DEFAULT_IGNORE_CASE);
         }
 
-        public Order(Direction direction, String property, NullHandling nullHandlingHint) {
-            this(direction, property, DEFAULT_IGNORE_CASE, nullHandlingHint);
-        }
 
         public Order(String property) {
             this(DEFAULT_DIRECTION, property);
         }
 
-        private Order(Direction direction, String property, boolean ignoreCase, NullHandling nullHandling) {
+        private Order(Direction direction, String property, boolean ignoreCase) {
 
             if (!StringUtils.hasText(property)) {
                 throw new IllegalArgumentException("Property must not null or empty!");
@@ -181,7 +169,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             this.direction = direction == null ? DEFAULT_DIRECTION : direction;
             this.property = property;
             this.ignoreCase = ignoreCase;
-            this.nullHandling = nullHandling == null ? NullHandling.NATIVE : nullHandling;
+//            this.nullHandling = nullHandling == null ? NullHandling.NATIVE : nullHandling;
         }
 
         public Direction getDirection() {
@@ -201,7 +189,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
         }
 
         public Order with(Direction order) {
-            return new Order(order, this.property, nullHandling);
+            return new Order(order, this.property);
         }
 
         public Sort withProperties(String... properties) {
@@ -209,27 +197,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
         }
 
         public Order ignoreCase() {
-            return new Order(direction, property, true, nullHandling);
-        }
-
-        public Order with(NullHandling nullHandling) {
-            return new Order(direction, this.property, ignoreCase, nullHandling);
-        }
-
-        public Order nullsFirst() {
-            return with(NullHandling.NULLS_FIRST);
-        }
-
-        public Order nullsLast() {
-            return with(NullHandling.NULLS_LAST);
-        }
-
-        public Order nullsNative() {
-            return with(NullHandling.NATIVE);
-        }
-
-        public NullHandling getNullHandling() {
-            return nullHandling;
+            return new Order(direction, property, true);
         }
 
         @Override
@@ -240,7 +208,6 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             result = 31 * result + direction.hashCode();
             result = 31 * result + property.hashCode();
             result = 31 * result + (ignoreCase ? 1 : 0);
-            result = 31 * result + nullHandling.hashCode();
 
             return result;
         }
@@ -259,7 +226,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             Order that = (Order) obj;
 
             return this.direction.equals(that.direction) && this.property.equals(that.property)
-                    && this.ignoreCase == that.ignoreCase && this.nullHandling.equals(that.nullHandling);
+                    && this.ignoreCase == that.ignoreCase;
         }
 
         @Override
@@ -267,9 +234,6 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
 
             String result = String.format("%s: %s", property, direction);
 
-            if (!NullHandling.NATIVE.equals(nullHandling)) {
-                result += ", " + nullHandling;
-            }
 
             if (ignoreCase) {
                 result += ", ignoring case";
