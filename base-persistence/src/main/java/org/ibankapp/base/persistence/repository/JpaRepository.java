@@ -9,6 +9,8 @@
 
 package org.ibankapp.base.persistence.repository;
 
+import org.ibankapp.base.persistence.domain.Page;
+import org.ibankapp.base.persistence.domain.Pageable;
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.domain.Specification;
 
@@ -28,17 +30,23 @@ public interface JpaRepository {
 
     <T> List<T> merge(Iterable<T> entities);
 
-    <T,ID extends Serializable> T findOne(Class<T> entityClass, ID id);
+    <T, ID extends Serializable> T findOne(Class<T> entityClass, ID id);
 
-    <T,ID extends Serializable> boolean exist(Class<T> entityClass, ID id);
+    <T, ID extends Serializable> boolean exist(Class<T> entityClass, ID id);
 
     <T> List<T> findAll(Class<T> entityClass);
+
+    <T> Page<T> findAll(Class<T> entityClass,Pageable pageable);
 
     <T> List<T> findAll(Class<T> entityClass, Sort sort);
 
     <T> List<T> findAll(Class<T> entityClass, Specification<T> spec);
 
+    <T> Page<T> findAll(Class<T> entityClass, Specification<T> spec, Pageable pageable);
+
     <T> List<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort);
+
+    <T> Page<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort,Pageable pageable);
 
     <T> List<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort, LockModeType lockMode,
                         Map<String, Object> queryHints);
@@ -49,7 +57,7 @@ public interface JpaRepository {
 
     <T> long count(Class<T> entityClass, Specification<T> spec);
 
-    <T,ID extends Serializable> void delete(Class<T> entityClass, ID id);
+    <T, ID extends Serializable> void delete(Class<T> entityClass, ID id);
 
     <T> void delete(T entity);
 
