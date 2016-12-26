@@ -10,6 +10,8 @@
 package org.ibankapp.base.persistence.repository;
 
 import org.ibankapp.base.persistence.Specification.ByIdsSpecification;
+import org.ibankapp.base.persistence.domain.Page;
+import org.ibankapp.base.persistence.domain.Pageable;
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.domain.Specification;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
@@ -111,10 +113,14 @@ public class JpaRepositoryImpl implements JpaRepository {
         return findAll(entityClass, null, null, null, null);
     }
 
+    @Override
+    public <T> Page<T> findAll(Class<T> entityClass, Pageable pageable) {
+        return findAll(entityClass, null, pageable);
+    }
+
 
     @Override
     public <T> List<T> findAll(Class<T> entityClass, Sort sort) {
-
         return findAll(entityClass, null, sort, null, null);
     }
 
@@ -126,9 +132,32 @@ public class JpaRepositoryImpl implements JpaRepository {
     }
 
     @Override
+    public <T> Page<T> findAll(Class<T> entityClass, Specification<T> spec, Pageable pageable) {
+        return findAll(entityClass, spec, null, pageable);
+    }
+
+    @Override
     public <T> List<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort) {
 
         return findAll(entityClass, spec, sort, null, null);
+    }
+
+    @Override
+    public <T> Page<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort, Pageable pageable) {
+
+        TypedQuery<T> query = getQuery(spec, entityClass, sort);
+        long totalCount = count(entityClass, spec);
+
+        if (pageable == null) {
+            return new Page<>(query.getResultList(), totalCount);
+        }
+
+        query.setFirstResult(pageable.getOffset());
+        query.setMaxResults(pageable.getSize());
+
+
+        return new Page<>(totalCount > pageable.getOffset() ? query.getResultList() : Collections.emptyList(),
+                totalCount, pageable.getSize(), pageable.getPage());
     }
 
     @Override

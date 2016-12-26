@@ -9,6 +9,8 @@
 
 package org.ibankapp.base.persistence.repository.test;
 
+import org.ibankapp.base.persistence.domain.Page;
+import org.ibankapp.base.persistence.domain.Pageable;
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.domain.Specification;
 import org.ibankapp.base.persistence.repository.JpaRepository;
@@ -96,6 +98,16 @@ public class JpaRepositoryTest {
         models.add(model2);
 
         return repository.persist(models);
+    }
+
+    private void persistNum(int num) {
+
+        for (int i = 0; i < num; i++) {
+            SimpleModel model = new SimpleModel();
+            model.setId(((Integer) i).toString());
+            model.setName("name" + i);
+            repository.persist(model);
+        }
     }
 
     @Test
@@ -279,7 +291,7 @@ public class JpaRepositoryTest {
         Assert.assertEquals("NAME1", models.get(1).getName());
         Assert.assertEquals(null, models.get(2).getName());
 
-        Sort.Order order = new Sort.Order(Sort.Direction.ASC,"name");
+        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "name");
         order = order.ignoreCase();
         sort = new Sort(order);
         models = repository.findAll(SimpleModel.class, sort);
@@ -288,7 +300,7 @@ public class JpaRepositoryTest {
         Assert.assertEquals("NAME1", models.get(1).getName());
         Assert.assertEquals("name", models.get(2).getName());
 
-        order = new Sort.Order(Sort.Direction.DESC,"name");
+        order = new Sort.Order(Sort.Direction.DESC, "name");
         order = order.ignoreCase();
         sort = new Sort(order);
         models = repository.findAll(SimpleModel.class, sort);
@@ -519,7 +531,7 @@ public class JpaRepositoryTest {
 
     @Test
     @Transactional
-    public void testDeleteMerge(){
+    public void testDeleteMerge() {
 
         SimpleModel model = new SimpleModel();
         model.setId("4");
@@ -538,14 +550,73 @@ public class JpaRepositoryTest {
         ids.add("0");
         ids.add("1");
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class,ids,true);
+        List<SimpleModel> models = repository.findAll(SimpleModel.class, ids, true);
         repository.delete(models);
 
         models = repository.findAll(SimpleModel.class);
-        Assert.assertEquals(1,models.size());
-        Assert.assertEquals("2",models.get(0).getId());
+        Assert.assertEquals(1, models.size());
+        Assert.assertEquals("2", models.get(0).getId());
 
     }
 
+    @Test
+    @Transactional
+    public void testFindAllPage() {
+        persistNum(100);
 
+        Pageable pageable = new Pageable(0, 15);
+
+        Page<SimpleModel> page = repository.findAll(SimpleModel.class, pageable);
+
+        Assert.assertEquals(15, page.getPageSize());
+        Assert.assertEquals(15, page.getItems().size());
+        Assert.assertEquals(100, page.getTotalCount());
+        Assert.assertEquals(0, page.getCurrentIndex());
+
+        Specification<SimpleModel> spec = new NameSpecification("name1");
+        pageable = new Pageable(0, 5);
+
+        page = repository.findAll(SimpleModel.class, spec, pageable);
+        Assert.assertEquals(5, page.getPageSize());
+        Assert.assertEquals(5, page.getItems().size());
+        Assert.assertEquals(11, page.getTotalCount());
+
+        pageable = new Pageable(3, 5);
+
+        page = repository.findAll(SimpleModel.class, spec, pageable);
+        Assert.assertEquals(5, page.getPageSize());
+        Assert.assertEquals(0, page.getItems().size());
+        Assert.assertEquals(11, page.getTotalCount());
+
+        pageable = new Pageable(0, 5);
+        Sort sort = new Sort("name");
+
+        page = repository.findAll(SimpleModel.class, spec, sort, pageable);
+        Assert.assertEquals(5, page.getPageSize());
+        Assert.assertEquals(5, page.getItems().size());
+        Assert.assertEquals(11, page.getTotalCount());
+
+        Assert.assertEquals("name1", page.getItems().get(0).getName());
+        Assert.assertEquals("name10", page.getItems().get(1).getName());
+        Assert.assertEquals("name11", page.getItems().get(2).getName());
+
+        page.setCurrentIndex(-1);
+        Assert.assertEquals(0, page.getCurrentIndex());
+
+        new Page<>(page.getItems(), page.getTotalCount());
+        new Page<>(page.getItems(), page.getTotalCount(), 0);
+
+        page.setTotalCount(-1);
+
+        Assert.assertEquals(0, page.getTotalCount());
+
+        pageable.setPage(0);
+        pageable.setSize(10);
+
+        Assert.assertEquals(0, pageable.getPage());
+        Assert.assertEquals(10, pageable.getSize());
+
+        page = repository.findAll(SimpleModel.class, spec, (Pageable) null);
+        Assert.assertEquals(11, page.getItems().size());
+    }
 }
