@@ -572,25 +572,6 @@ public class JpaRepositoryTest {
         Assert.assertEquals(15, page.getItems().size());
         Assert.assertEquals(100, page.getTotalCount());
         Assert.assertEquals(0, page.getCurrentIndex());
-        Assert.assertEquals(0, page.getPreviousIndex());
-        Assert.assertEquals(1, page.getNextIndex());
-
-        pageable = new Pageable(6, 15);
-
-        page = repository.findAll(SimpleModel.class, pageable);
-        Assert.assertEquals(6, page.getNextIndex());
-
-        pageable = new Pageable(1, 15);
-        page = repository.findAll(SimpleModel.class, pageable);
-        Assert.assertEquals(1, page.getCurrentIndex());
-        Assert.assertEquals(0, page.getPreviousIndex());
-        Assert.assertEquals(2, page.getNextIndex());
-
-        pageable = new Pageable(19, 5);
-        page = repository.findAll(SimpleModel.class, pageable);
-        Assert.assertEquals(19, page.getCurrentIndex());
-        Assert.assertEquals(18, page.getPreviousIndex());
-        Assert.assertEquals(19, page.getNextIndex());
 
         Specification<SimpleModel> spec = new NameSpecification("name1");
         pageable = new Pageable(0, 5);
@@ -611,15 +592,6 @@ public class JpaRepositoryTest {
         Assert.assertEquals("name10", page.getItems().get(1).getName());
         Assert.assertEquals("name11", page.getItems().get(2).getName());
 
-        pageable = new Pageable(19, 5);
-
-        page = repository.findAll(SimpleModel.class, spec, pageable);
-        Assert.assertEquals(19, page.getCurrentIndex());
-        Assert.assertEquals(19, page.getNextIndex());
-        Assert.assertEquals(5, page.getPageSize());
-        Assert.assertEquals(0, page.getItems().size());
-        Assert.assertEquals(11, page.getTotalCount());
-
         page.setCurrentIndex(-1);
         Assert.assertEquals(0, page.getCurrentIndex());
 
@@ -637,6 +609,6 @@ public class JpaRepositoryTest {
         Assert.assertEquals(10, pageable.getSize());
 
         page = repository.findAll(SimpleModel.class, spec, (Pageable) null);
-        Assert.assertEquals(11,page.getItems().size());
+        Assert.assertEquals(11, page.getItems().size());
     }
 }

@@ -165,32 +165,4 @@ public class Page<T> {
             this.currentIndex = index;
         }
     }
-
-    /**
-     * <br/>Title: getNextIndex
-     * <br/>Description:  获取下一页数，如果下一页超过尾页，则返回当前页
-     *
-     * @return 下一页数
-     */
-    public int getNextIndex() {
-        int nextIndex = getCurrentIndex() + 1;
-        if ((nextIndex >= totalCount / pageSize && totalCount % pageSize == 0) ||
-                (nextIndex > totalCount / pageSize && totalCount % pageSize != 0))
-            return getCurrentIndex();
-        else
-            return nextIndex;
-    }
-
-    /**
-     * <br/>Title: getPreviousIndex
-     * <br/>Description:  获取前一页数
-     *
-     * @return ，如果开始页数小于等于0，返回0，否则返回前一页数
-     */
-    public int getPreviousIndex() {
-        if (getCurrentIndex() <= 0)
-            return 0;
-        return getCurrentIndex() - 1;
-    }
-
 }
