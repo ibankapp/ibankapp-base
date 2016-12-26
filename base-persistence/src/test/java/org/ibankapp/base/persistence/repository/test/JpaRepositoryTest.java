@@ -581,6 +581,14 @@ public class JpaRepositoryTest {
         Assert.assertEquals(5, page.getItems().size());
         Assert.assertEquals(11, page.getTotalCount());
 
+        pageable = new Pageable(3, 5);
+
+        page = repository.findAll(SimpleModel.class, spec, pageable);
+        Assert.assertEquals(5, page.getPageSize());
+        Assert.assertEquals(0, page.getItems().size());
+        Assert.assertEquals(11, page.getTotalCount());
+
+        pageable = new Pageable(0, 5);
         Sort sort = new Sort("name");
 
         page = repository.findAll(SimpleModel.class, spec, sort, pageable);
