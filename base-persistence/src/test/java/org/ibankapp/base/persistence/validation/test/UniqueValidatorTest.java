@@ -13,6 +13,7 @@ import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.persistence.repository.JpaRepository;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -132,6 +133,7 @@ public class UniqueValidatorTest {
         model.setType(2);
         model.setName("test2");
         repository.persist(model);
+
     }
 
     @Test
@@ -173,5 +175,35 @@ public class UniqueValidatorTest {
         model.setId("bbb");
         model.setStatus(InheritanceType.SINGLE_TABLE);
         repository.persist(model);
+    }
+
+    @Test
+    @Transactional
+    public void testUpdate() {
+
+        TestModel model = new TestModel();
+        model.setId("1");
+        model.setName("test1");
+        repository.persist(model);
+
+        TestModel model1 = repository.findOne(TestModel.class,"1");
+        Assert.assertEquals("test1",model1.getName());
+
+        model.setName("test2");
+        repository.persist(model);
+        model1 = repository.findOne(TestModel.class,"1");
+        Assert.assertEquals("test2",model1.getName());
+
+        model.setName("test3");
+        repository.merge(model);
+        model1 = repository.findOne(TestModel.class,"1");
+        Assert.assertEquals("test3",model1.getName());
+
+        TestModel model2 = new TestModel();
+        model2.setId("1");
+        model2.setName("test4");
+        repository.merge(model2);
+        model1 = repository.findOne(TestModel.class,"1");
+        Assert.assertEquals("test4",model1.getName());
     }
 }

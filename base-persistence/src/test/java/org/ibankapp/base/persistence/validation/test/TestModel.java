@@ -37,7 +37,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "TEST_MODEL")
-@Unique(properties = {"name"},message = "姓名重复")
+@Unique(properties = {"name"}, message = "姓名重复")
 public class TestModel {
 
     private String name;
