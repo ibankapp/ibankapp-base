@@ -58,6 +58,7 @@ public class IdentifierValidationTest {
         assertFalse(IdentifierValidation.isOcc("68510470-9"));
         assertFalse(IdentifierValidation.isOcc("685104708"));
         assertFalse(IdentifierValidation.isOcc("6851047X8"));
+        assertTrue(IdentifierValidation.isOcc("M00010RN6"));
         assertTrue(IdentifierValidation.isUscic("911202246818640656"));
         assertTrue(IdentifierValidation.isUscic("9112010223967930XT"));
         assertFalse(IdentifierValidation.isUscic("911202246818640657"));
@@ -69,6 +70,9 @@ public class IdentifierValidationTest {
         assertFalse(IdentifierValidation.isUscic("Y112C2246818640657"));
         assertFalse(IdentifierValidation.isUscic("Y11202246818640647"));
         assertFalse(IdentifierValidation.isUscic("211202246818640657"));
+        assertFalse(IdentifierValidation.isUscic("91350212M0010RN6D"));
+        assertTrue(IdentifierValidation.isUscic("91350200MA2Y0ERQ4U"));
+        assertFalse(IdentifierValidation.isUscic("91350212M00010RN6D"));
     }
 
     @Test
