@@ -66,4 +66,14 @@ public class StringUtilTest {
         Assert.assertFalse(StringUtils.hasText(null));
         Assert.assertFalse(StringUtils.hasText("   "));
     }
+
+    @Test
+    public void testRandomUUID(){
+        String uuid1 = StringUtils.getRandomUUID();
+        String uuid2 = StringUtils.getRandomUUID();
+
+        Assert.assertNotEquals(uuid1,uuid2);
+        Assert.assertEquals(32,uuid1.length());
+        Assert.assertEquals(32,uuid2.length());
+    }
 }

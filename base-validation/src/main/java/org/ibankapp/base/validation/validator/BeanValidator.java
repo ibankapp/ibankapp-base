@@ -28,7 +28,7 @@ public class BeanValidator {
         validate(validator, object);
     }
 
-    public static <T> void validate(Validator validator, T object) {
+    private static <T> void validate(Validator validator, T object) {
         Set<ConstraintViolation<T>> constraintViolations = validator.validate(object);
 
         Iterator it = constraintViolations.iterator();

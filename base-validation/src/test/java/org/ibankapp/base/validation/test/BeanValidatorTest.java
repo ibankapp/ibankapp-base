@@ -26,6 +26,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 
 import static org.junit.Assert.assertNotNull;
@@ -63,6 +64,16 @@ public class BeanValidatorTest {
 
         BeanValidator validator = new BeanValidator();
         assertNotNull(validator);
+    }
+
+    @Test
+    public void parameterValidatorTest() {
+        validationFunction("111");
+    }
+
+    private void validationFunction(@Max(value = 2,message = "最大长度为2") String para1) {
+
+        BeanValidator.validate(para1);
     }
 
     private static class ValidationTestBean {
