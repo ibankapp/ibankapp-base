@@ -13,6 +13,7 @@ package org.ibankapp.base.util;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.UUID;
 
 public class StringUtils {
 
@@ -24,8 +25,9 @@ public class StringUtils {
     /**
      * Convert a {@link Collection} to a delimited {@code String} (e.g. CSV).
      * <p>Useful for {@code toString()} implementations.
-     * @param coll the {@code Collection} to convert
-     * @param delim the delimiter to use (typically a ",")
+     *
+     * @param coll   the {@code Collection} to convert
+     * @param delim  the delimiter to use (typically a ",")
      * @param prefix the {@code String} to start each element with
      * @param suffix the {@code String} to end each element with
      * @return the delimited {@code String}
@@ -48,7 +50,8 @@ public class StringUtils {
     /**
      * Convert a {@code Collection} into a delimited {@code String} (e.g. CSV).
      * <p>Useful for {@code toString()} implementations.
-     * @param coll the {@code Collection} to convert
+     *
+     * @param coll  the {@code Collection} to convert
      * @param delim the delimiter to use (typically a ",")
      * @return the delimited {@code String}
      */
@@ -59,6 +62,7 @@ public class StringUtils {
     /**
      * Convert a {@code Collection} into a delimited {@code String} (e.g., CSV).
      * <p>Useful for {@code toString()} implementations.
+     *
      * @param coll the {@code Collection} to convert
      * @return the delimited {@code String}
      */
@@ -77,6 +81,7 @@ public class StringUtils {
      * StringUtils.hasLength(" ") = true
      * StringUtils.hasLength("Hello") = true
      * </pre>
+     *
      * @param str the {@code CharSequence} to check (may be {@code null})
      * @return {@code true} if the {@code CharSequence} is not {@code null} and has length
      * @see #hasText(String)
@@ -97,9 +102,10 @@ public class StringUtils {
      * StringUtils.hasText("12345") = true
      * StringUtils.hasText(" 12345 ") = true
      * </pre>
+     *
      * @param str the {@code CharSequence} to check (may be {@code null})
-     * @return {@code true} if the {@code CharSequence} is not {@code null},
-     * its length is greater than 0, and it does not contain whitespace only
+     * @return {@code true} if the {@code CharSequence} is not {@code null}, its length is greater than 0, and it does
+     * not contain whitespace only
      * @see Character#isWhitespace
      */
     public static boolean hasText(CharSequence str) {
@@ -120,12 +126,18 @@ public class StringUtils {
      * <p>More specifically, this method returns {@code true} if the
      * {@code String} is not {@code null}, its length is greater than 0,
      * and it contains at least one non-whitespace character.
+     *
      * @param str the {@code String} to check (may be {@code null})
-     * @return {@code true} if the {@code String} is not {@code null}, its
-     * length is greater than 0, and it does not contain whitespace only
+     * @return {@code true} if the {@code String} is not {@code null}, its length is greater than 0, and it does not
+     * contain whitespace only
      * @see #hasText(CharSequence)
      */
     public static boolean hasText(String str) {
         return hasText((CharSequence) str);
+    }
+
+    public static String getRandomUUID() {
+        String s = UUID.randomUUID().toString();
+        return s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s.substring(24);
     }
 }

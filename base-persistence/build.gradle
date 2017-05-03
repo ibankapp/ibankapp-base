@@ -1,7 +1,7 @@
 dependencies {
     compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
-    compile 'org.springframework.data:spring-data-jpa:1.10.5.RELEASE'
+    //compile 'org.springframework.data:spring-data-jpa:1.10.5.RELEASE'
     compile project(":base-util")
     compile project(":base-exception")
     compile project(":base-validation")
