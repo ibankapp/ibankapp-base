@@ -17,6 +17,8 @@ public class DateUtilTest {
     @Test
     public void testFmtCurrentDate(){
 
+        new DateUtil();
+
         DateUtil.getFmtCurrentDateString("yyyyMMdd");
 
     }
