@@ -294,4 +294,9 @@ public class JpaRepositoryImpl implements JpaRepository {
 
         findAll(entityClass).forEach(this::delete);
     }
+
+    @Override
+    public <T> void uniqueValidate(T bean) {
+        UniqueValidator.validate(bean, em);
+    }
 }
