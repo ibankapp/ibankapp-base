@@ -59,7 +59,13 @@ public class EventRegisterTest {
 
         Assert.assertEquals(consumers, listeners.get(DemoEvent.class));
 
+    }
 
+    @Test
+    public void testRemoveFromEmptyListeners(){
+        register.removeAllListeners(DemoEvent.class);
+        register.removeAllListeners(DemoEvent.class);
+        register.removeListener(DemoEvent.class,consumer);
     }
 
     @Test

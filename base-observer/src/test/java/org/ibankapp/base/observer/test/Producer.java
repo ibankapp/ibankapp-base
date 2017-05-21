@@ -28,7 +28,7 @@ class Producer{
         event.setMessage("send a message");
         event1.setMessage("send second message");
 
-//        register.fireEvent(event);
+        register.fireEvent(event);
         register.fireEvent(event1);
     }
 }

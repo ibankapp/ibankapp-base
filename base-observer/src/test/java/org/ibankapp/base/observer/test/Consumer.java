@@ -13,18 +13,25 @@ package org.ibankapp.base.observer.test;
 import org.ibankapp.base.observer.Event;
 import org.ibankapp.base.observer.EventConsumer;
 
+import java.util.HashSet;
+import java.util.Set;
+
 class Consumer implements EventConsumer {
+
+    private Set<String> messages = new HashSet<>();
 
     @Override
     public void onEvent(Event event) {
 
         if (event instanceof DemoEvent) {
-            System.out.println(((DemoEvent) event).getMessage());
-            System.out.println(event.getTimestamp());
-        }else if(event instanceof DemoEvent1){
-            System.out.println(((DemoEvent1)event).getMessage());
-            System.out.println(event.getTimestamp());
+            messages.add(((DemoEvent) event).getMessage());
+        } else if (event instanceof DemoEvent1) {
+            messages.add(((DemoEvent1) event).getMessage());
         }
-
     }
+
+    public Set<String> getMessages() {
+        return messages;
+    }
+
 }
