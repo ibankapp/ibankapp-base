@@ -30,7 +30,7 @@ class Consumer implements EventConsumer {
         }
     }
 
-    public Set<String> getMessages() {
+    Set<String> getMessages() {
         return messages;
     }
 

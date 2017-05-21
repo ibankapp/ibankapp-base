@@ -18,7 +18,7 @@ class SecondConsumer implements EventConsumer {
     public void onEvent(Event event) {
 
         if (event instanceof DemoEvent) {
-            System.out.println(((DemoEvent) event).getMessage());
+            System.out.println(event.getTimestamp());
         }
     }
 }

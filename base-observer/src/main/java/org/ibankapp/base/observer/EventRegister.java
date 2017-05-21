@@ -30,7 +30,7 @@ public class EventRegister {
     public synchronized <T extends Event> void removeListener(Class<T> clazz, EventConsumer consumer) {
         List<EventConsumer> consumers = listeners.get(clazz);
 
-        if (consumers != null && consumers.size() != 0) {
+        if (consumers != null) {
             consumers.remove(consumer);
         }
     }
