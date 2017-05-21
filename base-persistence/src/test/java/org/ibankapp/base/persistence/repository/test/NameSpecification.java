@@ -20,7 +20,7 @@ public class NameSpecification implements Specification<SimpleModel> {
 
     private String name;
 
-    public NameSpecification(String name) {
+    NameSpecification(String name) {
         this.name = name;
     }
 

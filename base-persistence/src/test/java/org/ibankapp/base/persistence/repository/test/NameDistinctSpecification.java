@@ -20,7 +20,7 @@ public class NameDistinctSpecification implements Specification<SimpleModel> {
 
     private String name;
 
-    public NameDistinctSpecification(String name) {
+    NameDistinctSpecification(String name) {
         this.name = name;
     }
 
