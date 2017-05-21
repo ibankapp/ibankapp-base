@@ -20,12 +20,15 @@ class Producer{
     @Resource
     private EventRegister register;
 
-    void fireEvent(){
+    void doSomething(){
 
         DemoEvent event = new DemoEvent(this);
+        DemoEvent1 event1 = new DemoEvent1(this);
 
         event.setMessage("send a message");
+        event1.setMessage("send second message");
 
-        register.fireEvent(event);
+//        register.fireEvent(event);
+        register.fireEvent(event1);
     }
 }

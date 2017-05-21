@@ -21,6 +21,10 @@ class Consumer implements EventConsumer {
         if (event instanceof DemoEvent) {
             System.out.println(((DemoEvent) event).getMessage());
             System.out.println(event.getTimestamp());
+        }else if(event instanceof DemoEvent1){
+            System.out.println(((DemoEvent1)event).getMessage());
+            System.out.println(event.getTimestamp());
         }
+
     }
 }
