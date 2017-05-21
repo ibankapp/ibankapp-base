@@ -52,13 +52,13 @@ public class JpaRepositoryTest {
     }
 
 
-    private SimpleModel persistOne() {
+    private void persistOne() {
 
         SimpleModel model = new SimpleModel();
         model.setId("0");
         model.setName("name");
 
-        return repository.persist(model);
+        repository.persist(model);
     }
 
     private List<SimpleModel> persistTwo() {
@@ -78,7 +78,7 @@ public class JpaRepositoryTest {
         return repository.persist(models);
     }
 
-    private List<SimpleModel> persistThree() {
+    private void persistThree() {
 
         SimpleModel model = new SimpleModel();
         model.setId("0");
@@ -97,12 +97,12 @@ public class JpaRepositoryTest {
         models.add(model1);
         models.add(model2);
 
-        return repository.persist(models);
+        repository.persist(models);
     }
 
-    private void persistNum(int num) {
+    private void persistNum() {
 
-        for (int i = 0; i < num; i++) {
+        for (int i = 0; i < 100; i++) {
             SimpleModel model = new SimpleModel();
             model.setId(((Integer) i).toString());
             model.setName("name" + i);
@@ -562,7 +562,7 @@ public class JpaRepositoryTest {
     @Test
     @Transactional
     public void testFindAllPage() {
-        persistNum(100);
+        persistNum();
 
         Pageable pageable = new Pageable(0, 15);
 

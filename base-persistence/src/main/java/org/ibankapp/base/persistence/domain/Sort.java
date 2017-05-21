@@ -20,7 +20,7 @@ import java.util.Locale;
 
 public class Sort implements Iterable<Sort.Order>, Serializable {
 
-    public static final Direction DEFAULT_DIRECTION = Direction.ASC;
+    private static final Direction DEFAULT_DIRECTION = Direction.ASC;
     private static final long serialVersionUID = 5737186511678863905L;
     private final List<Order> orders;
 
@@ -42,7 +42,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
     }
 
     public Sort(Direction direction, String... properties) {
-        this(direction, properties == null ? new ArrayList<String>() : Arrays.asList(properties));
+        this(direction, properties == null ? new ArrayList<>() : Arrays.asList(properties));
     }
 
     public Sort(Direction direction, List<String> properties) {
@@ -51,7 +51,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             throw new IllegalArgumentException("You have to provide at least one property to sort by!");
         }
 
-        this.orders = new ArrayList<Order>(properties.size());
+        this.orders = new ArrayList<>(properties.size());
 
         for (String property : properties) {
             this.orders.add(new Order(direction, property));
@@ -64,7 +64,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             return this;
         }
 
-        ArrayList<Order> these = new ArrayList<Order>(this.orders);
+        ArrayList<Order> these = new ArrayList<>(this.orders);
 
         for (Order order : sort) {
             these.add(order);
@@ -117,7 +117,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
         return StringUtils.collectionToCommaDelimitedString(orders);
     }
 
-    public static enum Direction {
+    public enum Direction {
 
         ASC, DESC;
 

@@ -11,9 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * Created by wangyue on 2016/12/25.
- */
 public class SortTest {
 
     @Rule
@@ -103,13 +100,12 @@ public class SortTest {
 
         Sort sort1 = new Sort("name");
 
-        Sort sort2 = sort1;
         Sort sort3 = new Sort(Sort.Direction.ASC, "name");
         Sort sort4 = new Sort(Sort.Direction.DESC, "name");
 
         Object o = new Object();
 
-        Assert.assertTrue(sort1.equals(sort2));
+        Assert.assertTrue(sort1.equals(sort1));
         Assert.assertFalse(sort1.equals(o));
         Assert.assertTrue(sort1.equals(sort3));
         Assert.assertFalse(sort1.equals(sort4));
