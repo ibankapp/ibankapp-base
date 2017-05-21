@@ -18,7 +18,7 @@ public class EventRegister {
 
     private Map<Class, Vector<EventConsumer>> listeners = new HashMap<>();
 
-    public synchronized void addListener(Class clazz, EventConsumer consumer) {
+    public synchronized <T extends Event> void addListener(Class<T> clazz, EventConsumer consumer) {
         Vector<EventConsumer> consumers = listeners.get(clazz);
         if (consumers == null) {
             consumers = new Vector<>();
@@ -27,10 +27,10 @@ public class EventRegister {
         listeners.put(clazz, consumers);
     }
 
-    public synchronized void removeListener(Class clazz, EventConsumer consumer) {
+    public synchronized <T extends Event> void removeListener(Class<T> clazz, EventConsumer consumer) {
         List<EventConsumer> consumers = listeners.get(clazz);
 
-        if (consumers != null && consumers.size() != 0) {
+        if (consumers != null) {
             consumers.remove(consumer);
         }
     }
@@ -39,18 +39,28 @@ public class EventRegister {
         listeners = new HashMap<>();
     }
 
+    public synchronized <T extends Event> void removeAllListeners(Class<T> clazz) {
+        listeners.remove(clazz);
+    }
+
     @SuppressWarnings("unchecked")
     public void fireEvent(Event event) {
 
         Vector<EventConsumer> currentConsumers;
 
         synchronized (this) {
-            currentConsumers = (Vector<EventConsumer>) listeners.get(event.getClass()).clone();
+            currentConsumers = listeners.get(event.getClass());
         }
 
-        for (int i = 0; i < currentConsumers.size(); i++) {
-            EventConsumer consumer = currentConsumers.elementAt(i);
-            consumer.onEvent(event);
+        if (currentConsumers != null) {
+            for (int i = 0; i < currentConsumers.size(); i++) {
+                EventConsumer consumer = currentConsumers.elementAt(i);
+                consumer.onEvent(event);
+            }
         }
+    }
+
+    public Map<Class, Vector<EventConsumer>> getListeners() {
+        return listeners;
     }
 }
