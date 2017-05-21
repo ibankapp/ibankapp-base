@@ -12,7 +12,6 @@ package org.ibankapp.base.persistence.sort.test;
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.repository.JpaRepository;
 import org.ibankapp.base.persistence.validation.test.TestContextConfig;
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,10 +20,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.annotation.Resource;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContextConfig.class})
