@@ -113,5 +113,3 @@ subprojects {
     check.dependsOn jacocoTestReport
 
 }
-
-
