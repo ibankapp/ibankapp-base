@@ -10,7 +10,7 @@
 package org.ibankapp.base.validation.validator;
 
 
-import org.ibankapp.base.exception.BaseException;
+import org.ibankapp.base.validation.exception.BaseValidationException;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -42,7 +42,7 @@ public class BeanValidator {
         }
 
         if (message.trim().length() != 0) {
-            throw new BaseException("E-BASE-000005", message);
+            throw new BaseValidationException("E-BASE-VALIDATION-000001", message);
         }
     }
 }

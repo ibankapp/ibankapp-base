@@ -10,6 +10,7 @@
 package org.ibankapp.base.persistence.validation.test;
 
 import org.ibankapp.base.exception.BaseException;
+import org.ibankapp.base.persistence.BasePersistenceException;
 import org.ibankapp.base.persistence.repository.JpaRepository;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
 import org.junit.After;
@@ -48,7 +49,7 @@ public class UniqueValidatorTest {
     @Transactional
     public void testUnique() {
 
-        thrown.expect(BaseException.class);
+        thrown.expect(BasePersistenceException.class);
         thrown.expectMessage("唯一约束校验失败,姓名重复");
 
         TestModel model = new TestModel();
@@ -64,9 +65,9 @@ public class UniqueValidatorTest {
 
     @Test
     @Transactional
-    public void testRepositoryUniqueValidate(){
+    public void testRepositoryUniqueValidate() {
 
-        thrown.expect(BaseException.class);
+        thrown.expect(BasePersistenceException.class);
         thrown.expectMessage("唯一约束校验失败,姓名重复");
 
         TestModel model = new TestModel();
@@ -102,7 +103,7 @@ public class UniqueValidatorTest {
     @Transactional
     public void testUniqueInherited() {
 
-        thrown.expect(BaseException.class);
+        thrown.expect(BasePersistenceException.class);
         thrown.expectMessage("唯一约束校验失败,姓名重复");
 
         TestModelWithInheritedUnique model = new TestModelWithInheritedUnique();
@@ -120,7 +121,7 @@ public class UniqueValidatorTest {
     @Transactional
     public void testUniqueTwoColumn() {
 
-        thrown.expect(BaseException.class);
+        thrown.expect(BasePersistenceException.class);
         thrown.expectMessage("唯一约束校验失败,姓名及类型重复");
 
         TestModelWithTwoColumnUnique model = new TestModelWithTwoColumnUnique();
@@ -158,7 +159,7 @@ public class UniqueValidatorTest {
     @Transactional
     public void testUniquesInherited() {
 
-        thrown.expect(BaseException.class);
+        thrown.expect(BasePersistenceException.class);
         thrown.expectMessage("唯一约束校验失败,类型重复");
 
         TestModelWithInheritedUniques model = new TestModelWithInheritedUniques();
@@ -181,7 +182,7 @@ public class UniqueValidatorTest {
     @Test
     @Transactional
     public void testUniqueAndNum() {
-        thrown.expect(BaseException.class);
+        thrown.expect(BasePersistenceException.class);
         thrown.expectMessage("唯一约束校验失败,ENUM重复");
 
         TestModelWithEumAndUnique model = new TestModelWithEumAndUnique();
@@ -204,24 +205,24 @@ public class UniqueValidatorTest {
         model.setName("test1");
         repository.persist(model);
 
-        TestModel model1 = repository.findOne(TestModel.class,"1");
-        Assert.assertEquals("test1",model1.getName());
+        TestModel model1 = repository.findOne(TestModel.class, "1");
+        Assert.assertEquals("test1", model1.getName());
 
         model.setName("test2");
         repository.persist(model);
-        model1 = repository.findOne(TestModel.class,"1");
-        Assert.assertEquals("test2",model1.getName());
+        model1 = repository.findOne(TestModel.class, "1");
+        Assert.assertEquals("test2", model1.getName());
 
         model.setName("test3");
         repository.merge(model);
-        model1 = repository.findOne(TestModel.class,"1");
-        Assert.assertEquals("test3",model1.getName());
+        model1 = repository.findOne(TestModel.class, "1");
+        Assert.assertEquals("test3", model1.getName());
 
         TestModel model2 = new TestModel();
         model2.setId("1");
         model2.setName("test4");
         repository.merge(model2);
-        model1 = repository.findOne(TestModel.class,"1");
-        Assert.assertEquals("test4",model1.getName());
+        model1 = repository.findOne(TestModel.class, "1");
+        Assert.assertEquals("test4", model1.getName());
     }
 }
