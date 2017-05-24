@@ -26,7 +26,7 @@ public class Jaxb2UtilTest {
 
         TestBean bean = new TestBean();
 
-        Person person = new Person("codelder", 35);
+        Person person = new Person("张三", 35);
 
         bean.setPerson(person);
 
@@ -38,7 +38,17 @@ public class Jaxb2UtilTest {
                 "<testBean>\n" +
                 "    <person>\n" +
                 "        <age>35</age>\n" +
-                "        <name>codelder</name>\n" +
+                "        <name>张三</name>\n" +
+                "    </person>\n" +
+                "    <phone>12345678</phone>\n" +
+                "</testBean>\n", xml);
+
+        xml = Jaxb2Util.convertToXml(bean,"ISO-8859-1");
+        Assert.assertEquals("<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>\n" +
+                "<testBean>\n" +
+                "    <person>\n" +
+                "        <age>35</age>\n" +
+                "        <name>&#24352;&#19977;</name>\n" +
                 "    </person>\n" +
                 "    <phone>12345678</phone>\n" +
                 "</testBean>\n", xml);
