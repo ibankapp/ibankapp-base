@@ -12,9 +12,15 @@ package org.ibankapp.base.util.test;
 import org.ibankapp.base.util.DateUtil;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.util.Calendar;
+import java.util.Date;
 
+@RunWith(PowerMockRunner.class)
 public class DateUtilTest {
 
     @Test
@@ -23,16 +29,16 @@ public class DateUtilTest {
     }
 
     @Test
-    public void testFmtCurrentDate() {
+    @PrepareForTest(DateUtil.class)
+    public void testFmtCurrentDate() throws Exception {
 
-        String format = DateUtil.getFmtCurrentDateString("yyyyMMdd");
+        Calendar cal = Calendar.getInstance();
+        cal.set(2017, 4, 24);
 
-        Assert.assertEquals(8, format.length());
+        PowerMockito.whenNew(Date.class).withNoArguments().thenReturn(cal.getTime());
 
-        format = DateUtil.getFmtCurrentDateString("yyyy-MM-dd");
-
-        Assert.assertEquals(10, format.length());
-
+        Assert.assertEquals("20170524", DateUtil.getFmtCurrentDateString("yyyyMMdd"));
+        Assert.assertEquals("2017/05/24", DateUtil.getFmtCurrentDateString("yyyy/MM/dd"));
     }
 
     @Test
