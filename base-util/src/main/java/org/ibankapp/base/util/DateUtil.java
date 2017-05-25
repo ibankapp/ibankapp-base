@@ -10,7 +10,7 @@
 package org.ibankapp.base.util;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -25,9 +25,12 @@ public class DateUtil {
      * @return 当前机器日期字符串
      */
     public static String getFmtCurrentDateString(String dateFormat) {
-        Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+        return getFmtFromDate(new Date(), dateFormat);
+    }
+
+    public static String getFmtFromDate(Date date, String dateFormat) {
         SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
         sdf.setTimeZone(TimeZone.getDefault());
-        return sdf.format(cal.getTime());
+        return sdf.format(date);
     }
 }

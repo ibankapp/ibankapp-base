@@ -10,16 +10,40 @@
 package org.ibankapp.base.util.test;
 
 import org.ibankapp.base.util.DateUtil;
+import org.junit.Assert;
 import org.junit.Test;
+
+import java.util.Calendar;
 
 public class DateUtilTest {
 
     @Test
-    public void testFmtCurrentDate(){
-
+    public void testNewDateUtil() {
         new DateUtil();
+    }
 
-        DateUtil.getFmtCurrentDateString("yyyyMMdd");
+    @Test
+    public void testFmtCurrentDate() {
+
+        String format = DateUtil.getFmtCurrentDateString("yyyyMMdd");
+
+        Assert.assertEquals(8, format.length());
+
+        format = DateUtil.getFmtCurrentDateString("yyyy-MM-dd");
+
+        Assert.assertEquals(10, format.length());
 
     }
+
+    @Test
+    public void testGetFmtFromDate() {
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(2017, 4, 25);
+
+        Assert.assertEquals("20170525", DateUtil.getFmtFromDate(cal.getTime(), "yyyyMMdd"));
+        Assert.assertEquals("2017-05-25", DateUtil.getFmtFromDate(cal.getTime(), "yyyy-MM-dd"));
+    }
+
+
 }
