@@ -19,7 +19,7 @@
 package org.ibankapp.base.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.ibankapp.base.exception.BaseException;
+import org.ibankapp.base.validation.exception.BaseValidationException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -114,13 +114,12 @@ public class IdentifierValidation {
 
         code = code.trim();
 
-        if (code.length() != 17)
-        {
-            throw new BaseException("E-BASE-000005", "号码长度错误");
+        if (code.length() != 17) {
+            throw new BaseValidationException("E-BASE-VALIDATION-000001", "号码长度错误");
         }
 
         if (!StringUtils.isNumeric(code)) {
-            throw new BaseException("E-BASE-000005", "号码包含非数字字符");
+            throw new BaseValidationException("E-BASE-VALIDATION-000001", "号码包含非数字字符");
         }
 
         int[] wi = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
@@ -144,7 +143,7 @@ public class IdentifierValidation {
         code = code.trim().toUpperCase();
 
         if (code.length() != 8) {
-            throw new BaseException("E-BASE-000005", "号码长度错误");
+            throw new BaseValidationException("E-BASE-VALIDATION-000001", "号码长度错误");
         }
 
         int[] wi = {3, 7, 9, 10, 5, 8, 4, 2};
@@ -164,7 +163,7 @@ public class IdentifierValidation {
                 }
             }
             if (ci == 37) {
-                throw new BaseException("E-BASE-000006", "号码中");
+                throw new BaseValidationException("E-BASE-VALIDATION-000002", "号码中");
             }
             sum += wi[i] * ci;
         }
@@ -189,7 +188,7 @@ public class IdentifierValidation {
         code = code.trim();
 
         if (code.length() != 17) {
-            throw new BaseException("E-BASE-000005", "号码长度错误");
+            throw new BaseValidationException("E-BASE-VALIDATION-000001", "号码长度错误");
         }
 
         int[] wi = {1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28};
@@ -208,7 +207,7 @@ public class IdentifierValidation {
                 }
             }
             if (ci == 32) {
-                throw new BaseException("E-BASE-000006", "号码中");
+                throw new BaseValidationException("E-BASE-VALIDATION-000002", "号码中");
             }
             sum += wi[i] * ci;
         }

@@ -11,6 +11,7 @@ package org.ibankapp.base.persistence.validation.validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.ibankapp.base.exception.BaseException;
+import org.ibankapp.base.persistence.BasePersistenceException;
 import org.ibankapp.base.persistence.domain.EntityInformation;
 import org.ibankapp.base.persistence.validation.constraint.Unique;
 import org.ibankapp.base.persistence.validation.constraint.Uniques;
@@ -80,7 +81,7 @@ public class UniqueValidator {
             int count = em.createQuery(c).getResultList().size();
 
             if (count != 0) {
-                throw new BaseException("E-BASE-000008", unique.message());
+                throw new BasePersistenceException("E-BASE-PERSISTENCE-000001", unique.message());
             }
         }
     }
