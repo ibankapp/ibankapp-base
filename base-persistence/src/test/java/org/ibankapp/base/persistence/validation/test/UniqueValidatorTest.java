@@ -65,7 +65,7 @@ public class UniqueValidatorTest {
 
     @Test
     @Transactional
-    public void testRepositoryUniqueValidate() {
+    public void testRepositoryUniqueValidateException() {
 
         thrown.expect(BasePersistenceException.class);
         thrown.expectMessage("唯一约束校验失败,姓名重复");
@@ -78,6 +78,21 @@ public class UniqueValidatorTest {
         model = new TestModel();
         model.setId("bbbb");
         model.setName("test1");
+        repository.uniqueValidate(model);
+    }
+
+    @Test
+    @Transactional
+    public void testRepositoryUniqueValidate() {
+
+        TestModel model = new TestModel();
+        model.setId("aaaa");
+        model.setName("test1");
+        repository.persist(model);
+
+        model = new TestModel();
+        model.setId("bbbb");
+        model.setName("test2");
         repository.uniqueValidate(model);
     }
 
