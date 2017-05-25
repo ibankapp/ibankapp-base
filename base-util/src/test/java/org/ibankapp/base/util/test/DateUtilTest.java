@@ -11,17 +11,19 @@ package org.ibankapp.base.util.test;
 
 import org.ibankapp.base.util.DateUtil;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.modules.junit4.rule.PowerMockRule;
 
 import java.util.Calendar;
 import java.util.Date;
 
-@RunWith(PowerMockRunner.class)
 public class DateUtilTest {
+
+    @Rule
+    public PowerMockRule rule = new PowerMockRule();
 
     @Test
     public void testNewDateUtil() {
@@ -32,8 +34,9 @@ public class DateUtilTest {
     @PrepareForTest(DateUtil.class)
     public void testFmtCurrentDate() throws Exception {
 
+
         Calendar cal = Calendar.getInstance();
-        cal.set(2017, 4, 24);
+        cal.set(2017, Calendar.MAY, 24);
 
         PowerMockito.whenNew(Date.class).withNoArguments().thenReturn(cal.getTime());
 
@@ -45,7 +48,7 @@ public class DateUtilTest {
     public void testGetFmtFromDate() {
 
         Calendar cal = Calendar.getInstance();
-        cal.set(2017, 4, 25);
+        cal.set(2017, Calendar.MAY, 25);
 
         Assert.assertEquals("20170525", DateUtil.getFmtFromDate(cal.getTime(), "yyyyMMdd"));
         Assert.assertEquals("2017-05-25", DateUtil.getFmtFromDate(cal.getTime(), "yyyy-MM-dd"));
