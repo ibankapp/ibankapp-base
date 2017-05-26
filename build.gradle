@@ -18,7 +18,7 @@ subprojects {
 //    apply plugin: 'jacoco'
 
     sourceCompatibility = 1.8
-    
+
     configurations {
         jacoco
         jacocoRuntime
@@ -70,102 +70,102 @@ subprojects {
                     }
                 }
                 html(destdir: buildDir.path + '/reports/jacoco')
+                xml(destfile:buildDir.path + '/reports/jacoco/jacocoTestReport.xml')
             }
         }
+    }
 
+    repositories {
+        mavenCentral()
+    }
 
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+        }
+    }
 
-        repositories {
-            mavenCentral()
+    if (this.hasProperty('ossrhUsername')) {
+
+        apply plugin: 'signing'
+
+        task javadocJar(type: Jar) {
+            classifier = 'javadoc'
+            from javadoc
         }
 
-        gradle.projectsEvaluated {
-            tasks.withType(JavaCompile) {
-                options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-            }
+        task sourcesJar(type: Jar) {
+            classifier = 'sources'
+            from sourceSets.main.allSource
         }
 
-        if (this.hasProperty('ossrhUsername')) {
+        artifacts {
+            archives javadocJar, sourcesJar
+        }
 
-            apply plugin: 'signing'
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
-            task javadocJar(type: Jar) {
-                classifier = 'javadoc'
-                from javadoc
-            }
+                    repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
+                    }
 
-            task sourcesJar(type: Jar) {
-                classifier = 'sources'
-                from sourceSets.main.allSource
-            }
+                    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+                        authentication(userName: ossrhUsername, password: ossrhPassword)
+                    }
 
-            artifacts {
-                archives javadocJar, sourcesJar
-            }
+                    pom.project {
+                        name 'ibankapp Base'
+                        packaging 'jar'
+                        // optionally artifactId can be defined here
+                        description 'the base moudle of ibankapp series'
+                        url 'http://www.ibankapp.org'
 
-            uploadArchives {
-                repositories {
-                    mavenDeployer {
-                        beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-                        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                            authentication(userName: ossrhUsername, password: ossrhPassword)
+                        scm {
+                            connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
+                            developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
+                            url 'https://github.com/ibankapp/ibankapp-base/tree/master'
                         }
 
-                        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-                            authentication(userName: ossrhUsername, password: ossrhPassword)
+                        licenses {
+                            license {
+                                name 'The Apache License, Version 2.0'
+                                url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                            }
                         }
 
-                        pom.project {
-                            name 'ibankapp Base'
-                            packaging 'jar'
-                            // optionally artifactId can be defined here
-                            description 'the base moudle of ibankapp series'
-                            url 'http://www.ibankapp.org'
-
-                            scm {
-                                connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
-                                developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
-                                url 'https://github.com/ibankapp/ibankapp-base/tree/master'
+                        developers {
+                            developer {
+                                id 'codelder'
+                                name 'dawndew'
+                                email 'codelder@ibankapp.org'
                             }
-
-                            licenses {
-                                license {
-                                    name 'The Apache License, Version 2.0'
-                                    url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                                }
-                            }
-
-                            developers {
-                                developer {
-                                    id 'codelder'
-                                    name 'dawndew'
-                                    email 'codelder@ibankapp.org'
-                                }
-                                developer {
-                                    id 'esailor'
-                                    name 'esailor'
-                                    email 'liulj@ibankapp.org'
-                                }
+                            developer {
+                                id 'esailor'
+                                name 'esailor'
+                                email 'liulj@ibankapp.org'
                             }
                         }
                     }
                 }
             }
-
-            signing {
-                sign configurations.archives
-
-            }
         }
 
-//        jacocoTestReport {
-//            reports {
-//                xml.enabled = true
-//                html.enabled = true
-//            }
-//        }
+        signing {
+            sign configurations.archives
 
-        check.dependsOn report
+        }
     }
+
+//    jacocoTestReport {
+//        reports {
+//            xml.enabled = true
+//            html.enabled = true
+//        }
+//    }
+
+    check.dependsOn report
+
 }
