@@ -82,7 +82,7 @@ public class Jaxb2UtilTest {
         @XmlElement
         private String phone;
 
-        public Person getPerson() {
+        Person getPerson() {
             return person;
         }
 
@@ -90,7 +90,7 @@ public class Jaxb2UtilTest {
             this.person = person;
         }
 
-        public String getPhone() {
+        String getPhone() {
             return phone;
         }
 
