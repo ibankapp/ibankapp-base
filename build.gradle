@@ -15,12 +15,71 @@ subprojects {
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    apply plugin: 'jacoco'
+//    apply plugin: 'jacoco'
 
     sourceCompatibility = 1.8
 
+    configurations {
+        jacoco
+        jacocoRuntime
+    }
+
+    dependencies {
+        jacoco group: 'org.jacoco', name: 'org.jacoco.ant', version: '0.7.9', classifier: 'nodeps'
+        jacocoRuntime group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.7.9', classifier: 'runtime'
+    }
+
+    task instrument(dependsOn: ['classes']) {
+        ext.outputDir = buildDir.path + '/classes-instrumented'
+        doLast {
+            ant.taskdef(name: 'instrument',
+                    classname: 'org.jacoco.ant.InstrumentTask',
+                    classpath: configurations.jacoco.asPath)
+            ant.instrument(destdir: outputDir) {
+                fileset(dir: sourceSets.main.output.classesDir)
+            }
+        }
+    }
+
+    gradle.taskGraph.whenReady { graph ->
+        if (graph.hasTask(instrument)) {
+            tasks.withType(Test) {
+                doFirst {
+                    systemProperty 'jacoco-agent.destfile', buildDir.path + '/jacoco/tests.exec'
+                    classpath = files(instrument.outputDir) + classpath + configurations.jacocoRuntime
+                }
+            }
+        }
+    }
+
+    task report(dependsOn: ['instrument', 'test']) {
+        doLast {
+            ant.taskdef(name: 'report',
+                    classname: 'org.jacoco.ant.ReportTask',
+                    classpath: configurations.jacoco.asPath)
+            ant.report() {
+                executiondata {
+                    ant.file(file: buildDir.path + '/jacoco/tests.exec')
+                }
+                structure(name: 'Example') {
+                    classfiles {
+                        fileset(dir: sourceSets.main.output.classesDir)
+                    }
+                    sourcefiles {
+                        fileset(dir: 'src/main/java')
+                    }
+                }
+                html(destdir: buildDir.path + '/reports/jacoco')
+                xml(destfile:buildDir.path + '/reports/jacoco/jacocoTestReport.xml')
+            }
+        }
+    }
+
     repositories {
         mavenCentral()
+        maven {
+            url "https://oss.sonatype.org/content/groups/public"
+        }
     }
 
     gradle.projectsEvaluated {
@@ -103,13 +162,13 @@ subprojects {
         }
     }
 
-    jacocoTestReport {
-        reports {
-            xml.enabled = true
-            html.enabled = true
-        }
-    }
+//    jacocoTestReport {
+//        reports {
+//            xml.enabled = true
+//            html.enabled = true
+//        }
+//    }
 
-    check.dependsOn jacocoTestReport
+    check.dependsOn report
 
 }
