@@ -9,11 +9,13 @@
 
 package org.ibankapp.base.util;
 
+import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 /**
  * JAXB2应用类
@@ -38,6 +40,16 @@ public class Jaxb2Util {
         marshaller.marshal(obj, writer);
 
         return writer.toString();
+
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T converyToJavaBean(String xml, Class<T> c) throws JAXBException {
+
+        JAXBContext context = JAXBContext.newInstance(c);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+
+        return  (T) unmarshaller.unmarshal(new StringReader(xml));
 
     }
 
