@@ -54,6 +54,25 @@ public class Jaxb2UtilTest {
                 "</testBean>\n", xml);
     }
 
+    @Test
+    public void testConvertToJavaBean() throws JAXBException {
+
+        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>\n" +
+                "<testBean>\n" +
+                "    <person>\n" +
+                "        <age>35</age>\n" +
+                "        <name>&#24352;&#19977;</name>\n" +
+                "    </person>\n" +
+                "    <phone>12345678</phone>\n" +
+                "</testBean>\n";
+
+        TestBean bean = Jaxb2Util.converyToJavaBean(xml,TestBean.class);
+
+        Assert.assertEquals(35,bean.getPerson().getAge());
+        Assert.assertEquals("张三",bean.getPerson().getName());
+        Assert.assertEquals("12345678",bean.getPhone());
+    }
+
     @XmlRootElement
     private static class TestBean {
 
@@ -85,6 +104,10 @@ public class Jaxb2UtilTest {
         private String name;
 
         private int age;
+
+        Person(){
+
+        }
 
         Person(String name, int age) {
             this.name = name;
