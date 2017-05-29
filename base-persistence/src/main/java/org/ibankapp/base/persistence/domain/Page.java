@@ -14,33 +14,32 @@ import java.util.List;
 public class Page<T> {
 
     /**
-     * PAGESIZE 默认每页显示20行
+     * 默认每页显示20行
      */
-    public final static int PAGESIZE = 20;
+    private final static int PAGESIZE = 20;
 
     /**
-     * pageSize 页面大小
+     * 页面大小
      */
     private int pageSize = PAGESIZE;
 
     /**
-     * items 查询结果列表
+     * 查询结果列表
      */
     private List<T> items; // 查询结果
 
     /**
-     * totalCount 记录的总数
+     * 记录的总数
      */
     private long totalCount; // 记录的总数
 
     /**
-     * currentIndex  当前页数
+     * 当前页数
      */
     private int currentIndex = 0; // 开始页数
 
     /**
-     * Title: Page
-     * Description: 构造函数
+     * 构造函数
      *
      * @param items      查询结果列表
      * @param totalCount 记录的总数
@@ -50,8 +49,7 @@ public class Page<T> {
     }
 
     /**
-     * Title: Page
-     * Description: 构造函数
+     * 构造函数
      *
      * @param items        查询结果列表
      * @param totalCount   记录的总数
@@ -62,8 +60,7 @@ public class Page<T> {
     }
 
     /**
-     * Title: Page
-     * Description: 构造函数
+     * 构造函数
      *
      * @param items        查询结果列表
      * @param totalCount   记录的总数
@@ -78,8 +75,7 @@ public class Page<T> {
     }
 
     /**
-     * Title: getItems
-     * Description:  获取查询结果列表
+     * 获取查询结果列表
      *
      * @return 查询结果列表
      */
@@ -88,18 +84,16 @@ public class Page<T> {
     }
 
     /**
-     * Title: setItems
-     * Description:  设置查询结果列表
+     * 设置查询结果列表
      *
      * @param items 查询结果列表
      */
-    public void setItems(List<T> items) {
+    private void setItems(List<T> items) {
         this.items = items;
     }
 
     /**
-     * Title: getPageSize
-     * Description:  获取页面大小
+     * 获取页面大小
      *
      * @return 页面大小
      */
@@ -108,18 +102,16 @@ public class Page<T> {
     }
 
     /**
-     * Title: setPageSize
-     * Description:  设置页面大小
+     * 设置页面大小
      *
      * @param pageSize 页面大小
      */
-    public void setPageSize(int pageSize) {
+    private void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
     /**
-     * Title: getTotalCount
-     * Description:  获取记录的总数
+     * 获取记录的总数
      *
      * @return 记录的总数
      */
@@ -128,8 +120,7 @@ public class Page<T> {
     }
 
     /**
-     * Title: setTotalCount
-     * Description:  设置记录的总数，同时更新页号数组
+     * 设置记录的总数，同时更新页号数组
      *
      * @param totalCount 记录的总数
      */
@@ -142,8 +133,7 @@ public class Page<T> {
     }
 
     /**
-     * Title: getCurrentIndex
-     * Description:  获取当前页数
+     * 获取当前页数
      *
      * @return 当前页数
      */
@@ -152,9 +142,7 @@ public class Page<T> {
     }
 
     /**
-     * Title: setCurrentIndex
-     * Description:  设置开始页数，如果无记录，设置为-1，否则，如果参数大于页面总数，则设置为最大页数，小于0则设置为0，
-     * 其余设置为参数值
+     * 设置开始页数，如果无记录，设置为-1，否则，如果参数大于页面总数，则设置为最大页数，小于0则设置为0，其余设置为参数值
      *
      * @param index 开始页数
      */
