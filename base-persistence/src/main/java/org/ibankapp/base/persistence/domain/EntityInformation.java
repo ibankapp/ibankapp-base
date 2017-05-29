@@ -22,13 +22,22 @@ import javax.persistence.metamodel.ManagedType;
 import javax.persistence.metamodel.Metamodel;
 import javax.persistence.metamodel.SingularAttribute;
 
+/**
+ * 实体信息类，通过此类的方法可获得实体类的一些静态信息
+ *
+ * @param <T> 实体类
+ */
 public class EntityInformation<T> {
 
     private final IdMetadata<T> idMetadata;
-    private Metamodel metamodel;
     private String entityName;
-    private ManagedType<T> type;
 
+    /**
+     * 构造函数
+     *
+     * @param domainClass 实体类CLASS
+     * @param metamodel   模型元数据,可从jpa的实体管理器EntityManage获取
+     */
     public EntityInformation(Class<T> domainClass, Metamodel metamodel) {
 
         ManagedType<T> type = metamodel.managedType(domainClass);
@@ -38,23 +47,22 @@ public class EntityInformation<T> {
         IdentifiableType<T> identifiableType = (IdentifiableType<T>) type;
 
         this.idMetadata = new IdMetadata<>(identifiableType);
-
-        this.type = type;
-        this.metamodel = metamodel;
     }
 
+    /**
+     * 获取实体类的名称
+     *
+     * @return 实体类名称
+     */
     public String getEntityName() {
         return entityName;
     }
 
-    public ManagedType<T> getType() {
-        return type;
-    }
-
-    public Metamodel getMetamodel() {
-        return metamodel;
-    }
-
+    /**
+     * 获取实体类的id属性列表
+     *
+     * @return id属性列表
+     */
     public Iterable<String> getIdAttributeNames() {
 
         List<String> attributeNames = new ArrayList<>(idMetadata.attributes.size());
@@ -64,13 +72,10 @@ public class EntityInformation<T> {
         return attributeNames;
     }
 
-    public IdMetadata<T> getIdMetadata() {
-        return this.idMetadata;
-    }
-
     private static class IdMetadata<T> {
 
         private final Set<SingularAttribute<? super T, ?>> attributes;
+
 
         @SuppressWarnings("unchecked")
         IdMetadata(IdentifiableType<T> source) {

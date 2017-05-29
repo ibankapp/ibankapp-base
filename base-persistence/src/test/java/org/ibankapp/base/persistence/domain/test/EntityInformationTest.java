@@ -32,10 +32,7 @@ public class EntityInformationTest {
 
         EntityInformation<CompositedModel> entityInformation = new EntityInformation<>(CompositedModel.class, em
                 .getMetamodel());
-        entityInformation.getIdMetadata();
-        entityInformation.getType();
 
-        Assert.assertEquals(em.getMetamodel(), entityInformation.getMetamodel());
         Assert.assertEquals("CompositedModel", entityInformation.getEntityName());
 
         for (String name : entityInformation.getIdAttributeNames()) {

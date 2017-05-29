@@ -19,6 +19,16 @@ subprojects {
 
     sourceCompatibility = 1.8
 
+    javadoc {
+        options {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/8/docs/api"
+        }
+    }
+
     configurations {
         jacoco
         jacocoRuntime
@@ -70,7 +80,7 @@ subprojects {
                     }
                 }
                 html(destdir: buildDir.path + '/reports/jacoco')
-                xml(destfile:buildDir.path + '/reports/jacoco/jacocoTestReport.xml')
+                xml(destfile: buildDir.path + '/reports/jacoco/jacocoTestReport.xml')
             }
         }
     }
