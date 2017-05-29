@@ -7,8 +7,10 @@
  * in the root directory or <http://www.apache.org/licenses/>.
  */
 
-package org.ibankapp.base.exception;
+package org.ibankapp.base.exception.test;
 
+import org.ibankapp.base.exception.BaseException;
+import org.ibankapp.base.exception.PropertyUtil;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
