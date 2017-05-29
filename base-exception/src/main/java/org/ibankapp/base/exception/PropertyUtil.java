@@ -20,7 +20,7 @@ import java.util.Properties;
  * @author codelder
  * @version 1.0.0, 16/09/27
  */
-public class PropertyUtil {
+class PropertyUtil {
 
     /**
      * 属性文件对象
@@ -32,7 +32,7 @@ public class PropertyUtil {
      *
      * @param name 文件路径及名称
      */
-    public static void load(String name) {
+    static void load(String name) {
         InputStream is = null;
 
         try {
@@ -58,7 +58,7 @@ public class PropertyUtil {
      * @return 属性value
      * @throws BaseException key为null异常
      */
-    public static String getProperty(String key) {
+    static String getProperty(String key) {
 
         if (key == null) {
             throw new BaseException("E-BASE-000002");
@@ -75,7 +75,7 @@ public class PropertyUtil {
      * @param appendMsg 插值
      * @return 属性value
      */
-    public static String getProperty(String key, String appendMsg) {
+    static String getProperty(String key, String appendMsg) {
         String property = getProperty(key);
 
         if (appendMsg != null) {
@@ -92,7 +92,7 @@ public class PropertyUtil {
      * @param appendMsgs 插值数组
      * @return 属性value
      */
-    public static String getProperty(String key, String[] appendMsgs) {
+    static String getProperty(String key, String[] appendMsgs) {
         String property = getProperty(key);
 
         if (appendMsgs != null) {
@@ -110,7 +110,7 @@ public class PropertyUtil {
      * @param appendMsg1 插值2
      * @return 属性value
      */
-    public static String getProperty(String key, String appendMsg, String appendMsg1) {
+    static String getProperty(String key, String appendMsg, String appendMsg1) {
         String property = getProperty(key);
 
         if (property == null) {

@@ -10,7 +10,7 @@
 package org.ibankapp.base.exception;
 
 /**
- * 异常处理类
+ * 异常处理基类
  */
 public class BaseException extends RuntimeException {
 
@@ -104,6 +104,7 @@ public class BaseException extends RuntimeException {
      *
      * @return 完整错误信息
      */
+    @Override
     public String getMessage() {
         return this.message;
     }

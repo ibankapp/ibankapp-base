@@ -57,11 +57,11 @@ public class Jaxb2UtilTest {
     @Test
     public void testConvertToJavaBean() throws JAXBException {
 
-        String xml = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\" standalone=\"yes\"?>\n" +
+        String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
                 "<testBean>\n" +
                 "    <person>\n" +
                 "        <age>35</age>\n" +
-                "        <name>&#24352;&#19977;</name>\n" +
+                "        <name>张三</name>\n" +
                 "    </person>\n" +
                 "    <phone>12345678</phone>\n" +
                 "</testBean>\n";
