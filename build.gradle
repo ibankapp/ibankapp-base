@@ -20,6 +20,11 @@ subprojects {
     sourceCompatibility = 1.6
     targetCompatibility = 1.6
 
+    def bootClasspathStr = "/jre/lib/rt.jar"
+    project.tasks.withType(AbstractCompile, { AbstractCompile ac ->
+        ac.options.bootClasspath = bootClasspathStr // options is always there but not defined on AbstractCompile so going to hit it anyway
+    })
+
     javadoc {
         options {
             encoding "UTF-8"
