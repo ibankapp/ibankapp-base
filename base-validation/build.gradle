@@ -6,7 +6,7 @@ dependencies {
     testCompile 'junit:junit:4.11'
 //    testCompile 'com.zaxxer:HikariCP:2.5.1'
 //    testCompile 'com.h2database:h2:1.4.192'
-    testCompile 'org.springframework:spring-test:4.2.8.RELEASE'
+//    testCompile 'org.springframework:spring-test:4.2.8.RELEASE'
     testCompile 'javax.el:javax.el-api:2.2.4'
 //    testCompile 'org.hibernate:hibernate-core:5.1.0.Final'
 //    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
