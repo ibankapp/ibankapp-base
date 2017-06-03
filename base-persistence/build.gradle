@@ -7,7 +7,7 @@ dependencies {
     compile project(":base-validation")
     testCompile group: 'log4j', name: 'log4j', version: '1.2.17'
     testCompile 'junit:junit:4.11'
-    testCompile 'com.zaxxer:HikariCP:2.5.1'
+    testCompile 'com.zaxxer:HikariCP:2.4.7'
     testCompile 'com.h2database:h2:1.4.192'
     testCompile 'org.springframework:spring-test:4.2.8.RELEASE'
     testCompile 'org.springframework:spring-context:4.2.8.RELEASE'
