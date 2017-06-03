@@ -27,6 +27,6 @@ public class NameDistinctSpecification implements Specification<SimpleModel> {
     @Override
     public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         query.distinct(true);
-        return cb.like(root.get("name"), "%" + name + "%");
+        return cb.like(root.<String>get("name"), "%" + name + "%");
     }
 }

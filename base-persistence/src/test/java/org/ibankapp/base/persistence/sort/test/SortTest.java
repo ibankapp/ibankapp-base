@@ -9,7 +9,6 @@ import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SortTest {
 
@@ -42,7 +41,7 @@ public class SortTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You have to provide at least one sort property to sort by");
 
-        List<Sort.Order> orders = new ArrayList<>();
+        List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
         new Sort(orders);
     }
@@ -59,8 +58,8 @@ public class SortTest {
     @Test
     public void testNullSort2() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one property to sort by");
+        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("You have to provide at least one property to sort by");
 
         new Sort(Sort.Direction.ASC, (String[]) null);
     }
@@ -71,7 +70,7 @@ public class SortTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You have to provide at least one property to sort by");
 
-        new Sort(Sort.Direction.ASC, new ArrayList<>());
+        new Sort(Sort.Direction.ASC, new ArrayList<String>());
     }
 
     @Test

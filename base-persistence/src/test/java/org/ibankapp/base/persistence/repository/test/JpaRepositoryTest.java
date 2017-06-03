@@ -71,7 +71,7 @@ public class JpaRepositoryTest {
         model1.setId("1");
         model1.setName("name1");
 
-        List<SimpleModel> models = new ArrayList<>();
+        List<SimpleModel> models = new ArrayList<SimpleModel>();
         models.add(model);
         models.add(model1);
 
@@ -92,7 +92,7 @@ public class JpaRepositoryTest {
         model2.setId("2");
         model2.setName("name2");
 
-        List<SimpleModel> models = new ArrayList<>();
+        List<SimpleModel> models = new ArrayList<SimpleModel>();
         models.add(model);
         models.add(model1);
         models.add(model2);
@@ -219,7 +219,7 @@ public class JpaRepositoryTest {
         model1.setId("2");
         model1.setName("name3");
 
-        List<SimpleModel> models = new ArrayList<>();
+        List<SimpleModel> models = new ArrayList<SimpleModel>();
         models.add(model);
         models.add(model1);
 
@@ -374,7 +374,7 @@ public class JpaRepositoryTest {
         persistThree();
 
 
-        Map<String, Object> hints = new HashMap<>();
+        Map<String, Object> hints = new HashMap<String, Object>();
         hints.put("org.hibernate.comment", "test hints");
 
         List<SimpleModel> models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE,
@@ -382,7 +382,7 @@ public class JpaRepositoryTest {
 
         Assert.assertEquals(3, models.size());
 
-        hints = new HashMap<>();
+        hints = new HashMap<String, Object>();
 
         models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE,
                 hints);
@@ -398,7 +398,7 @@ public class JpaRepositoryTest {
         List<SimpleModel> models = repository.findAll(SimpleModel.class, null, false);
         Assert.assertEquals(0, models.size());
 
-        List<String> ids = new ArrayList<>();
+        List<String> ids = new ArrayList<String>();
 
         models = repository.findAll(SimpleModel.class, ids, false);
         Assert.assertEquals(0, models.size());
@@ -412,7 +412,7 @@ public class JpaRepositoryTest {
         models = repository.findAll(SimpleModel.class, ids, true);
         Assert.assertEquals(2, models.size());
 
-        ids = new ArrayList<>();
+        ids = new ArrayList<String>();
 
         ids.add("1");
         ids.add("4");
@@ -423,7 +423,7 @@ public class JpaRepositoryTest {
         models = repository.findAll(SimpleModel.class, ids, false);
         Assert.assertEquals(1, models.size());
 
-        ids = new ArrayList<>();
+        ids = new ArrayList<String>();
 
         ids.add("3");
         ids.add("4");
@@ -455,7 +455,7 @@ public class JpaRepositoryTest {
         model2.setId(id3);
         model2.setName("name2");
 
-        List<CompositeModel> models = new ArrayList<>();
+        List<CompositeModel> models = new ArrayList<CompositeModel>();
         models.add(model);
         models.add(model1);
         models.add(model2);
@@ -472,7 +472,7 @@ public class JpaRepositoryTest {
         CompositeId id1 = new CompositeId("0", "0");
         CompositeId id2 = new CompositeId("0", "1");
 
-        List<CompositeId> ids = new ArrayList<>();
+        List<CompositeId> ids = new ArrayList<CompositeId>();
         ids.add(id1);
         ids.add(id2);
 
@@ -485,7 +485,7 @@ public class JpaRepositoryTest {
         id1 = new CompositeId("0", "0");
         id2 = new CompositeId("1", "1");
 
-        ids = new ArrayList<>();
+        ids = new ArrayList<CompositeId>();
         ids.add(id1);
         ids.add(id2);
 
@@ -545,7 +545,7 @@ public class JpaRepositoryTest {
     public void testDeletes() {
         persistThree();
 
-        List<String> ids = new ArrayList<>();
+        List<String> ids = new ArrayList<String>();
 
         ids.add("0");
         ids.add("1");
@@ -603,8 +603,8 @@ public class JpaRepositoryTest {
         page.setCurrentIndex(-1);
         Assert.assertEquals(0, page.getCurrentIndex());
 
-        new Page<>(page.getItems(), page.getTotalCount());
-        new Page<>(page.getItems(), page.getTotalCount(), 0);
+        new Page<SimpleModel>(page.getItems(), page.getTotalCount());
+        new Page<SimpleModel>(page.getItems(), page.getTotalCount(), 0);
 
         page.setTotalCount(-1);
 

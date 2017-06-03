@@ -46,7 +46,7 @@ public class IdentifierValidation {
             return false;
         }
 
-        Set<String> zones = new HashSet<>();
+        Set<String> zones = new HashSet<String>();
 
         Collections.addAll(zones, "11", "12", "13", "14", "15", "21", "22", "23", "31", "32", "33",
                 "34", "35", "36", "37", "41", "42", "43", "44", "45", "46", "50", "51", "52", "53",
@@ -88,7 +88,7 @@ public class IdentifierValidation {
             return false;
         }
 
-        Set<Character> set = new HashSet<>();
+        Set<Character> set = new HashSet<Character>();
 
         Collections.addAll(set, '1', '5', '9', 'Y');
 
@@ -96,7 +96,7 @@ public class IdentifierValidation {
             return false;
         }
 
-        set = new HashSet<>();
+        set = new HashSet<Character>();
         if (uscic.charAt(0) == '1' || uscic.charAt(0) == '5') {
             Collections.addAll(set, '1', '2', '3', '9');
         } else if (uscic.charAt(0) == '9') {

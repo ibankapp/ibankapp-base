@@ -22,7 +22,7 @@ public class QueryUtils {
 
     public static List<Order> toOrders(Sort sort, Root<?> root, CriteriaBuilder cb) {
 
-        List<javax.persistence.criteria.Order> orders = new ArrayList<>();
+        List<javax.persistence.criteria.Order> orders = new ArrayList<Order>();
 
         if (sort == null) {
             return orders;

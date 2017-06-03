@@ -18,7 +18,7 @@ import java.util.Set;
 
 class Consumer implements EventConsumer {
 
-    private Set<String> messages = new HashSet<>();
+    private Set<String> messages = new HashSet<String>();
 
     @Override
     public void onEvent(Event event) {

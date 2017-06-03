@@ -40,7 +40,7 @@ public class EventRegisterTest {
 
         Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
 
-        Vector<EventConsumer> consumers = new Vector<>();
+        Vector<EventConsumer> consumers = new Vector<EventConsumer>();
         consumers.add(consumer);
         consumers.add(secondConsumer);
 
@@ -54,7 +54,7 @@ public class EventRegisterTest {
 
         Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
 
-        Vector<EventConsumer> consumers = new Vector<>();
+        Vector<EventConsumer> consumers = new Vector<EventConsumer>();
         consumers.add(secondConsumer);
 
         Assert.assertEquals(consumers, listeners.get(DemoEvent.class));
@@ -75,7 +75,7 @@ public class EventRegisterTest {
 
         Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
 
-        Vector<EventConsumer> consumers = new Vector<>();
+        Vector<EventConsumer> consumers = new Vector<EventConsumer>();
         consumers.add(consumer);
 
         Assert.assertNull(listeners.get(DemoEvent.class));

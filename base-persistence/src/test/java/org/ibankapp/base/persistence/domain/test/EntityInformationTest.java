@@ -30,7 +30,7 @@ public class EntityInformationTest {
     @Test
     public void testNewEntityInformation() {
 
-        EntityInformation<CompositedModel> entityInformation = new EntityInformation<>(CompositedModel.class, em
+        EntityInformation<CompositedModel> entityInformation = new EntityInformation<CompositedModel>(CompositedModel.class, em
                 .getMetamodel());
 
         Assert.assertEquals("CompositedModel", entityInformation.getEntityName());

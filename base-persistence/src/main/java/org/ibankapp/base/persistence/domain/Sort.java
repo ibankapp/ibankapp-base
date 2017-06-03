@@ -42,7 +42,9 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
     }
 
     public Sort(Direction direction, String... properties) {
-        this(direction, properties == null ? new ArrayList<>() : Arrays.asList(properties));
+
+        this(direction, Arrays.asList(properties));
+//        this(direction, properties == null ? new ArrayList<Object>() : Arrays.asList(properties));
     }
 
     public Sort(Direction direction, List<String> properties) {
@@ -51,7 +53,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             throw new IllegalArgumentException("You have to provide at least one property to sort by!");
         }
 
-        this.orders = new ArrayList<>(properties.size());
+        this.orders = new ArrayList<Order>(properties.size());
 
         for (String property : properties) {
             this.orders.add(new Order(direction, property));
@@ -64,7 +66,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             return this;
         }
 
-        ArrayList<Order> these = new ArrayList<>(this.orders);
+        ArrayList<Order> these = new ArrayList<Order>(this.orders);
 
         for (Order order : sort) {
             these.add(order);
