@@ -23,17 +23,17 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TEST_MODELWITHINHERITEDUNIQUES")
+@Table(name = "TEST_MODELWITHINHERITEDUNIQUES")
 public class TestModelWithInheritedUniques extends TestModelWithUniques {
 
-    private String no;
+    private String number;
 
     @Column
-    public String getNo() {
-        return no;
+    public String getNumber() {
+        return number;
     }
 
-    public void setNo(String type) {
-        this.no = no;
+    public void setNumber(String type) {
+        this.number = number;
     }
 }
