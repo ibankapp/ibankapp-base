@@ -38,7 +38,7 @@ public class PropertyUtil {
         try {
             is = Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
             props.load(is);
-        } catch (NullPointerException | IOException e) {
+        } catch (Exception e) {
             throw new BaseException().initCause(e);
         } finally {
             try {

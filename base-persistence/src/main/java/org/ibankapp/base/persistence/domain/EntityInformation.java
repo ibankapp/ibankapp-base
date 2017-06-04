@@ -9,18 +9,11 @@
 
 package org.ibankapp.base.persistence.domain;
 
+import javax.persistence.metamodel.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.persistence.metamodel.Attribute;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.IdentifiableType;
-import javax.persistence.metamodel.ManagedType;
-import javax.persistence.metamodel.Metamodel;
-import javax.persistence.metamodel.SingularAttribute;
 
 /**
  * 实体信息类，通过此类的方法可获得实体类的一些静态信息
@@ -46,7 +39,7 @@ public class EntityInformation<T> {
 
         IdentifiableType<T> identifiableType = (IdentifiableType<T>) type;
 
-        this.idMetadata = new IdMetadata<>(identifiableType);
+        this.idMetadata = new IdMetadata<T>(identifiableType);
     }
 
     /**
@@ -65,9 +58,12 @@ public class EntityInformation<T> {
      */
     public Iterable<String> getIdAttributeNames() {
 
-        List<String> attributeNames = new ArrayList<>(idMetadata.attributes.size());
+        List<String> attributeNames = new ArrayList<String>(idMetadata.attributes.size());
 
-        attributeNames.addAll(idMetadata.attributes.stream().map(Attribute::getName).collect(Collectors.toList()));
+        for (SingularAttribute attribute : idMetadata.attributes) {
+            attributeNames.add(attribute.getName());
+        }
+//        attributeNames.addAll(idMetadata.attributes.stream().map(Attribute::getName).collect(Collectors.toList()));
 
         return attributeNames;
     }

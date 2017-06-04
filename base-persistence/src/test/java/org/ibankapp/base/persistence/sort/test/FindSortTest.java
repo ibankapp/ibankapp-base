@@ -142,7 +142,7 @@ public class FindSortTest {
         Sort.Order order1 = new Sort.Order("name");
         Sort.Order order2 = new Sort.Order(Sort.Direction.DESC,"age");
 
-        List<Sort.Order> orders = new ArrayList<>();
+        List<Sort.Order> orders = new ArrayList<Sort.Order>();
         orders.add(order1);
         orders.add(order2);
 

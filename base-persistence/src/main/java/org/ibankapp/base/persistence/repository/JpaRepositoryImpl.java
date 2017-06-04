@@ -66,7 +66,7 @@ public class JpaRepositoryImpl implements JpaRepository {
     @Override
     public <T> List<T> persist(Iterable<T> entities) {
 
-        List<T> result = new ArrayList<>();
+        List<T> result = new ArrayList<T>();
 
         if (entities == null) {
             return result;
@@ -82,7 +82,7 @@ public class JpaRepositoryImpl implements JpaRepository {
     @Override
     public <T> List<T> merge(Iterable<T> entities) {
 
-        List<T> result = new ArrayList<>();
+        List<T> result = new ArrayList<T>();
 
         if (entities == null) {
             return result;
@@ -149,15 +149,20 @@ public class JpaRepositoryImpl implements JpaRepository {
         long totalCount = count(entityClass, spec);
 
         if (pageable == null) {
-            return new Page<>(query.getResultList(), totalCount);
+            return new Page<T>(query.getResultList(), totalCount);
         }
 
         query.setFirstResult(pageable.getOffset());
         query.setMaxResults(pageable.getSize());
 
+        if (totalCount > pageable.getOffset()) {
+            return new Page<T>(query.getResultList(), totalCount, pageable.getSize(), pageable.getPage());
+        } else {
+            return new Page<T>(new ArrayList<T>(), totalCount, pageable.getSize(), pageable.getPage());
+        }
 
-        return new Page<>(totalCount > pageable.getOffset() ? query.getResultList() : Collections.emptyList(),
-                totalCount, pageable.getSize(), pageable.getPage());
+//        return new Page<>(totalCount > pageable.getOffset() ? query.getResultList() : Collections.emptyList(),
+//                totalCount, pageable.getSize(), pageable.getPage());
     }
 
     @Override
@@ -224,7 +229,7 @@ public class JpaRepositoryImpl implements JpaRepository {
         }
 
         if (!isBatch) {
-            List<T> results = new ArrayList<>();
+            List<T> results = new ArrayList<T>();
 
             for (Serializable id : ids) {
                 T entity = findOne(entityClass, id);
@@ -235,7 +240,7 @@ public class JpaRepositoryImpl implements JpaRepository {
             return results;
         }
 
-        ByIdsSpecification<T> specification = new ByIdsSpecification<>(em, entityClass);
+        ByIdsSpecification<T> specification = new ByIdsSpecification<T>(em, entityClass);
         TypedQuery<T> query = getQuery(specification, entityClass, null);
 
         return query.setParameter(specification.parameter, ids).getResultList();
@@ -292,7 +297,12 @@ public class JpaRepositoryImpl implements JpaRepository {
     @Override
     public <T> void deleteAll(Class<T> entityClass) {
 
-        findAll(entityClass).forEach(this::delete);
+        List<T> entities = findAll(entityClass);
+
+        for (T entity : entities) {
+            this.delete(entity);
+        }
+//        findAll(entityClass).forEach(this::delete);
     }
 
     @Override

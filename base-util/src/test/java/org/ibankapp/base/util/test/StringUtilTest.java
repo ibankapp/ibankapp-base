@@ -45,7 +45,7 @@ public class StringUtilTest {
         Assert.assertEquals("", StringUtils.collectionToCommaDelimitedString(null));
         Assert.assertEquals("", StringUtils.collectionToCommaDelimitedString(new ArrayList<String>()));
 
-        List<String> strings = new ArrayList<>();
+        List<String> strings = new ArrayList<String>();
         strings.add("abcd");
         strings.add("1234");
 

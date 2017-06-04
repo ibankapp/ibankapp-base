@@ -17,8 +17,15 @@ subprojects {
     apply plugin: 'maven'
 //    apply plugin: 'jacoco'
 
-    sourceCompatibility = 1.8
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
 
+    /*
+    def bootClasspathStr = "/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar"
+    project.tasks.withType(AbstractCompile, { AbstractCompile ac ->
+        ac.options.bootClasspath = bootClasspathStr // options is always there but not defined on AbstractCompile so going to hit it anyway
+    })
+*/
     javadoc {
         options {
             encoding "UTF-8"

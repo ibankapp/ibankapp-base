@@ -38,7 +38,7 @@ public class FireEventTest {
     public void testEvent() {
         producer.doSomething();
         Assert.assertEquals(2,consumer.getMessages().size());
-        Set<String> messages = new HashSet<>();
+        Set<String> messages = new HashSet<String>();
         messages.add("send a message");
         messages.add("send second message");
 

@@ -39,7 +39,7 @@ public class UniqueValidator {
 
         Iterable<String> idAttributeNames = ei.getIdAttributeNames();
 
-        List<Unique> uniqueList = new ArrayList<>();
+        List<Unique> uniqueList = new ArrayList<Unique>();
 
         if (bean.getClass().isAnnotationPresent(Uniques.class)) {
             Uniques uniques = bean.getClass().getAnnotation(Uniques.class);

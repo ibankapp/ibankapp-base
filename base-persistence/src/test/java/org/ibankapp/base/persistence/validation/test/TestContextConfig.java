@@ -9,13 +9,11 @@
 
 package org.ibankapp.base.persistence.validation.test;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import org.ibankapp.base.persistence.repository.JpaRepository;
 import org.ibankapp.base.persistence.repository.JpaRepositoryImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.SimpleDriverDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -32,11 +30,12 @@ public class TestContextConfig {
 
     @Bean
     DataSource dataSource() {
-        HikariConfig dataSourceConfig = new HikariConfig();
-        dataSourceConfig.setDriverClassName("org.h2.Driver");
-        dataSourceConfig.setJdbcUrl("jdbc:h2:mem:ibankapp");
 
-        return new HikariDataSource(dataSourceConfig);
+        SimpleDriverDataSource dataSource = new SimpleDriverDataSource();
+        dataSource.setDriverClass(org.apache.derby.jdbc.EmbeddedDriver.class);
+        dataSource.setUrl("jdbc:derby:memory:ibankapp;create=true");
+
+        return dataSource;
     }
 
     @Bean
@@ -53,7 +52,7 @@ public class TestContextConfig {
         entityManagerFactoryBean.setPackagesToScan("org.ibankapp");
 
         Properties properties = new Properties();
-        properties.put("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
+        properties.put("hibernate.dialect", "org.hibernate.dialect.DerbyDialect");
         properties.put("hibernate.ejb.naming_strategy", "org.hibernate.cfg.ImprovedNamingStrategy");
         properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.show_sql", true);
