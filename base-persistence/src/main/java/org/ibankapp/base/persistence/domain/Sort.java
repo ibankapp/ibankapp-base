@@ -146,15 +146,20 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
     public static class Order implements Serializable {
 
         private static final long serialVersionUID = 1522511010900108987L;
-        private static final boolean DEFAULT_IGNORE_CASE = false;
+//        private static final boolean DEFAULT_IGNORE_CASE = false;
 
         private final Direction direction;
         private final String property;
-        private final boolean ignoreCase;
+//        private final boolean ignoreCase;
 //        private final NullHandling nullHandling;
 
         public Order(Direction direction, String property) {
-            this(direction, property, DEFAULT_IGNORE_CASE);
+            if (!StringUtils.hasText(property)) {
+                throw new IllegalArgumentException("Property must not null or empty!");
+            }
+
+            this.direction = direction == null ? DEFAULT_DIRECTION : direction;
+            this.property = property;
         }
 
 
@@ -162,17 +167,17 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             this(DEFAULT_DIRECTION, property);
         }
 
-        private Order(Direction direction, String property, boolean ignoreCase) {
-
-            if (!StringUtils.hasText(property)) {
-                throw new IllegalArgumentException("Property must not null or empty!");
-            }
-
-            this.direction = direction == null ? DEFAULT_DIRECTION : direction;
-            this.property = property;
-            this.ignoreCase = ignoreCase;
-//            this.nullHandling = nullHandling == null ? NullHandling.NATIVE : nullHandling;
-        }
+//        private Order(Direction direction, String property, boolean ignoreCase) {
+//
+//            if (!StringUtils.hasText(property)) {
+//                throw new IllegalArgumentException("Property must not null or empty!");
+//            }
+//
+//            this.direction = direction == null ? DEFAULT_DIRECTION : direction;
+//            this.property = property;
+////            this.ignoreCase = ignoreCase;
+////            this.nullHandling = nullHandling == null ? NullHandling.NATIVE : nullHandling;
+//        }
 
         public Direction getDirection() {
             return direction;
@@ -186,9 +191,9 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             return this.direction.equals(Direction.ASC);
         }
 
-        public boolean isIgnoreCase() {
-            return ignoreCase;
-        }
+//        public boolean isIgnoreCase() {
+//            return ignoreCase;
+//        }
 
         public Order with(Direction order) {
             return new Order(order, this.property);
@@ -198,9 +203,9 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
             return new Sort(this.direction, properties);
         }
 
-        public Order ignoreCase() {
-            return new Order(direction, property, true);
-        }
+//        public Order ignoreCase() {
+//            return new Order(direction, property, true);
+//        }
 
         @Override
         public int hashCode() {
@@ -209,7 +214,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
 
             result = 31 * result + direction.hashCode();
             result = 31 * result + property.hashCode();
-            result = 31 * result + (ignoreCase ? 1 : 0);
+//            result = 31 * result + (ignoreCase ? 1 : 0);
 
             return result;
         }
@@ -227,21 +232,18 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
 
             Order that = (Order) obj;
 
-            return this.direction.equals(that.direction) && this.property.equals(that.property)
-                    && this.ignoreCase == that.ignoreCase;
+            return this.direction.equals(that.direction) && this.property.equals(that.property);
         }
 
         @Override
         public String toString() {
 
-            String result = String.format("%s: %s", property, direction);
 
+//            if (ignoreCase) {
+//                result += ", ignoring case";
+//            }
 
-            if (ignoreCase) {
-                result += ", ignoring case";
-            }
-
-            return result;
+            return String.format("%s: %s", property, direction);
         }
     }
 }
