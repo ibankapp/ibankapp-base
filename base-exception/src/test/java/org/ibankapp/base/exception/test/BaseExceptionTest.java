@@ -9,6 +9,8 @@
 
 package org.ibankapp.base.exception.test;
 
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeMatcher;
 import org.ibankapp.base.exception.BaseException;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,38 +28,99 @@ public class BaseExceptionTest {
     public ExpectedException thrown = ExpectedException.none();
 
 
+    /**
+     * 测试默认构造函数
+     */
     @Test
     public void testBaseException() {
         thrown.expect(BaseException.class);
         throw new BaseException();
     }
 
+    /**
+     * 测试不带插值参数的构造函数
+     */
+    @Test
+    public void testBaseExcptionNoParam() {
+        thrown.expect(BaseException.class);
+        thrown.expectMessage("测试错误1");
+
+        throw new BaseException("E-BASE-TEST01");
+    }
+
+    /**
+     * 测试带一个插值参数的构造函数
+     */
     @Test
     public void testBaseExceptionWithOneParam() {
         thrown.expect(BaseException.class);
-        thrown.expectMessage("属性keysomekey不存在");
+        thrown.expectMessage("测试错误:属性不存在");
 
-        throw new BaseException("E-BASE-000003", "somekey");
+        throw new BaseException("E-BASE-TEST02", "属性不存在");
     }
 
+    /**
+     * 测试获取messageId
+     */
     @Test
     public void testGetMessageId() {
-        BaseException e = new BaseException("E-BASE-000001");
-        assertEquals("E-BASE-000001", e.getMessageId());
+        BaseException e = new BaseException("E-BASE-TEST01");
+        assertEquals("E-BASE-TEST01", e.getMessageId());
     }
 
+    /**
+     * 带两个插值参数的测试案例
+     */
     @Test
     public void testBaseExceptionWithTwoParams() {
-        BaseException e =new BaseException("E-BASE-000001","参数A","参数B");
-        assertEquals("E-BASE-000001", e.getMessageId());
-        assertEquals("参数A",e.getMessage());
+        thrown.expect(BaseException.class);
+        thrown.expectMessage("测试错误:参数不存在,原因为:没有输入");
+
+        throw new BaseException("E-BASE-TEST03", "参数不存在", "没有输入");
     }
 
+    /**
+     * 带多个参数插值的测试案例
+     */
     @Test
     public void testBaseExceptionWithMultiParams() {
-        String[] params = {"参数A","参数B","参数C"};
-        BaseException e =new BaseException("E-BASE-000001",params);
-        assertEquals("E-BASE-000001", e.getMessageId());
+        thrown.expect(BaseException.class);
+        thrown.expectMessage("测试错误:参数不存在,原因为:没有输入,修正方法为:重新输入");
+
+        String[] params = {"参数不存在", "没有输入", "重新输入"};
+        throw new BaseException("E-BASE-TEST04", params);
+    }
+
+    /**
+     * 设置原始异常的测试案例
+     */
+    @Test
+    public void testBaseExceptionInitCause() {
+
+        thrown.expect(BaseException.class);
+        thrown.expectMessage("测试错误:原始错误");
+        thrown.expectCause(new TypeSafeMatcher<Throwable>() {
+
+            @Override
+            protected boolean matchesSafely(Throwable item) {
+                return item.getClass().isAssignableFrom(RuntimeException.class)
+                        && item.getMessage().contains("原始错误");
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("expects type ")
+                        .appendValue(RuntimeException.class)
+                        .appendText(" and a message ")
+                        .appendValue("原始错误");
+            }
+        });
+
+        try {
+            throw new RuntimeException("原始错误");
+        } catch (Exception e) {
+            throw new BaseException("E-BASE-TEST02", e.getMessage()).initCause(e);
+        }
     }
 
 }
