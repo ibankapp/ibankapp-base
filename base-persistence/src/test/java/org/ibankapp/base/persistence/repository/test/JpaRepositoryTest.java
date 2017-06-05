@@ -25,14 +25,11 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContextConfig.class})
@@ -373,19 +370,11 @@ public class JpaRepositoryTest {
     public void testFindAllFull() {
         persistThree();
 
-
-        Map<String, Object> hints = new HashMap<String, Object>();
-        hints.put("org.hibernate.comment", "test hints");
-
-        List<SimpleModel> models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE,
-                hints);
+        List<SimpleModel> models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE);
 
         Assert.assertEquals(3, models.size());
 
-        hints = new HashMap<String, Object>();
-
-        models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE,
-                hints);
+        models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE);
 
         Assert.assertEquals(3, models.size());
     }
