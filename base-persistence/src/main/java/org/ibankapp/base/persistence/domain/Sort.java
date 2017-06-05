@@ -254,8 +254,8 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
          * @throws BasePersistenceException 当传入的property属性为空时抛出此异常,messageId为E-BASE-PERSISTENCE-000002
          */
         public Order(Direction direction, String property) {
-            if (!StringUtils.hasText(property)) {
-                throw new BasePersistenceException("E-BASE-PERSISTENCE-000002");
+            if (property==null || !StringUtils.hasText(property)) {
+                throw new BasePersistenceException("E-BASE-PERSISTANCE-000002");
             }
 
             this.direction = direction == null ? DEFAULT_DIRECTION : direction;
