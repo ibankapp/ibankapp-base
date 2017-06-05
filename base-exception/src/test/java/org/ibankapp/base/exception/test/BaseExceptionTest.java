@@ -69,7 +69,7 @@ public class BaseExceptionTest {
     }
 
     /**
-     * 带两个插值参数的测试案例
+     * 测试带两个插值参数的构造函数
      */
     @Test
     public void testBaseExceptionWithTwoParams() {
@@ -80,7 +80,7 @@ public class BaseExceptionTest {
     }
 
     /**
-     * 带多个参数插值的测试案例
+     * 测试带多个参数插值的构造函数
      */
     @Test
     public void testBaseExceptionWithMultiParams() {
@@ -92,7 +92,7 @@ public class BaseExceptionTest {
     }
 
     /**
-     * 设置原始异常的测试案例
+     * 测试设置原始异常
      */
     @Test
     public void testBaseExceptionInitCause() {
