@@ -16,6 +16,9 @@ import javax.annotation.Resource;
 
 /**
  * 测试用事件生产者
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 class Producer {
 

@@ -30,7 +30,7 @@ public class SortTest {
     public void testNullSort() {
 
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one sort property to sort by");
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         new Sort((List<Sort.Order>) null);
     }
@@ -39,7 +39,7 @@ public class SortTest {
     public void testEmptySort() {
 
         thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one sort property to sort by");
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         List<Sort.Order> orders = new ArrayList<Sort.Order>();
 

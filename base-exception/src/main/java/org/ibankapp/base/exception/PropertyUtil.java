@@ -17,8 +17,8 @@ import java.util.Properties;
 /**
  * 配置文件读取类
  *
- * @author codelder
- * @version 1.0.0, 16/09/27
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 public class PropertyUtil {
 
@@ -109,6 +109,7 @@ public class PropertyUtil {
      * @param appendMsg  插值1
      * @param appendMsg1 插值2
      * @return 属性value
+     * @throws BaseException key在配置文件中不存在
      */
     public static String getProperty(String key, String appendMsg, String appendMsg1) {
         String property = getProperty(key);
@@ -116,7 +117,7 @@ public class PropertyUtil {
         if (property == null) {
             throw new BaseException("E-BASE-000003", key);
         }
-        
+
         property = MessageFormat.format(property, appendMsg, appendMsg1);
 
         return property;

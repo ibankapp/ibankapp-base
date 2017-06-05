@@ -18,6 +18,9 @@ import java.util.Set;
 
 /**
  * 测试用事件消费者
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 class Consumer implements EventConsumer {
 
