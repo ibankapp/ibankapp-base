@@ -16,10 +16,18 @@ import org.ibankapp.base.observer.EventConsumer;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 测试用事件消费者
+ */
 class Consumer implements EventConsumer {
 
     private Set<String> messages = new HashSet<String>();
 
+    /**
+     * 接收DemoEvent及DemoEvent1并进行相应处理
+     *
+     * @param event 发生的事件
+     */
     @Override
     public void onEvent(Event event) {
 
@@ -30,6 +38,11 @@ class Consumer implements EventConsumer {
         }
     }
 
+    /**
+     * 获取 事件信息集合
+     *
+     * @return 事件信息集合
+     */
     Set<String> getMessages() {
         return messages;
     }

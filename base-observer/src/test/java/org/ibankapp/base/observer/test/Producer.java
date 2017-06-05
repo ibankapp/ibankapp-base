@@ -14,13 +14,21 @@ import org.ibankapp.base.observer.EventRegister;
 
 import javax.annotation.Resource;
 
+/**
+ * 测试用事件生产者
+ */
+class Producer {
 
-class Producer{
-
+    /**
+     * 事件监听器
+     */
     @Resource
     private EventRegister register;
 
-    void doSomething(){
+    /**
+     * 触发事件
+     */
+    void doSomething() {
 
         DemoEvent event = new DemoEvent(this);
         DemoEvent1 event1 = new DemoEvent1(this);

@@ -18,15 +18,29 @@ import org.junit.Test;
 import java.util.Map;
 import java.util.Vector;
 
+/**
+ * 测试事件注册器
+ */
 public class EventRegisterTest {
 
+    /**
+     * 事件注册器
+     */
     private EventRegister register;
 
-
+    /**
+     * 事件消费者
+     */
     private Consumer consumer = new Consumer();
 
+    /**
+     * 另一个事件消费者
+     */
     private SecondConsumer secondConsumer = new SecondConsumer();
 
+    /**
+     * 将Demo事件注册到事件注册器中并让事件消费者进行监听
+     */
     @Before
     public void initRegister() {
         register = new EventRegister();
@@ -35,6 +49,9 @@ public class EventRegisterTest {
         register.addListener(DemoEvent1.class, consumer);
     }
 
+    /**
+     * 测试添加事件监听
+     */
     @Test
     public void testAddListener() {
 
@@ -47,6 +64,9 @@ public class EventRegisterTest {
         Assert.assertEquals(consumers, listeners.get(DemoEvent.class));
     }
 
+    /**
+     * 测试移除事件监听
+     */
     @Test
     public void testRemoveListener() {
 
@@ -61,13 +81,19 @@ public class EventRegisterTest {
 
     }
 
+    /**
+     * 测试从空的事件监听列表里移除事件监听器
+     */
     @Test
-    public void testRemoveFromEmptyListeners(){
+    public void testRemoveFromEmptyListeners() {
         register.removeAllListeners(DemoEvent.class);
         register.removeAllListeners(DemoEvent.class);
-        register.removeListener(DemoEvent.class,consumer);
+        register.removeListener(DemoEvent.class, consumer);
     }
 
+    /**
+     * 测试从事件监听列表里移除所有DemoEvent的事件监听
+     */
     @Test
     public void testRemoveAllDemoEventListener() {
 
@@ -83,6 +109,9 @@ public class EventRegisterTest {
 
     }
 
+    /**
+     * 测试移出所有的事件监听器
+     */
     @Test
     public void testRemoveAllListener() {
 
@@ -90,7 +119,7 @@ public class EventRegisterTest {
 
         Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
 
-        Assert.assertEquals(0,listeners.size());
+        Assert.assertEquals(0, listeners.size());
     }
 }
 
