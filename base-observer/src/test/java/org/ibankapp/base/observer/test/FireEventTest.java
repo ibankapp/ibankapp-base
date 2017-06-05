@@ -23,6 +23,9 @@ import javax.annotation.Resource;
 
 /**
  * 测试触发事件
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContextConfig.class})

@@ -14,6 +14,9 @@ import org.ibankapp.base.observer.EventConsumer;
 
 /**
  * 测试用第二个事件消费者
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 class SecondConsumer implements EventConsumer {
 

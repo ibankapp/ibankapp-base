@@ -11,6 +11,9 @@ package org.ibankapp.base.exception;
 
 /**
  * 异常处理基类
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 public class BaseException extends RuntimeException {
 

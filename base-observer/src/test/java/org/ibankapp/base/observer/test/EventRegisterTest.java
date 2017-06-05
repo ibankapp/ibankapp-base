@@ -20,6 +20,9 @@ import java.util.Vector;
 
 /**
  * 测试事件注册器
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 public class EventRegisterTest {
 

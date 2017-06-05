@@ -20,6 +20,10 @@ public class BasePersistenceException extends BaseException {
         PropertyUtil.load(MESSAGE_FILE);
     }
 
+    public BasePersistenceException(String messageId){
+        super(messageId);
+    }
+
     public BasePersistenceException(String messageId, String param) {
         super(messageId, param);
     }

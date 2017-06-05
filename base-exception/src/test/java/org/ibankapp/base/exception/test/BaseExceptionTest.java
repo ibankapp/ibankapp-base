@@ -18,7 +18,12 @@ import org.junit.rules.ExpectedException;
 
 import static org.junit.Assert.assertEquals;
 
-
+/**
+ * BaseException测试类
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
+ */
 public class BaseExceptionTest {
 
     /**

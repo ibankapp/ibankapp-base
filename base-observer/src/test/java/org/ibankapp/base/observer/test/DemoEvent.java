@@ -14,6 +14,9 @@ import org.ibankapp.base.observer.Event;
 
 /**
  * 测试用Demo事件
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 class DemoEvent extends Event {
 

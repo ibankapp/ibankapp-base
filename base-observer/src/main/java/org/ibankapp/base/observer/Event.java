@@ -12,7 +12,10 @@ package org.ibankapp.base.observer;
 import java.util.EventObject;
 
 /**
- * ibankapp事件积累
+ * ibankapp事件对象基类
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 public class Event extends EventObject {
 
@@ -22,7 +25,6 @@ public class Event extends EventObject {
      * 构造函数
      *
      * @param source 触发改事件的原始对象
-     * @throws IllegalArgumentException 如果source为null则抛出该异常
      */
     public Event(Object source) {
         super(source);

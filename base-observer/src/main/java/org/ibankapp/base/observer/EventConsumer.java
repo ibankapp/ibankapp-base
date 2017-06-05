@@ -11,6 +11,9 @@ package org.ibankapp.base.observer;
 
 /**
  * 事件消费者接口
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 public interface EventConsumer {
 

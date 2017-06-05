@@ -15,6 +15,9 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * 测试用spring配置
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
  */
 @Configuration
 class TestContextConfig {
