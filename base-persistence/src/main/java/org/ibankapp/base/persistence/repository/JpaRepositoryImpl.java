@@ -17,12 +17,6 @@ import org.ibankapp.base.persistence.domain.Specification;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
 import org.ibankapp.base.validation.validator.BeanValidator;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
@@ -31,6 +25,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import static org.ibankapp.base.persistence.util.QueryUtils.toOrders;
 
@@ -110,7 +108,7 @@ public class JpaRepositoryImpl implements JpaRepository {
     @Override
     public <T> List<T> findAll(Class<T> entityClass) {
 
-        return findAll(entityClass, null, null, null, null);
+        return findAll(entityClass, null, null, (LockModeType) null);
     }
 
     @Override
@@ -121,14 +119,14 @@ public class JpaRepositoryImpl implements JpaRepository {
 
     @Override
     public <T> List<T> findAll(Class<T> entityClass, Sort sort) {
-        return findAll(entityClass, null, sort, null, null);
+        return findAll(entityClass, null, sort, (LockModeType) null);
     }
 
 
     @Override
     public <T> List<T> findAll(Class<T> entityClass, Specification<T> spec) {
 
-        return findAll(entityClass, spec, null, null, null);
+        return findAll(entityClass, spec, null, (LockModeType) null);
     }
 
     @Override
@@ -139,7 +137,7 @@ public class JpaRepositoryImpl implements JpaRepository {
     @Override
     public <T> List<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort) {
 
-        return findAll(entityClass, spec, sort, null, null);
+        return findAll(entityClass, spec, sort, (LockModeType) null);
     }
 
     @Override
@@ -166,8 +164,7 @@ public class JpaRepositoryImpl implements JpaRepository {
     }
 
     @Override
-    public <T> List<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort, LockModeType lockMode,
-                               Map<String, Object> queryHints) {
+    public <T> List<T> findAll(Class<T> entityClass, Specification<T> spec, Sort sort, LockModeType lockMode) {
 
 
         TypedQuery<T> query = getQuery(spec, entityClass, sort);
@@ -176,12 +173,12 @@ public class JpaRepositoryImpl implements JpaRepository {
             query = query.setLockMode(lockMode);
         }
 
-        if (queryHints != null && queryHints.size() != 0) {
-
-            for (Map.Entry<String, Object> hint : queryHints.entrySet()) {
-                query.setHint(hint.getKey(), hint.getValue());
-            }
-        }
+//        if (queryHints != null && queryHints.size() != 0) {
+//
+//            for (Map.Entry<String, Object> hint : queryHints.entrySet()) {
+//                query.setHint(hint.getKey(), hint.getValue());
+//            }
+//        }
 
         return query.getResultList();
     }
