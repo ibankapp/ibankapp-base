@@ -14,10 +14,10 @@ import java.util.Map;
 public class NetCardTest {
     public NetCardTest() throws SocketException {
     }
-
     @Test
     public void testGetMultiCards()
     {
+        NetCard nc = new NetCard();
         ArrayList<Map<String, Object>> addressList = null;
         try {
             addressList = NetCard.getMultiCards();
