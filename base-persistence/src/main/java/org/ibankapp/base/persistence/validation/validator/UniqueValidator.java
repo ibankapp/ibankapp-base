@@ -11,6 +11,8 @@ package org.ibankapp.base.persistence.validation.validator;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.ibankapp.base.exception.BaseException;
+import org.ibankapp.base.persistence.BasePersistenceException;
+import org.ibankapp.base.persistence.domain.EntityInformation;
 import org.ibankapp.base.persistence.validation.constraint.Unique;
 import org.ibankapp.base.persistence.validation.constraint.Uniques;
 
@@ -26,15 +28,20 @@ import javax.persistence.criteria.Root;
 
 public class UniqueValidator {
 
-    public UniqueValidator(){
+    public UniqueValidator() {
 
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> void validate(T bean, EntityManager em) {
 
-        List<Unique> uniqueList = new ArrayList<>();
+        EntityInformation ei = new EntityInformation(bean.getClass(), em.getMetamodel());
 
-        if(bean.getClass().isAnnotationPresent(Uniques.class)){
+        Iterable<String> idAttributeNames = ei.getIdAttributeNames();
+
+        List<Unique> uniqueList = new ArrayList<Unique>();
+
+        if (bean.getClass().isAnnotationPresent(Uniques.class)) {
             Uniques uniques = bean.getClass().getAnnotation(Uniques.class);
             Collections.addAll(uniqueList, uniques.constraints());
         }
@@ -43,7 +50,8 @@ public class UniqueValidator {
             uniqueList.add(bean.getClass().getAnnotation(Unique.class));
         }
 
-        for(Unique unique:uniqueList){
+        for (Unique unique : uniqueList) {
+
 
             String[] properties = unique.properties();
 
@@ -54,12 +62,18 @@ public class UniqueValidator {
 
             Predicate condition = cb.conjunction();
 
-            for (String property : properties) {
-                try {
-                    condition = cb.and(condition, cb.equal(root.get(property), PropertyUtils.getProperty(bean, property)));
-                } catch (Exception e) {
-                    throw new BaseException("E-BASE-000001", e.getMessage()).initCause(e);
+            try {
+
+                for (String idAttributeName : idAttributeNames) {
+                    condition = cb.and(condition, cb.notEqual(root.get(idAttributeName), PropertyUtils.getProperty
+                            (bean, idAttributeName)));
                 }
+
+                for (String property : properties) {
+                    condition = cb.and(condition, cb.equal(root.get(property), PropertyUtils.getProperty(bean, property)));
+                }
+            } catch (Exception e) {
+                throw new BaseException("E-BASE-000001", e.getMessage()).initCause(e);
             }
 
             c.where(condition);
@@ -67,7 +81,7 @@ public class UniqueValidator {
             int count = em.createQuery(c).getResultList().size();
 
             if (count != 0) {
-                throw new BaseException("E-BASE-000008", unique.message());
+                throw new BasePersistenceException("E-BASE-PERSISTENCE-000001", unique.message());
             }
         }
     }

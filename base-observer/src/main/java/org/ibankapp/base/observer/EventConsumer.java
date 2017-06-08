@@ -9,7 +9,15 @@
 
 package org.ibankapp.base.observer;
 
+/**
+ * 事件消费者接口
+ */
 public interface EventConsumer {
 
+    /**
+     * 监听的事件发生时调用此函数
+     *
+     * @param event 发生的事件
+     */
     void onEvent(Event event);
 }

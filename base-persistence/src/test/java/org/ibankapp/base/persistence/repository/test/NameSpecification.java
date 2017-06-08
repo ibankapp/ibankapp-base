@@ -20,12 +20,12 @@ public class NameSpecification implements Specification<SimpleModel> {
 
     private String name;
 
-    public NameSpecification(String name) {
+    NameSpecification(String name) {
         this.name = name;
     }
 
     @Override
     public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        return cb.like(root.get("name"), "%" + name + "%");
+        return cb.like(root.<String>get("name"), "%" + name + "%");
     }
 }

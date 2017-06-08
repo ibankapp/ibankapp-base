@@ -20,13 +20,13 @@ public class NameDistinctSpecification implements Specification<SimpleModel> {
 
     private String name;
 
-    public NameDistinctSpecification(String name) {
+    NameDistinctSpecification(String name) {
         this.name = name;
     }
 
     @Override
     public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
         query.distinct(true);
-        return cb.like(root.get("name"), "%" + name + "%");
+        return cb.like(root.<String>get("name"), "%" + name + "%");
     }
 }

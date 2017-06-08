@@ -50,6 +50,7 @@ public class BaseExceptionTest {
     public void testBaseExceptionWithTwoParams() {
         BaseException e =new BaseException("E-BASE-000001","参数A","参数B");
         assertEquals("E-BASE-000001", e.getMessageId());
+        assertEquals("参数A",e.getMessage());
     }
 
     @Test

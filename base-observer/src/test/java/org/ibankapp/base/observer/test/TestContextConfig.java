@@ -17,8 +17,12 @@ import org.springframework.context.annotation.Configuration;
 class TestContextConfig {
 
     @Bean
-    EventRegister register() {
-        return new EventRegister();
+    EventRegister register(Consumer consumer) {
+        EventRegister register = new EventRegister();
+        register.addListener(DemoEvent.class, consumer);
+        register.addListener(DemoEvent.class, secondConsumer());
+        register.addListener(DemoEvent1.class, consumer());
+        return register;
     }
 
     @Bean

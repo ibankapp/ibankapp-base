@@ -9,11 +9,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-/**
- * Created by wangyue on 2016/12/25.
- */
 public class SortTest {
 
     @Rule
@@ -45,7 +41,7 @@ public class SortTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You have to provide at least one sort property to sort by");
 
-        List<Sort.Order> orders = new ArrayList<>();
+        List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
         new Sort(orders);
     }
@@ -62,8 +58,8 @@ public class SortTest {
     @Test
     public void testNullSort2() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one property to sort by");
+        thrown.expect(NullPointerException.class);
+//        thrown.expectMessage("You have to provide at least one property to sort by");
 
         new Sort(Sort.Direction.ASC, (String[]) null);
     }
@@ -74,7 +70,7 @@ public class SortTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("You have to provide at least one property to sort by");
 
-        new Sort(Sort.Direction.ASC, new ArrayList<>());
+        new Sort(Sort.Direction.ASC, new ArrayList<String>());
     }
 
     @Test
@@ -103,13 +99,12 @@ public class SortTest {
 
         Sort sort1 = new Sort("name");
 
-        Sort sort2 = sort1;
         Sort sort3 = new Sort(Sort.Direction.ASC, "name");
         Sort sort4 = new Sort(Sort.Direction.DESC, "name");
 
         Object o = new Object();
 
-        Assert.assertTrue(sort1.equals(sort2));
+        Assert.assertTrue(sort1.equals(sort1));
         Assert.assertFalse(sort1.equals(o));
         Assert.assertTrue(sort1.equals(sort3));
         Assert.assertFalse(sort1.equals(sort4));
@@ -223,30 +218,33 @@ public class SortTest {
         Assert.assertEquals(Sort.Direction.ASC, sort.getOrderFor("type").getDirection());
     }
 
-    @Test
-    public void testIgnoreCase() {
-        Sort.Order order = new Sort.Order("name");
-        order = order.ignoreCase();
-
-        Assert.assertEquals("name: ASC, ignoring case", order.toString());
-
-        Sort.Order order1 = new Sort.Order("name");
-
-        Assert.assertFalse(order.equals(order1));
-        Assert.assertNotEquals(order.hashCode(), order1.hashCode());
-
-        Object o = new Object();
-        Assert.assertFalse(order.equals(o));
-    }
+//    @Test
+//    public void testIgnoreCase() {
+//        Sort.Order order = new Sort.Order("name");
+//        order = order.ignoreCase();
+//
+//        Assert.assertEquals("name: ASC, ignoring case", order.toString());
+//
+//        Sort.Order order1 = new Sort.Order("name");
+//
+//        Assert.assertFalse(order.equals(order1));
+//        Assert.assertNotEquals(order.hashCode(), order1.hashCode());
+//
+//        Object o = new Object();
+//        Assert.assertFalse(order.equals(o));
+//    }
 
     @Test
     public void testOrderEqual() {
         Sort.Order order = new Sort.Order("name");
         Sort.Order order1 = new Sort.Order("name");
-        order1 = order1.ignoreCase();
-        Assert.assertFalse(order.equals(order1));
+//        order1 = order1.ignoreCase();
+//        Assert.assertFalse(order.equals(order1));
 
-        order = order.ignoreCase();
+//        order = order.ignoreCase();
+
+        Object o = new Object();
+        Assert.assertFalse(order.equals(o));
 
         Assert.assertTrue(order.equals(order1));
 

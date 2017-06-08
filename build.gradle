@@ -11,16 +11,92 @@
 subprojects {
 
     group 'org.ibankapp'
-    version '1.0.0-SNAPSHOT'
+    version '1.0.0.0-SNAPSHOT'
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    apply plugin: 'jacoco'
+//    apply plugin: 'jacoco'
 
-    sourceCompatibility = 1.8
+    sourceCompatibility = 1.6
+    targetCompatibility = 1.6
+
+    /*
+    def bootClasspathStr = "/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar"
+    project.tasks.withType(AbstractCompile, { AbstractCompile ac ->
+        ac.options.bootClasspath = bootClasspathStr // options is always there but not defined on AbstractCompile so going to hit it anyway
+    })
+*/
+    javadoc {
+        options {
+            encoding "UTF-8"
+            charSet 'UTF-8'
+            author true
+            version true
+            links "http://docs.oracle.com/javase/8/docs/api"
+        }
+    }
+
+    configurations {
+        jacoco
+        jacocoRuntime
+    }
+
+    dependencies {
+        jacoco group: 'org.jacoco', name: 'org.jacoco.ant', version: '0.7.9', classifier: 'nodeps'
+        jacocoRuntime group: 'org.jacoco', name: 'org.jacoco.agent', version: '0.7.9', classifier: 'runtime'
+    }
+
+    task instrument(dependsOn: ['classes']) {
+        ext.outputDir = buildDir.path + '/classes-instrumented'
+        doLast {
+            ant.taskdef(name: 'instrument',
+                    classname: 'org.jacoco.ant.InstrumentTask',
+                    classpath: configurations.jacoco.asPath)
+            ant.instrument(destdir: outputDir) {
+                fileset(dir: sourceSets.main.output.classesDir)
+            }
+        }
+    }
+
+    gradle.taskGraph.whenReady { graph ->
+        if (graph.hasTask(instrument)) {
+            tasks.withType(Test) {
+                doFirst {
+                    systemProperty 'jacoco-agent.destfile', buildDir.path + '/jacoco/tests.exec'
+                    classpath = files(instrument.outputDir) + classpath + configurations.jacocoRuntime
+                }
+            }
+        }
+    }
+
+    task report(dependsOn: ['instrument', 'test']) {
+        doLast {
+            ant.taskdef(name: 'report',
+                    classname: 'org.jacoco.ant.ReportTask',
+                    classpath: configurations.jacoco.asPath)
+            ant.report() {
+                executiondata {
+                    ant.file(file: buildDir.path + '/jacoco/tests.exec')
+                }
+                structure(name: 'Example') {
+                    classfiles {
+                        fileset(dir: sourceSets.main.output.classesDir)
+                    }
+                    sourcefiles {
+                        fileset(dir: 'src/main/java')
+                    }
+                }
+                html(destdir: buildDir.path + '/reports/jacoco')
+                xml(destfile: buildDir.path + '/reports/jacoco/jacocoTestReport.xml')
+            }
+        }
+    }
 
     repositories {
         mavenCentral()
+        maven {
+            url "https://oss.sonatype.org/content/groups/public"
+        }
     }
 
     gradle.projectsEvaluated {
@@ -103,141 +179,13 @@ subprojects {
         }
     }
 
-    jacocoTestReport {
-        reports {
-            xml.enabled = true
-            html.enabled = true
-        }
-    }
+//    jacocoTestReport {
+//        reports {
+//            xml.enabled = true
+//            html.enabled = true
+//        }
+//    }
 
-    check.dependsOn jacocoTestReport
+    check.dependsOn report
 
 }
-//group 'org.ibankapp'
-//version '1.0.0-SNAPSHOT'
-//
-//apply plugin: 'java'
-//apply plugin: 'maven'
-//apply plugin: 'jacoco'
-//
-//test.logging.setLevel(LogLevel.DEBUG)
-//
-//allprojects {
-//    gradle.projectsEvaluated {
-//        tasks.withType(JavaCompile) {
-//            options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
-//        }
-//    }
-//}
-//
-//repositories {
-//    mavenCentral()
-////    maven {
-////        url "http://123.56.45.216:8081/nexus/content/groups/public"
-////    }core
-//}
-//
-//dependencies {
-//    testCompile group: 'junit', name: 'junit', version: '4.12'
-//    testCompile group: 'org.powermock', name: 'powermock-api-mockito', version: '1.6.5'
-//    testCompile group: 'org.powermock', name: 'powermock-module-junit4', version: '1.6.5'
-////    testCompile group:'org.mockito',name:'mockito-core',version:'2.1.0-RC.2'
-//    testCompile group: 'org.hibernate', name: 'hibernate-core', version: '5.1.0.Final'
-//    testCompile 'org.hibernate:hibernate-entitymanager:5.1.0.Final'
-//    testCompile group: 'com.h2database', name: 'h2', version: '1.4.192'
-//    testCompile group: 'javax.el', name: 'javax.el-api', version: '2.2.4'
-//    testCompile group: 'org.hibernate', name: 'hibernate-validator', version: '5.1.0.Final'
-//    testCompile group: 'org.springframework', name: 'spring-test', version: '4.2.8.RELEASE'
-//    testCompile group: 'com.zaxxer', name: 'HikariCP', version: '2.5.1'
-//    compile group: 'org.hibernate.javax.persistence', name: 'hibernate-jpa-2.1-api', version: '1.0.0.Final'
-//    compile group: 'javax.validation', name: 'validation-api', version: '1.1.0.Final'
-//    compile group: 'commons-beanutils', name: 'commons-beanutils', version: '1.9.3'
-//    compile group: 'commons-lang', name: 'commons-lang', version: '2.6'
-//    compile group: 'log4j', name: 'log4j', version: '1.2.17'
-//    compile 'org.springframework.data:spring-data-jpa:1.10.4.RELEASE'
-//}
-//
-//if (this.hasProperty('ossrhUsername')) {
-//
-//    apply plugin: 'signing'
-//
-//    task javadocJar(type: Jar) {
-//        classifier = 'javadoc'
-//        from javadoc
-//    }
-//
-//    task sourcesJar(type: Jar) {
-//        classifier = 'sources'
-//        from sourceSets.main.allSource
-//    }
-//
-//    artifacts {
-//        archives javadocJar, sourcesJar
-//    }
-//
-//    uploadArchives {
-//        repositories {
-//            mavenDeployer {
-//                beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-//
-//                repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-//                    authentication(userName: ossrhUsername, password: ossrhPassword)
-//                }
-//
-//                snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-//                    authentication(userName: ossrhUsername, password: ossrhPassword)
-//                }
-//
-//                pom.project {
-//                    name 'ibankapp Base'
-//                    packaging 'jar'
-//                    // optionally artifactId can be defined here
-//                    description 'the base moudle of ibankapp series'
-//                    url 'http://www.ibankapp.org'
-//
-//                    scm {
-//                        connection 'scm:git:git://github.com/ibankapp/ibankapp-base.git'
-//                        developerConnection 'scm:git:ssh://github.com:ibankapp/ibankapp-base.git'
-//                        url 'https://github.com/ibankapp/ibankapp-base/tree/master'
-//                    }
-//
-//                    licenses {
-//                        license {
-//                            name 'The Apache License, Version 2.0'
-//                            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//                        }
-//                    }
-//
-//                    developers {
-//                        developer {
-//                            id 'codelder'
-//                            name 'dawndew'
-//                            email 'codelder@ibankapp.org'
-//                        }
-//                        developer {
-//                            id 'esailor'
-//                            name 'esailor'
-//                            email 'liulj@ibankapp.org'
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//
-//    signing {
-//        sign configurations.archives
-//
-//    }
-//}
-//
-//jacocoTestReport {
-//    reports {
-//        xml.enabled = true
-//        html.enabled = true
-//    }
-//}
-//
-//check.dependsOn jacocoTestReport
-//
-

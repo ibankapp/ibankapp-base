@@ -9,7 +9,6 @@
 
 package org.ibankapp.base.persistence.Specification;
 
-import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.persistence.domain.Specification;
 
 import javax.persistence.EntityManager;

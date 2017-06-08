@@ -11,21 +11,29 @@ package org.ibankapp.base.observer;
 
 import java.util.EventObject;
 
+/**
+ * ibankapp事件积累
+ */
 public class Event extends EventObject {
 
     private final long timestamp;
 
     /**
-     * Constructs a prototypical Event.
+     * 构造函数
      *
-     * @param source The object on which the Event initially occurred.
-     * @throws IllegalArgumentException if source is null.
+     * @param source 触发改事件的原始对象
+     * @throws IllegalArgumentException 如果source为null则抛出该异常
      */
     public Event(Object source) {
         super(source);
         this.timestamp = System.currentTimeMillis();
     }
 
+    /**
+     * 获取事件发生的事件
+     *
+     * @return 事件发生的时间
+     */
     public long getTimestamp() {
         return timestamp;
     }

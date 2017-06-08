@@ -45,7 +45,7 @@ public class StringUtilTest {
         Assert.assertEquals("", StringUtils.collectionToCommaDelimitedString(null));
         Assert.assertEquals("", StringUtils.collectionToCommaDelimitedString(new ArrayList<String>()));
 
-        List<String> strings = new ArrayList<>();
+        List<String> strings = new ArrayList<String>();
         strings.add("abcd");
         strings.add("1234");
 
@@ -65,5 +65,15 @@ public class StringUtilTest {
         Assert.assertFalse(StringUtils.hasText(""));
         Assert.assertFalse(StringUtils.hasText(null));
         Assert.assertFalse(StringUtils.hasText("   "));
+    }
+
+    @Test
+    public void testRandomUUID(){
+        String uuid1 = StringUtils.getRandomUUID();
+        String uuid2 = StringUtils.getRandomUUID();
+
+        Assert.assertNotEquals(uuid1,uuid2);
+        Assert.assertEquals(32,uuid1.length());
+        Assert.assertEquals(32,uuid2.length());
     }
 }

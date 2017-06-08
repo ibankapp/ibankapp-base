@@ -64,4 +64,6 @@ public interface JpaRepository {
     <T> void delete(Iterable<T> entities);
 
     <T> void deleteAll(Class<T> entityClass);
+
+    <T> void uniqueValidate(T bean);
 }
