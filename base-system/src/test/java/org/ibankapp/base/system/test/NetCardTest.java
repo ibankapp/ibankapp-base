@@ -5,29 +5,29 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.Map;
+import java.util.Set;
 
 /**
  * 测试网卡工具类
  */
 public class NetCardTest {
-    public NetCardTest() throws SocketException {
+    public NetCardTest(){
     }
     @Test
-    public void testGetMultiCards()
+    public void testGetMacAddresses()
     {
         NetCard nc = new NetCard();
-        ArrayList<Map<String, Object>> addressList = null;
+        Set<String> sets = null;
         try {
-            addressList = NetCard.getMultiCards();
+            sets = NetCard.getMacAddresses();
         } catch (SocketException e) {
             e.printStackTrace();
         }
 
-        for(Map<String, Object> al:addressList)
+        for(String mac:sets)
         {
-            Assert.assertTrue(al.get("mac").toString().split("-").length==6);
+            System.out.println("set=["+mac+"]");
+            Assert.assertTrue(mac.split(":").length==6);
         }
 
     }
