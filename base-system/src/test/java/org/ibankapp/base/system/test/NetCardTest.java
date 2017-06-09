@@ -1,4 +1,4 @@
-package org.ibankapp.base.util.test;
+package org.ibankapp.base.system.test;
 
 import org.ibankapp.base.system.NetCard;
 import org.junit.Assert;
