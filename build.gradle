@@ -162,6 +162,11 @@ subprojects {
                                 name 'dawndew'
                                 email 'codelder@ibankapp.org'
                             }
+                            developer {
+                                id 'esailor'
+                                name 'esailor'
+                                email 'liulj@ibankapp.org'
+                            }
                         }
                     }
                 }
