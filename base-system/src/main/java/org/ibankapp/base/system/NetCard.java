@@ -72,7 +72,6 @@ public class NetCard {
                     sb.append(str);
                 }
             }
-//            System.out.println("本机MAC地址:"+sb.toString());
             set.add(sb.toString());
         }
         return set;
