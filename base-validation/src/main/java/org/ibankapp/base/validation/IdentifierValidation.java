@@ -37,6 +37,13 @@ import java.util.Set;
  */
 public class IdentifierValidation {
 
+    /**
+     * 校验传入的cardNo是否为合法的身份证号码格式
+     * <p>只检查身份证号码格式是否合法，并不进行联网核查</p>
+     *
+     * @param cardNo 待验证的号码
+     * @return 是否合法的身份证号码格式
+     */
     public static boolean isIdCardNo(String cardNo) {
 
         cardNo = cardNo.trim().toUpperCase();
@@ -79,6 +86,13 @@ public class IdentifierValidation {
 
     }
 
+    /**
+     * 校验传入的occ是否为合法的组织机构代码格式
+     * <p>只检查组织机构代码格式是否合法，并不进行联网核查</p>
+     *
+     * @param occ 待验证的号码
+     * @return 是否合法的组织机构代码格式
+     */
     public static boolean isOcc(String occ) {
         occ = occ.trim().toUpperCase();
 
@@ -87,6 +101,13 @@ public class IdentifierValidation {
 
     }
 
+    /**
+     * 校验传入的uscic是否为合法的统一法人信用代码格式
+     * <p>只检查统一法人信用代码格式是否合法，并不进行联网核查</p>
+     *
+     * @param uscic 待验证的号码
+     * @return 是否合法的统一法人信用代码格式
+     */
     public static boolean isUscic(String uscic) {
 
         uscic = uscic.trim().toUpperCase();
@@ -145,6 +166,12 @@ public class IdentifierValidation {
 
     }
 
+    /**
+     * 根据传入的代码前八位计算组织机构代码的校验位
+     *
+     * @param code 组织机构代码前八位
+     * @return 校验位
+     */
     public static char getOccCheckBit(String code) {
 
         code = code.trim().toUpperCase();
@@ -190,6 +217,12 @@ public class IdentifierValidation {
         return checkBit;
     }
 
+    /**
+     * 根据传入的代码前八位计算统一法人信用代码的校验位
+     *
+     * @param code 统一法人信用代码前八位
+     * @return 校验位
+     */
     public static char getUscicCheckBit(String code) {
 
         code = code.trim();

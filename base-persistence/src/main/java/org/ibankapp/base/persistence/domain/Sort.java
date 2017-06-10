@@ -227,8 +227,9 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
     /**
      * 排序类
      *
-     * @author codelder@ibankapp.org
-     * @since 1.0.0.0
+     * @author <a href="http://www.ibankapp.org">ibankapp</a>
+     * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+     * @since 1.0.0
      */
     public static class Order implements Serializable {
 

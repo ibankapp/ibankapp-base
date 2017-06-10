@@ -96,10 +96,7 @@ public class StringUtils {
     }
 
     /**
-     * Check whether the given {@code CharSequence} contains actual <em>text</em>.
-     * <p>More specifically, this method returns {@code true} if the
-     * {@code CharSequence} is not {@code null}, its length is greater than
-     * 0, and it contains at least one non-whitespace character.
+     * 检查传入的 {@code CharSequence} 是否包含确定的非空字符.
      * <p><pre class="code">
      * StringUtils.hasText(null) = false
      * StringUtils.hasText("") = false
@@ -108,9 +105,8 @@ public class StringUtils {
      * StringUtils.hasText(" 12345 ") = true
      * </pre>
      *
-     * @param str the {@code CharSequence} to check (may be {@code null})
-     * @return {@code true} if the {@code CharSequence} is not {@code null}, its length is greater than 0, and it does
-     * not contain whitespace only
+     * @param str 需要被检查的CharSequence
+     * @return 当str不为null，长度不为0且至少包含一个非白空格字符时返回true，否则返回false
      * @see Character#isWhitespace
      */
     public static boolean hasText(CharSequence str) {
@@ -127,20 +123,21 @@ public class StringUtils {
     }
 
     /**
-     * Check whether the given {@code String} contains actual <em>text</em>.
-     * <p>More specifically, this method returns {@code true} if the
-     * {@code String} is not {@code null}, its length is greater than 0,
-     * and it contains at least one non-whitespace character.
+     * 检查传入的 {@code String} 是否包含确定的非空字符.
      *
-     * @param str the {@code String} to check (may be {@code null})
-     * @return {@code true} if the {@code String} is not {@code null}, its length is greater than 0, and it does not
-     * contain whitespace only
+     * @param str 需要被检查的CharSequence
+     * @return 当str不为null，长度不为0且至少包含一个非白空格字符时返回true，否则返回false
      * @see #hasText(CharSequence)
      */
     public static boolean hasText(String str) {
         return hasText((CharSequence) str);
     }
 
+    /**
+     * 获取随机的UUID字符串
+     *
+     * @return 返回随机的不包含分隔符的UUID字符串
+     */
     public static String getRandomUUID() {
         String s = UUID.randomUUID().toString();
         return s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s.substring(24);

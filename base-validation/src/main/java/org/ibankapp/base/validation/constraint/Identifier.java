@@ -42,7 +42,7 @@ import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
- * Annotation types description
+ * 证件验证注解
  *
  * @author <a href="http://www.ibankapp.org">ibankapp</a>
  * @author <a href="mailto:codelder@ibankapp.org">codelder</a>

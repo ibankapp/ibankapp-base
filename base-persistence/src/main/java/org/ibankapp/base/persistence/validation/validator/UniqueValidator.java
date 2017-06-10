@@ -26,12 +26,26 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+/**
+ * 唯一约束校验器
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class UniqueValidator {
 
     public UniqueValidator() {
 
     }
 
+    /**
+     * 唯一约束校验函数
+     *
+     * @param bean 要校验的带唯一约束注解的bean
+     * @param em   Jpa EntityManager
+     * @param <T>  要校验的bean的类型
+     */
     @SuppressWarnings("unchecked")
     public static <T> void validate(T bean, EntityManager em) {
 
