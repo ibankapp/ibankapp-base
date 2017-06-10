@@ -24,8 +24,9 @@ import javax.persistence.metamodel.SingularAttribute;
  * 实体信息类，通过此类的方法可获得实体类的一些静态信息
  *
  * @param <T> 实体类
- * @author codelder@ibankapp.org
- * @since 1.0.0.0
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public class EntityInformation<T> {
 

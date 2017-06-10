@@ -35,7 +35,7 @@ public class FireEventTest {
      * 事件触发者
      */
     @Resource
-    private Producer producer;
+    private TestProducer producer;
 
     /**
      * 事件监听器
@@ -47,7 +47,7 @@ public class FireEventTest {
      * 事件消费者
      */
     @Resource
-    private Consumer consumer;
+    private TestConsumer consumer;
 
     /**
      * 测试事件触发

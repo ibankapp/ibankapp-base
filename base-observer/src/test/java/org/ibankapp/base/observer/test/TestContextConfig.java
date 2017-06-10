@@ -29,11 +29,11 @@ class TestContextConfig {
      * @return 事件注册器
      */
     @Bean
-    EventRegister register(Consumer consumer) {
+    EventRegister register(TestConsumer consumer) {
         EventRegister register = new EventRegister();
-        register.addListener(DemoEvent.class, consumer);
-        register.addListener(DemoEvent.class, secondConsumer());
-        register.addListener(DemoEvent1.class, consumer());
+        register.addListener(TestEvent.class, consumer);
+        register.addListener(TestEvent.class, secondConsumer());
+        register.addListener(TestEvent1.class, consumer());
         return register;
     }
 
@@ -43,8 +43,8 @@ class TestContextConfig {
      * @return 事件生产者
      */
     @Bean
-    Producer producer() {
-        return new Producer();
+    TestProducer producer() {
+        return new TestProducer();
     }
 
     /**
@@ -53,8 +53,8 @@ class TestContextConfig {
      * @return 事件消费者
      */
     @Bean
-    Consumer consumer() {
-        return new Consumer();
+    TestConsumer consumer() {
+        return new TestConsumer();
     }
 
     /**
@@ -63,8 +63,8 @@ class TestContextConfig {
      * @return 事件消费者
      */
     @Bean
-    SecondConsumer secondConsumer() {
-        return new SecondConsumer();
+    TestSecondConsumer secondConsumer() {
+        return new TestSecondConsumer();
     }
 
 }

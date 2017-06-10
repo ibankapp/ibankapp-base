@@ -16,13 +16,22 @@
  * in the root directory or <http://www.apache.org/licenses/>.
  */
 
-package org.ibankapp.base.persistence.sort.test;
+/*
+ * iBankApp
+ *
+ * License : Apache License,Version 2.0, January 2004
+ *
+ * See the LICENSE file in English or LICENSE.zh_CN in chinese
+ * in the root directory or <http://www.apache.org/licenses/>.
+ */
+
+package org.ibankapp.base.persistence.domain.test;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
-public class SortModel {
+public class TestSortModel {
 
     private String id;
     private String name;

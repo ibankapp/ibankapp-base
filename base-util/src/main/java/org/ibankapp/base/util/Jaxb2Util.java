@@ -19,6 +19,10 @@ import javax.xml.bind.Unmarshaller;
 
 /**
  * JAXB2应用类
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public class Jaxb2Util {
 
@@ -28,6 +32,7 @@ public class Jaxb2Util {
      * @param obj      JavaBean
      * @param encoding 字符集编码
      * @return XML字符串
+     * @throws JAXBException 转换错误
      */
     public static String convertToXml(Object obj, String encoding) throws JAXBException {
 
@@ -43,13 +48,22 @@ public class Jaxb2Util {
 
     }
 
+    /**
+     * 将xml转换为指定类型的JavaBean
+     *
+     * @param xml xml字符串
+     * @param c   JavaBean类型
+     * @param <T> JavaBean类型
+     * @return JavaBean
+     * @throws JAXBException 转换错误
+     */
     @SuppressWarnings("unchecked")
     public static <T> T converyToJavaBean(String xml, Class<T> c) throws JAXBException {
 
         JAXBContext context = JAXBContext.newInstance(c);
         Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        return  (T) unmarshaller.unmarshal(new StringReader(xml));
+        return (T) unmarshaller.unmarshal(new StringReader(xml));
 
     }
 

@@ -11,23 +11,12 @@ package org.ibankapp.base.persistence.domain.test;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-
-@IdClass(CompositedId.class)
-@Entity
-class CompositedModel implements Serializable {
+public class TestCompositedId implements Serializable {
 
     private String firstName;
 
     private String lastName;
 
-    private String address;
-
-    @Id
-    @Column
     public String getFirstName() {
         return firstName;
     }
@@ -36,22 +25,11 @@ class CompositedModel implements Serializable {
         this.firstName = firstName;
     }
 
-    @Id
-    @Column
     public String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    @Column
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

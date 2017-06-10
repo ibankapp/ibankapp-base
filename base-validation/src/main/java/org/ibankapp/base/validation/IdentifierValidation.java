@@ -28,6 +28,13 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 证件号码验证器
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class IdentifierValidation {
 
     public static boolean isIdCardNo(String cardNo) {

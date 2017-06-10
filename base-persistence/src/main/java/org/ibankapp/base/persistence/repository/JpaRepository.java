@@ -16,15 +16,15 @@ import org.ibankapp.base.persistence.domain.Specification;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.LockModeType;
 
 /**
  * Jpa操作接口
  *
- * @author codelder@ibankapp.org
- * @since 1.0.0.0
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public interface JpaRepository {
 

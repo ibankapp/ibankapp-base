@@ -12,6 +12,9 @@ package org.ibankapp.base.validation.type;
 /**
  * 证件种类枚举类
  *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public enum Idtp {
     /**

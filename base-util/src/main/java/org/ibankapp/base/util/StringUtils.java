@@ -15,6 +15,13 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.UUID;
 
+/**
+ * 字符串应用类
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class StringUtils {
 
     public static boolean isEmpty(String s) {
@@ -23,14 +30,14 @@ public class StringUtils {
     }
 
     /**
-     * Convert a {@link Collection} to a delimited {@code String} (e.g. CSV).
-     * <p>Useful for {@code toString()} implementations.
+     * 将一个{@link Collection}类型转换为分隔符分割的字符串,例如CSV.
+     * <p>可以用于{@code toString()} 实现.
      *
-     * @param coll   the {@code Collection} to convert
-     * @param delim  the delimiter to use (typically a ",")
-     * @param prefix the {@code String} to start each element with
-     * @param suffix the {@code String} to end each element with
-     * @return the delimited {@code String}
+     * @param coll   需要被转换的集合类型
+     * @param delim  使用的分隔符(一般为",")
+     * @param prefix 每个被分隔字符串的前缀
+     * @param suffix 每个被分隔字符串的后缀
+     * @return 分隔后的字符串
      */
     public static String collectionToDelimitedString(Collection<?> coll, String delim, String prefix, String suffix) {
         if (coll == null || coll.isEmpty()) {
@@ -48,33 +55,31 @@ public class StringUtils {
     }
 
     /**
-     * Convert a {@code Collection} into a delimited {@code String} (e.g. CSV).
-     * <p>Useful for {@code toString()} implementations.
+     * 将一个{@link Collection}类型转换为分隔符分割的字符串,例如CSV.
+     * <p>可以用于{@code toString()} 实现.
      *
-     * @param coll  the {@code Collection} to convert
-     * @param delim the delimiter to use (typically a ",")
-     * @return the delimited {@code String}
+     * @param coll  需要被转换的{@code Collection}
+     * @param delim 使用的分隔符(一般为",")
+     * @return 分隔后的字符串
      */
     public static String collectionToDelimitedString(Collection<?> coll, String delim) {
         return collectionToDelimitedString(coll, delim, "", "");
     }
 
     /**
-     * Convert a {@code Collection} into a delimited {@code String} (e.g., CSV).
-     * <p>Useful for {@code toString()} implementations.
+     * 将一个{@link Collection}类型转换为分隔符分割的字符串,使用","作为分隔符.
+     * <p>可以用于{@code toString()} 实现.
      *
-     * @param coll the {@code Collection} to convert
-     * @return the delimited {@code String}
+     * @param coll 需要被转换的{@code Collection}
+     * @return 分隔后的字符串
      */
     public static String collectionToCommaDelimitedString(Collection<?> coll) {
         return collectionToDelimitedString(coll, ",");
     }
 
     /**
-     * Check that the given {@code CharSequence} is neither {@code null} nor
-     * of length 0.
-     * <p>Note: this method returns {@code true} for a {@code CharSequence}
-     * that purely consists of whitespace.
+     * 检查传入的{@code CharSequence}是否为null或长度为0.
+     * <p>注意: 此方法在检查空格{@code CharSequence}时返回 {@code true}
      * <p><pre class="code">
      * StringUtils.hasLength(null) = false
      * StringUtils.hasLength("") = false
@@ -82,7 +87,7 @@ public class StringUtils {
      * StringUtils.hasLength("Hello") = true
      * </pre>
      *
-     * @param str the {@code CharSequence} to check (may be {@code null})
+     * @param str 被检查的字符串
      * @return {@code true} if the {@code CharSequence} is not {@code null} and has length
      * @see #hasText(String)
      */

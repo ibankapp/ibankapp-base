@@ -18,7 +18,7 @@ import org.ibankapp.base.observer.Event;
  * @author codelder@ibankapp.org
  * @since 1.0.0.0
  */
-class DemoEvent1 extends Event {
+class TestEvent1 extends Event {
 
     /**
      * 事件信息
@@ -30,7 +30,7 @@ class DemoEvent1 extends Event {
      *
      * @param source 触发事件的原始对象
      */
-    DemoEvent1(Object source) {
+    TestEvent1(Object source) {
         super(source);
     }
 
