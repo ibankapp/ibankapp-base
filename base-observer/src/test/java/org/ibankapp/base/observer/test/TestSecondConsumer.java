@@ -18,7 +18,7 @@ import org.ibankapp.base.observer.EventConsumer;
  * @author codelder@ibankapp.org
  * @since 1.0.0.0
  */
-class SecondConsumer implements EventConsumer {
+class TestSecondConsumer implements EventConsumer {
 
     /**
      * 接收DemoEvent事件并进行相应处理
@@ -28,7 +28,7 @@ class SecondConsumer implements EventConsumer {
     @Override
     public void onEvent(Event event) {
 
-        if (event instanceof DemoEvent) {
+        if (event instanceof TestEvent) {
             System.out.println(event.getTimestamp());
         }
     }

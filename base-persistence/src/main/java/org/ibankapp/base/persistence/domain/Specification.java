@@ -25,8 +25,9 @@ import javax.persistence.criteria.Root;
  * Specification接口，各个条件查询可实现此接口
  *
  * @param <T> JPA实体类
- * @author codelder@ibankapp.org
- * @since 1.0.0.0
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public interface Specification<T> {
 

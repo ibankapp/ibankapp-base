@@ -12,6 +12,13 @@ package org.ibankapp.base.persistence;
 import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.exception.PropertyUtil;
 
+/**
+ * 持久化异常
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class BasePersistenceException extends BaseException {
 
     private final static String MESSAGE_FILE = "base_persistence_message.properties";
@@ -20,7 +27,7 @@ public class BasePersistenceException extends BaseException {
         PropertyUtil.load(MESSAGE_FILE);
     }
 
-    public BasePersistenceException(String messageId){
+    public BasePersistenceException(String messageId) {
         super(messageId);
     }
 

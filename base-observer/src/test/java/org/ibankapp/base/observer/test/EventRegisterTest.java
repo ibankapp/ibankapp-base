@@ -34,12 +34,12 @@ public class EventRegisterTest {
     /**
      * 事件消费者
      */
-    private Consumer consumer = new Consumer();
+    private TestConsumer consumer = new TestConsumer();
 
     /**
      * 另一个事件消费者
      */
-    private SecondConsumer secondConsumer = new SecondConsumer();
+    private TestSecondConsumer secondConsumer = new TestSecondConsumer();
 
     /**
      * 将Demo事件注册到事件注册器中并让事件消费者进行监听
@@ -47,9 +47,9 @@ public class EventRegisterTest {
     @Before
     public void initRegister() {
         register = new EventRegister();
-        register.addListener(DemoEvent.class, consumer);
-        register.addListener(DemoEvent.class, secondConsumer);
-        register.addListener(DemoEvent1.class, consumer);
+        register.addListener(TestEvent.class, consumer);
+        register.addListener(TestEvent.class, secondConsumer);
+        register.addListener(TestEvent1.class, consumer);
     }
 
     /**
@@ -64,7 +64,7 @@ public class EventRegisterTest {
         consumers.add(consumer);
         consumers.add(secondConsumer);
 
-        Assert.assertEquals(consumers, listeners.get(DemoEvent.class));
+        Assert.assertEquals(consumers, listeners.get(TestEvent.class));
     }
 
     /**
@@ -73,14 +73,14 @@ public class EventRegisterTest {
     @Test
     public void testRemoveListener() {
 
-        register.removeListener(DemoEvent.class, consumer);
+        register.removeListener(TestEvent.class, consumer);
 
         Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
 
         Vector<EventConsumer> consumers = new Vector<EventConsumer>();
         consumers.add(secondConsumer);
 
-        Assert.assertEquals(consumers, listeners.get(DemoEvent.class));
+        Assert.assertEquals(consumers, listeners.get(TestEvent.class));
 
     }
 
@@ -89,9 +89,9 @@ public class EventRegisterTest {
      */
     @Test
     public void testRemoveFromEmptyListeners() {
-        register.removeAllListeners(DemoEvent.class);
-        register.removeAllListeners(DemoEvent.class);
-        register.removeListener(DemoEvent.class, consumer);
+        register.removeAllListeners(TestEvent.class);
+        register.removeAllListeners(TestEvent.class);
+        register.removeListener(TestEvent.class, consumer);
     }
 
     /**
@@ -100,15 +100,15 @@ public class EventRegisterTest {
     @Test
     public void testRemoveAllDemoEventListener() {
 
-        register.removeAllListeners(DemoEvent.class);
+        register.removeAllListeners(TestEvent.class);
 
         Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
 
         Vector<EventConsumer> consumers = new Vector<EventConsumer>();
         consumers.add(consumer);
 
-        Assert.assertNull(listeners.get(DemoEvent.class));
-        Assert.assertEquals(consumers, listeners.get(DemoEvent1.class));
+        Assert.assertNull(listeners.get(TestEvent.class));
+        Assert.assertEquals(consumers, listeners.get(TestEvent1.class));
 
     }
 

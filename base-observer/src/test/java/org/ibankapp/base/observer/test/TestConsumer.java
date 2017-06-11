@@ -22,7 +22,7 @@ import java.util.Set;
  * @author codelder@ibankapp.org
  * @since 1.0.0.0
  */
-class Consumer implements EventConsumer {
+class TestConsumer implements EventConsumer {
 
     private Set<String> messages = new HashSet<String>();
 
@@ -34,10 +34,10 @@ class Consumer implements EventConsumer {
     @Override
     public void onEvent(Event event) {
 
-        if (event instanceof DemoEvent) {
-            messages.add(((DemoEvent) event).getMessage());
-        } else if (event instanceof DemoEvent1) {
-            messages.add(((DemoEvent1) event).getMessage());
+        if (event instanceof TestEvent) {
+            messages.add(((TestEvent) event).getMessage());
+        } else if (event instanceof TestEvent1) {
+            messages.add(((TestEvent1) event).getMessage());
         }
     }
 

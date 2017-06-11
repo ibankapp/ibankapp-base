@@ -18,11 +18,26 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
+/**
+ * 查询应用类
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class QueryUtils {
 
+    /**
+     * 根据排序规则获取Jpa Order对象集合
+     *
+     * @param sort 排序规则对象
+     * @param root 实体类ROOT
+     * @param cb   查询构建器
+     * @return Jpa Order对象集合
+     */
     public static List<Order> toOrders(Sort sort, Root<?> root, CriteriaBuilder cb) {
 
-        List<javax.persistence.criteria.Order> orders = new ArrayList<Order>();
+        List<Order> orders = new ArrayList<Order>();
 
         if (sort == null) {
             return orders;
@@ -36,14 +51,16 @@ public class QueryUtils {
         return orders;
     }
 
+    /**
+     * 根据排序规则获取JPA Order对象
+     *
+     * @param order 排序对象中的Order对象
+     * @param root  实体类ROOT
+     * @param cb    查询构建器
+     * @return Jpa Order对象
+     */
     private static Order toJpaOrder(org.ibankapp.base.persistence.domain.Sort.Order order, Root<?> root,
                                     CriteriaBuilder cb) {
-
-//        if (order.isIgnoreCase()) {
-//            String lower = order.getProperty().toLowerCase();
-//            return order.isAscending() ? cb.asc(root.get(lower)) : cb.desc(root.get(lower));
-//        } else {
         return order.isAscending() ? cb.asc(root.get(order.getProperty())) : cb.desc(root.get(order.getProperty()));
-//        }
     }
 }

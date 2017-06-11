@@ -19,6 +19,13 @@ import org.ibankapp.base.validation.type.Idtp;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+/**
+ * 证件号码校验注解实现类
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class IdentifierValidator implements ConstraintValidator<Identifier, Object> {
 
     private String typeFieldName;

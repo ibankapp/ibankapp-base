@@ -20,7 +20,7 @@ import javax.annotation.Resource;
  * @author codelder@ibankapp.org
  * @since 1.0.0.0
  */
-class Producer {
+class TestProducer {
 
     /**
      * 事件监听器
@@ -33,8 +33,8 @@ class Producer {
      */
     void doSomething() {
 
-        DemoEvent event = new DemoEvent(this);
-        DemoEvent1 event1 = new DemoEvent1(this);
+        TestEvent event = new TestEvent(this);
+        TestEvent1 event1 = new TestEvent1(this);
 
         event.setMessage("send a message");
         event1.setMessage("send second message");

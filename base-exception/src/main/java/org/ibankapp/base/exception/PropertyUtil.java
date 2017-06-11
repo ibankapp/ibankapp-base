@@ -17,8 +17,9 @@ import java.util.Properties;
 /**
  * 配置文件读取类
  *
- * @author codelder@ibankapp.org
- * @since 1.0.0.0
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public class PropertyUtil {
 

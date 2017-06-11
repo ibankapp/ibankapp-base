@@ -17,6 +17,11 @@ import org.ibankapp.base.persistence.domain.Specification;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
 import org.ibankapp.base.validation.validator.BeanValidator;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
@@ -25,19 +30,30 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import static org.ibankapp.base.persistence.util.QueryUtils.toOrders;
 
+/**
+ * JpaRepository默认实现类
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class JpaRepositoryImpl implements JpaRepository {
 
+    /**
+     * Jpa EntityManager
+     */
     @PersistenceContext
     private EntityManager em;
 
 
+    /**
+     * 对entity进行合法性校验，并检查数据库中是否有重复记录
+     *
+     * @param entity 需要交验的实体bean
+     */
     private void validateEntity(Object entity) {
         if (entity == null) {
             throw new NullPointerException();
@@ -184,6 +200,15 @@ public class JpaRepositoryImpl implements JpaRepository {
     }
 
 
+    /**
+     * 根据查询条件、实体类型、排序规则获取TypedQuery
+     *
+     * @param spec        查询条件
+     * @param domainClass 实体类型
+     * @param sort        排序规则
+     * @param <T>         实体类型
+     * @return TypeQuery
+     */
     private <T> TypedQuery<T> getQuery(Specification<T> spec, Class<T> domainClass, Sort sort) {
 
         CriteriaBuilder builder = em.getCriteriaBuilder();

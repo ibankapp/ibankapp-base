@@ -14,8 +14,9 @@ import java.io.Serializable;
 /**
  * 分页请求配置类
  *
- * @author codelder@ibankapp.org
- * @since 1.0.0.0
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public class Pageable implements Serializable {
 

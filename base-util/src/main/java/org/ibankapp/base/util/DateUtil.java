@@ -15,6 +15,10 @@ import java.util.TimeZone;
 
 /**
  * 日期应用类
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public class DateUtil {
 
