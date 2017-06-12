@@ -11,6 +11,14 @@ package org.ibankapp.base.persistence.domain;
 
 import java.util.List;
 
+/**
+ * 分页数据结构
+ *
+ * @param <T> 分页数据内容的类型
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class Page<T> {
 
     /**

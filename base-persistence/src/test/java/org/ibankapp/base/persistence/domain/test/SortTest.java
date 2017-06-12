@@ -1,5 +1,15 @@
-package org.ibankapp.base.persistence.sort.test;
+/*
+ * iBankApp
+ *
+ * License : Apache License,Version 2.0, January 2004
+ *
+ * See the LICENSE file in English or LICENSE.zh_CN in chinese
+ * in the root directory or <http://www.apache.org/licenses/>.
+ */
 
+package org.ibankapp.base.persistence.domain.test;
+
+import org.ibankapp.base.persistence.BasePersistenceException;
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.util.QueryUtils;
 import org.junit.Assert;
@@ -16,7 +26,7 @@ public class SortTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Test
-    public void testNewSortWithOrders() {
+    public void testGetOrderFor() {
 
         Sort.Order order = new Sort.Order(Sort.Direction.ASC, "name");
         Sort.Order order1 = new Sort.Order(Sort.Direction.DESC, "type");
@@ -24,22 +34,24 @@ public class SortTest {
 
         Sort.Order order2 = sort.getOrderFor("name");
         Assert.assertEquals(order2, order);
+        order2 = sort.getOrderFor("type");
+        Assert.assertEquals(order2, order1);
     }
 
     @Test
-    public void testNullSort() {
+    public void testNewNullSort() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one sort property to sort by");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         new Sort((List<Sort.Order>) null);
     }
 
     @Test
-    public void testEmptySort() {
+    public void testNewEmptySort() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one sort property to sort by");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         List<Sort.Order> orders = new ArrayList<Sort.Order>();
 
@@ -47,28 +59,27 @@ public class SortTest {
     }
 
     @Test
-    public void testNullSort1() {
+    public void testNewSortWithNullPropertiesList() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one property to sort by");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         new Sort(Sort.Direction.ASC, (List<String>) null);
     }
 
     @Test
-    public void testNullSort2() {
+    public void testNewSortWithNullProperties() {
 
         thrown.expect(NullPointerException.class);
-//        thrown.expectMessage("You have to provide at least one property to sort by");
 
         new Sort(Sort.Direction.ASC, (String[]) null);
     }
 
     @Test
-    public void testEmptySort1() {
+    public void testNewSortWithEmptyPropertiseList() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("You have to provide at least one property to sort by");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         new Sort(Sort.Direction.ASC, new ArrayList<String>());
     }
@@ -86,7 +97,7 @@ public class SortTest {
     }
 
     @Test
-    public void testNullAndSort() {
+    public void testAndSortNull() {
         Sort sort = new Sort("name");
 
         Sort sort2 = sort.and(null);
@@ -95,7 +106,7 @@ public class SortTest {
     }
 
     @Test
-    public void testEquals() {
+    public void testSortEquals() {
 
         Sort sort1 = new Sort("name");
 
@@ -125,29 +136,29 @@ public class SortTest {
     }
 
     @Test
-    public void testDirection() {
+    public void testDirectionFromString() {
 
         Sort.Direction dir = Sort.Direction.fromString("ASC");
         Assert.assertEquals(Sort.Direction.ASC, dir);
-        dir = Sort.Direction.fromString("DESC");
 
+        dir = Sort.Direction.fromString("DESC");
         Assert.assertEquals(Sort.Direction.DESC, dir);
     }
 
     @Test
-    public void testDirectionError() {
+    public void testDirectionFromNoExistStringError() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid value 'MED' for orders given! Has to be either 'desc' or 'asc'");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("非法的排序字符串MED,合法的字符串为asc以及desc,忽略大小写");
 
         Sort.Direction.fromString("MED");
     }
 
     @Test
-    public void testDirectionNull() {
+    public void testDirectionFromNullString() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Invalid value 'null' for orders given! Has to be either 'desc' or 'asc'");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("非法的排序字符串{0},合法的字符串为asc以及desc,忽略大小写");
 
         Sort.Direction.fromString(null);
     }
@@ -163,7 +174,7 @@ public class SortTest {
     }
 
     @Test
-    public void testNewOrder() {
+    public void testNewOrderWithOneProperty() {
 
         Sort.Order order = new Sort.Order("name");
 
@@ -172,25 +183,25 @@ public class SortTest {
     }
 
     @Test
-    public void testNewOrderNullProperty() {
+    public void testNewOrderWithNullProperty() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Property must not null or empty");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         new Sort.Order(null);
     }
 
     @Test
-    public void testNewOrderEmptyProperty() {
+    public void testNewOrderWithEmptyProperty() {
 
-        thrown.expect(IllegalArgumentException.class);
-        thrown.expectMessage("Property must not null or empty");
+        thrown.expect(BasePersistenceException.class);
+        thrown.expectMessage("您需要提供至少一个属性进行排序");
 
         new Sort.Order("");
     }
 
     @Test
-    public void testNewOrderNullDir() {
+    public void testNewOrderWithNullDir() {
 
         Sort.Order order = new Sort.Order(null, "name");
 
@@ -218,30 +229,10 @@ public class SortTest {
         Assert.assertEquals(Sort.Direction.ASC, sort.getOrderFor("type").getDirection());
     }
 
-//    @Test
-//    public void testIgnoreCase() {
-//        Sort.Order order = new Sort.Order("name");
-//        order = order.ignoreCase();
-//
-//        Assert.assertEquals("name: ASC, ignoring case", order.toString());
-//
-//        Sort.Order order1 = new Sort.Order("name");
-//
-//        Assert.assertFalse(order.equals(order1));
-//        Assert.assertNotEquals(order.hashCode(), order1.hashCode());
-//
-//        Object o = new Object();
-//        Assert.assertFalse(order.equals(o));
-//    }
-
     @Test
-    public void testOrderEqual() {
+    public void testNewOrder() {
         Sort.Order order = new Sort.Order("name");
         Sort.Order order1 = new Sort.Order("name");
-//        order1 = order1.ignoreCase();
-//        Assert.assertFalse(order.equals(order1));
-
-//        order = order.ignoreCase();
 
         Object o = new Object();
         Assert.assertFalse(order.equals(o));
@@ -263,9 +254,9 @@ public class SortTest {
 
         new QueryUtils();
 
-        List<javax.persistence.criteria.Order> orders = QueryUtils.toOrders(null,null,null);
+        List<javax.persistence.criteria.Order> orders = QueryUtils.toOrders(null, null, null);
 
-        Assert.assertEquals(0,orders.size());
+        Assert.assertEquals(0, orders.size());
 
     }
 

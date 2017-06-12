@@ -19,12 +19,15 @@ import java.util.Set;
  * 测试网卡工具类
  */
 public class NetCardTest {
-    public NetCardTest(){
+    public NetCardTest() {
     }
+
+    /**
+     * 测试获取MAC地址字符串集合
+     */
     @Test
-    public void testGetMacAddresses()
-    {
-        NetCard nc = new NetCard();
+    public void testGetMacAddresses() {
+
         Set<String> sets = null;
         try {
             sets = NetCard.getMacAddresses();
@@ -32,9 +35,10 @@ public class NetCardTest {
             e.printStackTrace();
         }
 
-        for(String mac:sets)
-        {
-            Assert.assertTrue(mac.split(":").length==6);
+        if (sets != null) {
+            for (String mac : sets) {
+                Assert.assertTrue(mac.split(":").length == 6);
+            }
         }
 
     }

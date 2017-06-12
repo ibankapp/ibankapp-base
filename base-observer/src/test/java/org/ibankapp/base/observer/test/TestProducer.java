@@ -14,16 +14,27 @@ import org.ibankapp.base.observer.EventRegister;
 
 import javax.annotation.Resource;
 
+/**
+ * 测试用事件生产者
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
+ */
+class TestProducer {
 
-class Producer{
-
+    /**
+     * 事件监听器
+     */
     @Resource
     private EventRegister register;
 
-    void doSomething(){
+    /**
+     * 触发事件
+     */
+    void doSomething() {
 
-        DemoEvent event = new DemoEvent(this);
-        DemoEvent1 event1 = new DemoEvent1(this);
+        TestEvent event = new TestEvent(this);
+        TestEvent1 event1 = new TestEvent1(this);
 
         event.setMessage("send a message");
         event1.setMessage("send second message");

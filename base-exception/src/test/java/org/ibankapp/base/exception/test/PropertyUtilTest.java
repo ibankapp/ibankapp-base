@@ -17,13 +17,15 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import static org.hamcrest.CoreMatchers.isA;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * PropertyUtil测试类
  *
- * @author codelder
- * @version 1.0.0, 16/10/02
+ * @author codelder@ibankapp.org
+ * @version 1.0.0.0
  */
 public class PropertyUtilTest {
 

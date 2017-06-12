@@ -9,16 +9,24 @@
 
 package org.ibankapp.base.persistence.domain;
 
-import javax.persistence.metamodel.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.metamodel.EntityType;
+import javax.persistence.metamodel.IdentifiableType;
+import javax.persistence.metamodel.ManagedType;
+import javax.persistence.metamodel.Metamodel;
+import javax.persistence.metamodel.SingularAttribute;
+
 /**
  * 实体信息类，通过此类的方法可获得实体类的一些静态信息
  *
  * @param <T> 实体类
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public class EntityInformation<T> {
 
@@ -68,11 +76,22 @@ public class EntityInformation<T> {
         return attributeNames;
     }
 
+    /**
+     * Id元数据内部类
+     */
     private static class IdMetadata<T> {
 
+        /**
+         * id所包含的属性字段
+         */
         private final Set<SingularAttribute<? super T, ?>> attributes;
 
 
+        /**
+         * 构造函数
+         *
+         * @param source id类型
+         */
         @SuppressWarnings("unchecked")
         IdMetadata(IdentifiableType<T> source) {
 

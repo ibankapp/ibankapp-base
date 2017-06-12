@@ -7,7 +7,16 @@
  * in the root directory or <http://www.apache.org/licenses/>.
  */
 
-package org.ibankapp.base.persistence.sort.test;
+/*
+ * iBankApp
+ *
+ * License : Apache License,Version 2.0, January 2004
+ *
+ * See the LICENSE file in English or LICENSE.zh_CN in chinese
+ * in the root directory or <http://www.apache.org/licenses/>.
+ */
+
+package org.ibankapp.base.persistence.domain.test;
 
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.repository.JpaRepository;
@@ -34,7 +43,7 @@ public class FindSortTest {
     @Before
     public void init(){
 
-        SortModel model = new SortModel();
+        TestSortModel model = new TestSortModel();
 
         model.setId("0");
         model.setName("tom");
@@ -42,7 +51,7 @@ public class FindSortTest {
 
         repository.persist(model);
 
-        model = new SortModel();
+        model = new TestSortModel();
 
         model.setId("1");
         model.setName("tom");
@@ -50,7 +59,7 @@ public class FindSortTest {
 
         repository.persist(model);
 
-        model = new SortModel();
+        model = new TestSortModel();
 
         model.setId("2");
         model.setName("jack");
@@ -58,7 +67,7 @@ public class FindSortTest {
 
         repository.persist(model);
 
-        model = new SortModel();
+        model = new TestSortModel();
 
         model.setId("3");
         model.setName("jack");
@@ -73,7 +82,7 @@ public class FindSortTest {
 
         Sort sort = new Sort("name");
 
-        List<SortModel> models = repository.findAll(SortModel.class,sort);
+        List<TestSortModel> models = repository.findAll(TestSortModel.class,sort);
 
         Assert.assertEquals("jack",models.get(0).getName());
         Assert.assertEquals("jack",models.get(1).getName());
@@ -88,7 +97,7 @@ public class FindSortTest {
 
         Sort sort = new Sort("age");
 
-        List<SortModel> models = repository.findAll(SortModel.class,sort);
+        List<TestSortModel> models = repository.findAll(TestSortModel.class,sort);
 
         Assert.assertEquals(10,models.get(0).getAge());
         Assert.assertEquals(10,models.get(1).getAge());
@@ -101,7 +110,7 @@ public class FindSortTest {
     public void testDescNameSort(){
         Sort sort = new Sort(Sort.Direction.DESC,"name");
 
-        List<SortModel> models = repository.findAll(SortModel.class,sort);
+        List<TestSortModel> models = repository.findAll(TestSortModel.class,sort);
 
         Assert.assertEquals("tom",models.get(0).getName());
         Assert.assertEquals("tom",models.get(1).getName());
@@ -114,7 +123,7 @@ public class FindSortTest {
     public void testAscAgeNameSort(){
         Sort sort = new Sort("age","name");
 
-        List<SortModel> models = repository.findAll(SortModel.class,sort);
+        List<TestSortModel> models = repository.findAll(TestSortModel.class,sort);
 
         Assert.assertEquals("2",models.get(0).getId());
         Assert.assertEquals("0",models.get(1).getId());
@@ -127,7 +136,7 @@ public class FindSortTest {
     public void testAscNameAgeSort(){
         Sort sort = new Sort("name","age");
 
-        List<SortModel> models = repository.findAll(SortModel.class,sort);
+        List<TestSortModel> models = repository.findAll(TestSortModel.class,sort);
 
         Assert.assertEquals("2",models.get(0).getId());
         Assert.assertEquals("3",models.get(1).getId());
@@ -148,7 +157,7 @@ public class FindSortTest {
 
         Sort sort = new Sort(orders);
 
-        List<SortModel> models = repository.findAll(SortModel.class,sort);
+        List<TestSortModel> models = repository.findAll(TestSortModel.class,sort);
 
         Assert.assertEquals("3",models.get(0).getId());
         Assert.assertEquals("2",models.get(1).getId());

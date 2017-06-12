@@ -12,6 +12,13 @@ package org.ibankapp.base.validation.exception;
 import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.exception.PropertyUtil;
 
+/**
+ * bean校验异常
+ *
+ * @author <a href="http://www.ibankapp.org">ibankapp</a>
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
+ */
 public class BaseValidationException extends BaseException {
 
     private final static String MESSAGE_FILE = "base_validation_message.properties";

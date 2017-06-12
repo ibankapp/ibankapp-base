@@ -17,26 +17,58 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+/**
+ * EntityInfomation 测试类
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContextConfig.class})
 public class EntityInformationTest {
 
+    /**
+     * 注入的Jpa EntityManager
+     */
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * 测试获取实体类的Id属性名列表,该实体类ID由多个字段组合而成
+     */
     @Test
-    public void testNewEntityInformation() {
+    public void testMultiIdEntityInformation() {
 
-        EntityInformation<CompositedModel> entityInformation = new EntityInformation<CompositedModel>(CompositedModel.class, em
+        EntityInformation<TestCompositedModel> entityInformation = new EntityInformation<TestCompositedModel>(TestCompositedModel.class, em
                 .getMetamodel());
 
-        Assert.assertEquals("CompositedModel", entityInformation.getEntityName());
+        Assert.assertEquals("TestCompositedModel", entityInformation.getEntityName());
+
+        Set<String> expectAttributNames = new HashSet<String>();
+        expectAttributNames.add("firstName");
+        expectAttributNames.add("lastName");
+
+        Set<String> actualAttributNames = new HashSet<String>((Collection<? extends String>) entityInformation
+                .getIdAttributeNames());
+
+        Assert.assertEquals(expectAttributNames, actualAttributNames);
+
+    }
+
+    /**
+     * 测试获取实体类的ID属性列表，该实体类ID只由一个字段构成
+     */
+    @Test
+    public void testSingleIdEntityInfomation() {
+        EntityInformation<TestSimpleModel> entityInformation = new EntityInformation<TestSimpleModel>(TestSimpleModel.class, em
+                .getMetamodel());
 
         for (String name : entityInformation.getIdAttributeNames()) {
-            Assert.assertTrue(name.equals("firstName") || name.equals("lastName"));
+            Assert.assertTrue(name.equals("name"));
         }
     }
 }

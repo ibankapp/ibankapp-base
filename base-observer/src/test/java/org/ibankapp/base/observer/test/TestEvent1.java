@@ -12,18 +12,42 @@ package org.ibankapp.base.observer.test;
 
 import org.ibankapp.base.observer.Event;
 
-class DemoEvent extends Event {
+/**
+ * 测试用Demo事件
+ *
+ * @author codelder@ibankapp.org
+ * @since 1.0.0.0
+ */
+class TestEvent1 extends Event {
 
+    /**
+     * 事件信息
+     */
     private String message;
 
-    DemoEvent(Object source) {
+    /**
+     * 构造函数，继承父类构造函数
+     *
+     * @param source 触发事件的原始对象
+     */
+    TestEvent1(Object source) {
         super(source);
     }
 
+    /**
+     * 获取 事件信息
+     *
+     * @return 事件信息
+     */
     String getMessage() {
         return message;
     }
 
+    /**
+     * 设置 事件信息
+     *
+     * @param message 事件信息
+     */
     void setMessage(String message) {
         this.message = message;
     }
