@@ -1,6 +1,7 @@
 
 dependencies {
     compile project(":base-system")
+    compile project(":base-exception")
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'org.apache.directory.studio', name: 'org.apache.commons.io', version: '2.4'
     compile group: 'net.iharder', name: 'base64', version: '2.3.9'

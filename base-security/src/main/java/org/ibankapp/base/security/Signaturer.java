@@ -56,13 +56,11 @@ public class Signaturer {
 
         } catch (Exception e) {
 
-            System.out.println("签名失败");
-
             e.printStackTrace();
 
-        }
+            throw new BaseSecurityException("E-BASE-SECURITY-000001").initCause(e);
 
-        return null;
+        }
 
     }
 
