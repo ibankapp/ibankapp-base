@@ -2,7 +2,8 @@ engines:
   checkstyle:
     enabled: true
     channel: "beta"
-    config: "config/checkstyle/style.xml"
+    toolVersion: "8.0"
+    config: "config/checkstyle/checkstyle.xml"
 
 ratings:
   paths:
