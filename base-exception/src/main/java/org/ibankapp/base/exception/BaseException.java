@@ -19,7 +19,7 @@ package org.ibankapp.base.exception;
 public class BaseException extends RuntimeException {
 
 
-    private static final long serialVersionUID = 8639994227897113279L;
+    private final static long serialVersionUID = 8639994227897113279L;
     private final static String MESSAGE_FILE = "base_message.properties";
 
     static {
@@ -32,19 +32,19 @@ public class BaseException extends RuntimeException {
     private String messageId;
 
     /**
-     * 完整错误信息
+     * 完整错误信息.
      */
     private String message;
 
 
     /**
-     * 默认构造函数
+     * 默认构造函数.
      */
     public BaseException() {
     }
 
     /**
-     * 构造函数
+     * 构造函数.
      *
      * @param messageId 错误信息ID
      */
@@ -55,7 +55,7 @@ public class BaseException extends RuntimeException {
 
 
     /**
-     * 构造函数
+     * 构造函数.
      *
      * @param messageId 错误信息ID
      * @param param     错误信息插值
@@ -67,7 +67,7 @@ public class BaseException extends RuntimeException {
 
 
     /**
-     * 构造函数
+     * 构造函数.
      *
      * @param messageId 错误信息ID
      * @param param1    错误信息插值1
@@ -80,7 +80,7 @@ public class BaseException extends RuntimeException {
 
 
     /**
-     * 构造函数
+     * 构造函数.
      *
      * @param messageId 错误信息ID
      * @param params    错误信息插值数组
@@ -91,7 +91,7 @@ public class BaseException extends RuntimeException {
     }
 
     /**
-     * 设置 错误原始原因
+     * 设置 错误原始原因.
      *
      * @param cause 原始异常
      * @return 当前异常
@@ -104,7 +104,7 @@ public class BaseException extends RuntimeException {
 
 
     /**
-     * 获取 完整错误信息
+     * 获取 完整错误信息.
      *
      * @return 完整错误信息
      */
@@ -115,7 +115,7 @@ public class BaseException extends RuntimeException {
 
 
     /**
-     * 获取 错误信息ID
+     * 获取 错误信息ID.
      *
      * @return 错误信息ID
      */
