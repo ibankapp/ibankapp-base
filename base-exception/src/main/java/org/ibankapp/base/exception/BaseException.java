@@ -27,7 +27,7 @@ public class BaseException extends RuntimeException {
     }
 
     /**
-     * 错误信息ID
+     * 错误信息ID.
      */
     private String messageId;
 
