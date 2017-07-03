@@ -2,6 +2,7 @@ engines:
   checkstyle:
     enabled: true
     channel: "beta"
+    version: "8.0"
     config: "config/checkstyle/checkstyle.xml"
 
 ratings:
