@@ -19,7 +19,7 @@ package org.ibankapp.base.exception;
 public class BaseException extends RuntimeException {
 
 
-  private static final long serialVersionUID = 8639994227897113279L;
+  private final static long serialVersionUID = 8639994227897113279L;
   private static final String MESSAGE_FILE = "base_message.properties";
 
   static {
