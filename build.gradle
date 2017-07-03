@@ -39,6 +39,7 @@ subprojects {
 
     checkstyle {
         toolVersion = "8.0"
+        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
     }
 
     configurations {

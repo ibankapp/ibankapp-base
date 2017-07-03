@@ -2,7 +2,7 @@ engines:
   checkstyle:
     enabled: true
     channel: "beta"
-    config: 'base-exception/config/checkstyle/checkstyle.xml'
+    config: 'config/checkstyle/checkstyle.xml'
 
 ratings:
   paths:
