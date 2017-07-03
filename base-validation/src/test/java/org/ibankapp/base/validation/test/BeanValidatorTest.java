@@ -18,7 +18,6 @@
 
 package org.ibankapp.base.validation.test;
 
-
 import static org.junit.Assert.assertNotNull;
 
 import javax.validation.constraints.Max;
@@ -33,7 +32,7 @@ import org.junit.rules.ExpectedException;
 public class BeanValidatorTest {
 
   /**
-   * 异常测试RULE
+   * 异常测试RULE.
    */
   @Rule
   public ExpectedException thrown = ExpectedException.none();
