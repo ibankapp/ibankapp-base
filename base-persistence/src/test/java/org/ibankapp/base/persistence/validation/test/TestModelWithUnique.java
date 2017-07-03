@@ -18,38 +18,36 @@
 
 package org.ibankapp.base.persistence.validation.test;
 
-
-import org.ibankapp.base.persistence.validation.constraint.Unique;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import org.ibankapp.base.persistence.validation.constraint.Unique;
 
 @MappedSuperclass
 @Unique(properties = {"name"}, message = "姓名重复")
 class TestModelWithUnique {
 
-    private String name;
+  private String name;
 
-    private String id;
+  private String id;
 
-    @Id
-    @Column(length = 36)
-    public String getId() {
-        return id;
-    }
+  @Id
+  @Column(length = 36)
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    @Column
-    public String getName() {
-        return name;
-    }
+  @Column
+  public String getName() {
+    return name;
+  }
 
-    void setName(String name) {
-        this.name = name;
-    }
+  void setName(String name) {
+    this.name = name;
+  }
 
 }

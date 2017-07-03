@@ -15,7 +15,7 @@ import java.text.MessageFormat;
 import java.util.Properties;
 
 /**
- * 配置文件读取类
+ * 配置文件读取类.
  *
  * @author <a href="http://www.ibankapp.org">ibankapp</a>
  * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
@@ -23,104 +23,104 @@ import java.util.Properties;
  */
 public class PropertyUtil {
 
-    /**
-     * 属性文件对象
-     */
-    private final static Properties props = new Properties();
+  /**
+   * 属性文件对象.
+   */
+  private static final Properties PROPS = new Properties();
 
-    /**
-     * 将属性文件读取进入属性对象
-     *
-     * @param name 文件路径及名称
-     */
-    public static void load(String name) {
-        InputStream is = null;
+  /**
+   * 将属性文件读取进入属性对象.
+   *
+   * @param name 文件路径及名称
+   */
+  public static void load(String name) {
+    InputStream is = null;
 
-        try {
-            is = Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
-            props.load(is);
-        } catch (Exception e) {
-            throw new BaseException().initCause(e);
-        } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    try {
+      is = Thread.currentThread().getContextClassLoader().getResourceAsStream(name);
+      PROPS.load(is);
+    } catch (Exception e) {
+      throw new BaseException().initCause(e);
+    } finally {
+      try {
+        if (is != null) {
+          is.close();
         }
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+  }
+
+  /**
+   * 根据key值从属性文件中获取value.
+   *
+   * @param key 属性key
+   * @return 属性value
+   * @throws BaseException key为null异常
+   */
+  public static String getProperty(String key) {
+
+    if (key == null) {
+      throw new BaseException("E-BASE-000002");
     }
 
-    /**
-     * 根据key值从属性文件中获取value
-     *
-     * @param key 属性key
-     * @return 属性value
-     * @throws BaseException key为null异常
-     */
-    public static String getProperty(String key) {
+    return PROPS.getProperty(key);
 
-        if (key == null) {
-            throw new BaseException("E-BASE-000002");
-        }
+  }
 
-        return props.getProperty(key);
+  /**
+   * 根据key值和一个插值从属性文件获取value.
+   *
+   * @param key 属性key
+   * @param appendMsg 插值
+   * @return 属性value
+   */
+  public static String getProperty(String key, String appendMsg) {
+    String property = getProperty(key);
 
+    if (appendMsg != null) {
+      property = MessageFormat.format(property, appendMsg);
     }
 
-    /**
-     * 根据key值和一个插值从属性文件获取value
-     *
-     * @param key       属性key
-     * @param appendMsg 插值
-     * @return 属性value
-     */
-    public static String getProperty(String key, String appendMsg) {
-        String property = getProperty(key);
+    return property;
+  }
 
-        if (appendMsg != null) {
-            property = MessageFormat.format(property, appendMsg);
-        }
+  /**
+   * 根据key值和多个插值从属性文件获取value.
+   *
+   * @param key 属性key
+   * @param appendMsgs 插值数组
+   * @return 属性value
+   */
+  public static String getProperty(String key, String[] appendMsgs) {
+    String property = getProperty(key);
 
-        return property;
+    if (appendMsgs != null) {
+      property = MessageFormat.format(property, (Object[]) appendMsgs);
     }
 
-    /**
-     * 根据key值和多个插值从属性文件获取value
-     *
-     * @param key        属性key
-     * @param appendMsgs 插值数组
-     * @return 属性value
-     */
-    public static String getProperty(String key, String[] appendMsgs) {
-        String property = getProperty(key);
+    return property;
+  }
 
-        if (appendMsgs != null) {
-            property = MessageFormat.format(property, (Object[]) appendMsgs);
-        }
+  /**
+   * 根据key值和两个插值从属性文件获取value.
+   *
+   * @param key 属性key
+   * @param appendMsg 插值1
+   * @param appendMsg1 插值2
+   * @return 属性value
+   * @throws BaseException key在配置文件中不存在
+   */
+  public static String getProperty(String key, String appendMsg, String appendMsg1) {
+    String property = getProperty(key);
 
-        return property;
+    if (property == null) {
+      throw new BaseException("E-BASE-000003", key);
     }
 
-    /**
-     * 根据key值和两个插值从属性文件获取value
-     *
-     * @param key        属性key
-     * @param appendMsg  插值1
-     * @param appendMsg1 插值2
-     * @return 属性value
-     * @throws BaseException key在配置文件中不存在
-     */
-    public static String getProperty(String key, String appendMsg, String appendMsg1) {
-        String property = getProperty(key);
+    property = MessageFormat.format(property, appendMsg, appendMsg1);
 
-        if (property == null) {
-            throw new BaseException("E-BASE-000003", key);
-        }
-
-        property = MessageFormat.format(property, appendMsg, appendMsg1);
-
-        return property;
-    }
+    return property;
+  }
 }

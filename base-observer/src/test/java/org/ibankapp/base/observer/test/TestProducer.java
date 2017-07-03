@@ -9,10 +9,8 @@
 
 package org.ibankapp.base.observer.test;
 
-
-import org.ibankapp.base.observer.EventRegister;
-
 import javax.annotation.Resource;
+import org.ibankapp.base.observer.EventRegister;
 
 /**
  * 测试用事件生产者
@@ -22,24 +20,24 @@ import javax.annotation.Resource;
  */
 class TestProducer {
 
-    /**
-     * 事件监听器
-     */
-    @Resource
-    private EventRegister register;
+  /**
+   * 事件监听器.
+   */
+  @Resource
+  private EventRegister register;
 
-    /**
-     * 触发事件
-     */
-    void doSomething() {
+  /**
+   * 触发事件.
+   */
+  void doSomething() {
 
-        TestEvent event = new TestEvent(this);
-        TestEvent1 event1 = new TestEvent1(this);
+    TestEvent event = new TestEvent(this);
+    TestEvent1 event1 = new TestEvent1(this);
 
-        event.setMessage("send a message");
-        event1.setMessage("send second message");
+    event.setMessage("send a message");
+    event1.setMessage("send second message");
 
-        register.fireEvent(event);
-        register.fireEvent(event1);
-    }
+    register.fireEvent(event);
+    register.fireEvent(event1);
+  }
 }

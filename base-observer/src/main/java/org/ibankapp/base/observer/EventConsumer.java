@@ -18,10 +18,10 @@ package org.ibankapp.base.observer;
  */
 public interface EventConsumer {
 
-    /**
-     * 监听的事件发生时调用此函数
-     *
-     * @param event 发生的事件
-     */
-    void onEvent(Event event);
+  /**
+   * 监听的事件发生时调用此函数.
+   *
+   * @param event 发生的事件
+   */
+  void onEvent(Event event);
 }

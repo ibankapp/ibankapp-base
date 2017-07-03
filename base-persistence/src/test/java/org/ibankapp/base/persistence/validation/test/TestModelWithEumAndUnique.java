@@ -9,9 +9,6 @@
 
 package org.ibankapp.base.persistence.validation.test;
 
-
-import org.ibankapp.base.persistence.validation.constraint.Unique;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -19,32 +16,34 @@ import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import org.ibankapp.base.persistence.validation.constraint.Unique;
 
 @Entity
-@Unique(properties = "status",message = "ENUM重复")
+@Unique(properties = "status", message = "ENUM重复")
 @Table
 public class TestModelWithEumAndUnique {
 
-    private InheritanceType status;
+  private InheritanceType status;
 
-    private String id;
+  private String id;
 
-    @Id
-    @Column(length = 36)
-    public String getId() {
-        return id;
-    }
+  @Id
+  @Column(length = 36)
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-    @Column
-    @Enumerated(EnumType.STRING)
-    public InheritanceType getStatus() {
-        return status;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    void setStatus(InheritanceType status) {
-        this.status = status;
-    }
+  @Column
+  @Enumerated(EnumType.STRING)
+  public InheritanceType getStatus() {
+    return status;
+  }
+
+  void setStatus(InheritanceType status) {
+    this.status = status;
+  }
 }

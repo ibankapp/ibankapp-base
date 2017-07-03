@@ -12,25 +12,26 @@ package org.ibankapp.base.validation.test;
 import org.ibankapp.base.validation.constraint.Identifier;
 import org.ibankapp.base.validation.type.Idtp;
 
-@Identifier(typefield = "idtp",codefield = "idno1")
+@Identifier(typefield = "idtp", codefield = "idno1")
 class TestModelWithIdentifierError {
-    private Idtp idtp;
 
-    private String idno;
+  private Idtp idtp;
 
-    public Idtp getIdtp() {
-        return idtp;
-    }
+  private String idno;
 
-    void setIdtp(Idtp idtp) {
-        this.idtp = idtp;
-    }
+  public Idtp getIdtp() {
+    return idtp;
+  }
 
-    public String getIdno() {
-        return idno;
-    }
+  void setIdtp(Idtp idtp) {
+    this.idtp = idtp;
+  }
 
-    void setIdno(String idno) {
-        this.idno = idno;
-    }
+  public String getIdno() {
+    return idno;
+  }
+
+  void setIdno(String idno) {
+    this.idno = idno;
+  }
 }

@@ -17,21 +17,21 @@ package org.ibankapp.base.validation.type;
  * @since 1.0.0
  */
 public enum Idtp {
-    /**
-     * 身份证
-     */
-    IDCARD,
-    /**
-     * 护照
-     */
-    PASSPORT,
-    /**
-     * 组织机构代码证
-     */
-    OCC,
-    /**
-     * 统一社会信用代码证
-     */
-    USCIC
+  /**
+   * 身份证.
+   */
+  IDCARD,
+  /**
+   * 护照.
+   */
+  PASSPORT,
+  /**
+   * 组织机构代码证.
+   */
+  OCC,
+  /**
+   * 统一社会信用代码证.
+   */
+  USCIC
 }
 

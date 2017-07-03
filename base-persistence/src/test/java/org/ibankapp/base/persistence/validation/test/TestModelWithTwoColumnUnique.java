@@ -18,48 +18,46 @@
 
 package org.ibankapp.base.persistence.validation.test;
 
-
-import org.ibankapp.base.persistence.validation.constraint.Unique;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import org.ibankapp.base.persistence.validation.constraint.Unique;
 
 @Entity
 @Unique(properties = {"name", "type"}, message = "姓名及类型重复")
 public class TestModelWithTwoColumnUnique {
 
-    private String name;
+  private String name;
 
-    private int type;
+  private int type;
 
-    private String id;
+  private String id;
 
-    @Id
-    @Column(length = 36)
-    public String getId() {
-        return id;
-    }
+  @Id
+  @Column(length = 36)
+  public String getId() {
+    return id;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    @Column
-    public String getName() {
-        return name;
-    }
+  @Column
+  public String getName() {
+    return name;
+  }
 
-    void setName(String name) {
-        this.name = name;
-    }
+  void setName(String name) {
+    this.name = name;
+  }
 
-    @Column
-    public int getType() {
-        return type;
-    }
+  @Column
+  public int getType() {
+    return type;
+  }
 
-    void setType(int type) {
-        this.type = type;
-    }
+  void setType(int type) {
+    this.type = type;
+  }
 }

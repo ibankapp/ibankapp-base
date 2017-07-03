@@ -9,24 +9,23 @@
 
 package org.ibankapp.base.persistence.repository.test;
 
-import org.ibankapp.base.persistence.domain.Specification;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.ibankapp.base.persistence.domain.Specification;
 
 public class NameDistinctSpecification implements Specification<SimpleModel> {
 
-    private String name;
+  private String name;
 
-    NameDistinctSpecification(String name) {
-        this.name = name;
-    }
+  NameDistinctSpecification(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        query.distinct(true);
-        return cb.like(root.<String>get("name"), "%" + name + "%");
-    }
+  @Override
+  public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+    query.distinct(true);
+    return cb.like(root.<String>get("name"), "%" + name + "%");
+  }
 }

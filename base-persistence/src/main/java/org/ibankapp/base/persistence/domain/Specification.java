@@ -31,13 +31,13 @@ import javax.persistence.criteria.Root;
  */
 public interface Specification<T> {
 
-    /**
-     * 获取 Predicate
-     *
-     * @param root  实体类ROOT
-     * @param query 条件查询
-     * @param cb    查询构建器
-     * @return Predicate
-     */
-    Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb);
+  /**
+   * 获取 Predicate.
+   *
+   * @param root 实体类ROOT
+   * @param query 条件查询
+   * @param cb 查询构建器
+   * @return Predicate
+   */
+  Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb);
 }

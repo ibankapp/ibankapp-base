@@ -9,7 +9,6 @@
 
 package org.ibankapp.base.observer.test;
 
-
 import org.ibankapp.base.observer.Event;
 
 /**
@@ -20,35 +19,35 @@ import org.ibankapp.base.observer.Event;
  */
 class TestEvent1 extends Event {
 
-    /**
-     * 事件信息
-     */
-    private String message;
+  /**
+   * 事件信息.
+   */
+  private String message;
 
-    /**
-     * 构造函数，继承父类构造函数
-     *
-     * @param source 触发事件的原始对象
-     */
-    TestEvent1(Object source) {
-        super(source);
-    }
+  /**
+   * 构造函数，继承父类构造函数.
+   *
+   * @param source 触发事件的原始对象
+   */
+  TestEvent1(Object source) {
+    super(source);
+  }
 
-    /**
-     * 获取 事件信息
-     *
-     * @return 事件信息
-     */
-    String getMessage() {
-        return message;
-    }
+  /**
+   * 获取 事件信息.
+   *
+   * @return 事件信息
+   */
+  String getMessage() {
+    return message;
+  }
 
-    /**
-     * 设置 事件信息
-     *
-     * @param message 事件信息
-     */
-    void setMessage(String message) {
-        this.message = message;
-    }
+  /**
+   * 设置 事件信息.
+   *
+   * @param message 事件信息
+   */
+  void setMessage(String message) {
+    this.message = message;
+  }
 }

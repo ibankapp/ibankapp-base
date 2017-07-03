@@ -13,23 +13,23 @@ import org.ibankapp.base.observer.Event;
 import org.ibankapp.base.observer.EventConsumer;
 
 /**
- * 测试用第二个事件消费者
+ * 测试用第二个事件消费者.
  *
  * @author codelder@ibankapp.org
  * @since 1.0.0.0
  */
 class TestSecondConsumer implements EventConsumer {
 
-    /**
-     * 接收DemoEvent事件并进行相应处理
-     *
-     * @param event 发生的事件
-     */
-    @Override
-    public void onEvent(Event event) {
+  /**
+   * 接收DemoEvent事件并进行相应处理.
+   *
+   * @param event 发生的事件
+   */
+  @Override
+  public void onEvent(Event event) {
 
-        if (event instanceof TestEvent) {
-            System.out.println(event.getTimestamp());
-        }
+    if (event instanceof TestEvent) {
+      System.out.println(event.getTimestamp());
     }
+  }
 }

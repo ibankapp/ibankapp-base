@@ -9,17 +9,16 @@
 
 package org.ibankapp.base.persistence.repository.test;
 
-import org.ibankapp.base.persistence.domain.Specification;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.ibankapp.base.persistence.domain.Specification;
 
 public class NullSpecification implements Specification<SimpleModel> {
 
-    @Override
-    public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        return null;
-    }
+  @Override
+  public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+    return null;
+  }
 }

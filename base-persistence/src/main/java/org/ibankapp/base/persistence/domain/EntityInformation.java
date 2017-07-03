@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
-
 import javax.persistence.metamodel.EntityType;
 import javax.persistence.metamodel.IdentifiableType;
 import javax.persistence.metamodel.ManagedType;
@@ -30,74 +29,73 @@ import javax.persistence.metamodel.SingularAttribute;
  */
 public class EntityInformation<T> {
 
-    private final IdMetadata<T> idMetadata;
-    private String entityName;
+  private final IdMetadata<T> idMetadata;
+  private String entityName;
+
+  /**
+   * 构造函数.
+   *
+   * @param domainClass 实体类CLASS
+   * @param metamodel 模型元数据,可从jpa的实体管理器EntityManage获取
+   */
+  public EntityInformation(Class<T> domainClass, Metamodel metamodel) {
+
+    ManagedType<T> type = metamodel.managedType(domainClass);
+
+    this.entityName = ((EntityType<?>) type).getName();
+
+    IdentifiableType<T> identifiableType = (IdentifiableType<T>) type;
+
+    this.idMetadata = new IdMetadata<T>(identifiableType);
+  }
+
+  /**
+   * 获取实体类的名称.
+   *
+   * @return 实体类名称
+   */
+  public String getEntityName() {
+    return entityName;
+  }
+
+  /**
+   * 获取实体类的id属性列表.
+   *
+   * @return id属性列表
+   */
+  public Iterable<String> getIdAttributeNames() {
+
+    List<String> attributeNames = new ArrayList<String>(idMetadata.attributes.size());
+
+    for (SingularAttribute attribute : idMetadata.attributes) {
+      attributeNames.add(attribute.getName());
+    }
+
+    return attributeNames;
+  }
+
+  /**
+   * Id元数据内部类.
+   */
+  private static class IdMetadata<T> {
 
     /**
-     * 构造函数
+     * id所包含的属性字段.
+     */
+    private final Set<SingularAttribute<? super T, ?>> attributes;
+
+
+    /**
+     * 构造函数.
      *
-     * @param domainClass 实体类CLASS
-     * @param metamodel   模型元数据,可从jpa的实体管理器EntityManage获取
+     * @param source id类型
      */
-    public EntityInformation(Class<T> domainClass, Metamodel metamodel) {
+    @SuppressWarnings("unchecked")
+    IdMetadata(IdentifiableType<T> source) {
 
-        ManagedType<T> type = metamodel.managedType(domainClass);
-
-        this.entityName = ((EntityType<?>) type).getName();
-
-        IdentifiableType<T> identifiableType = (IdentifiableType<T>) type;
-
-        this.idMetadata = new IdMetadata<T>(identifiableType);
+      this.attributes = (Set<SingularAttribute<? super T, ?>>) (source.hasSingleIdAttribute()
+          ? Collections.singleton(source.getId(source.getIdType().getJavaType()))
+          : source.getIdClassAttributes());
     }
-
-    /**
-     * 获取实体类的名称
-     *
-     * @return 实体类名称
-     */
-    public String getEntityName() {
-        return entityName;
-    }
-
-    /**
-     * 获取实体类的id属性列表
-     *
-     * @return id属性列表
-     */
-    public Iterable<String> getIdAttributeNames() {
-
-        List<String> attributeNames = new ArrayList<String>(idMetadata.attributes.size());
-
-        for (SingularAttribute attribute : idMetadata.attributes) {
-            attributeNames.add(attribute.getName());
-        }
-//        attributeNames.addAll(idMetadata.attributes.stream().map(Attribute::getName).collect(Collectors.toList()));
-
-        return attributeNames;
-    }
-
-    /**
-     * Id元数据内部类
-     */
-    private static class IdMetadata<T> {
-
-        /**
-         * id所包含的属性字段
-         */
-        private final Set<SingularAttribute<? super T, ?>> attributes;
-
-
-        /**
-         * 构造函数
-         *
-         * @param source id类型
-         */
-        @SuppressWarnings("unchecked")
-        IdMetadata(IdentifiableType<T> source) {
-
-            this.attributes = (Set<SingularAttribute<? super T, ?>>) (source.hasSingleIdAttribute()
-                    ? Collections.singleton(source.getId(source.getIdType().getJavaType()))
-                    : source.getIdClassAttributes());
-        }
-    }
+  }
 }
