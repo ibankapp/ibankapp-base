@@ -23,11 +23,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import org.ibankapp.base.persistence.specification.ByIdsSpecification;
 import org.ibankapp.base.persistence.domain.Page;
 import org.ibankapp.base.persistence.domain.Pageable;
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.domain.Specification;
+import org.ibankapp.base.persistence.specification.ByIdsSpecification;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
 import org.ibankapp.base.validation.validator.BeanValidator;
 
