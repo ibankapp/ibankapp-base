@@ -39,7 +39,7 @@ subprojects {
 
     checkstyle {
         toolVersion = "6.5"
-        configFile = rootProject.file('config/checkstyle/checkstyle.xml')
+        configFile = rootProject.file('config/checkstyle/google_style.xml')
     }
 
     configurations {

@@ -22,14 +22,14 @@ public class StringUtilTest {
 
     Assert.assertTrue(StringUtils.isEmpty(null));
 
-    String s = "";
-    Assert.assertTrue(StringUtils.isEmpty(s));
+    String str = "";
+    Assert.assertTrue(StringUtils.isEmpty(str));
 
-    s = " ";
-    Assert.assertTrue(StringUtils.isEmpty(s));
+    str = " ";
+    Assert.assertTrue(StringUtils.isEmpty(str));
 
-    s = "0";
-    Assert.assertFalse(StringUtils.isEmpty(s));
+    str = "0";
+    Assert.assertFalse(StringUtils.isEmpty(str));
 
   }
 

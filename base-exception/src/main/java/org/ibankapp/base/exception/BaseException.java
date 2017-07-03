@@ -19,7 +19,10 @@ package org.ibankapp.base.exception;
 public class BaseException extends RuntimeException {
 
 
-  private final static long serialVersionUID = 8639994227897113279L;
+  private static final long serialVersionUID = 8639994227897113279L;
+  /**
+   * 错误信息配置文件.
+   */
   private static final String MESSAGE_FILE = "base_message.properties";
 
   static {
@@ -48,7 +51,7 @@ public class BaseException extends RuntimeException {
    *
    * @param messageId 错误信息ID
    */
-  public BaseException(String messageId) {
+  public BaseException(final String messageId) {
     this.messageId = messageId;
     this.message = PropertyUtil.getProperty(messageId);
   }
@@ -60,7 +63,7 @@ public class BaseException extends RuntimeException {
    * @param messageId 错误信息ID
    * @param param 错误信息插值
    */
-  public BaseException(String messageId, String param) {
+  public BaseException(final String messageId, final String param) {
     this.messageId = messageId;
     this.message = PropertyUtil.getProperty(messageId, param);
   }

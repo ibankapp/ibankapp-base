@@ -2,7 +2,7 @@ engines:
   checkstyle:
     enabled: true
     channel: "beta"
-    config: "config/checkstyle/checkstyle.xml"
+    config: "config/checkstyle/google_style.xml"
 
 ratings:
   paths:

@@ -24,9 +24,9 @@ import java.util.UUID;
  */
 public class StringUtils {
 
-  public static boolean isEmpty(String s) {
+  public static boolean isEmpty(String str) {
 
-    return s == null || s.trim().length() == 0;
+    return str == null || str.trim().length() == 0;
   }
 
   /**
@@ -146,8 +146,9 @@ public class StringUtils {
    * @return 返回随机的不包含分隔符的UUID字符串
    */
   public static String getRandomUuid() {
-    String s = UUID.randomUUID().toString();
-    return s.substring(0, 8) + s.substring(9, 13) + s.substring(14, 18) + s.substring(19, 23) + s
+    String str = UUID.randomUUID().toString();
+    return str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str
+        .substring(19, 23) + str
         .substring(24);
   }
 }

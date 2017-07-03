@@ -112,10 +112,10 @@ public class SortTest {
     Sort sort3 = new Sort(Sort.Direction.ASC, "name");
     Sort sort4 = new Sort(Sort.Direction.DESC, "name");
 
-    Object o = new Object();
+    Object object = new Object();
 
     Assert.assertTrue(sort1.equals(sort1));
-    Assert.assertFalse(sort1.equals(o));
+    Assert.assertFalse(sort1.equals(object));
     Assert.assertTrue(sort1.equals(sort3));
     Assert.assertFalse(sort1.equals(sort4));
 
@@ -233,8 +233,8 @@ public class SortTest {
     Sort.Order order = new Sort.Order("name");
     Sort.Order order1 = new Sort.Order("name");
 
-    Object o = new Object();
-    Assert.assertFalse(order.equals(o));
+    Object object = new Object();
+    Assert.assertFalse(order.equals(object));
 
     Assert.assertTrue(order.equals(order1));
 

@@ -188,7 +188,7 @@ public class IdentifierValidation {
 
     int[] wi = {3, 7, 9, 10, 5, 8, 4, 2};
 
-    char[] c = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
+    char[] ch = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
         'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
         'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
@@ -196,8 +196,8 @@ public class IdentifierValidation {
 
     for (int i = 0; i < 8; i++) {
       int ci = 37;
-      for (int j = 0; j < c.length; j++) {
-        if (c[j] == code.charAt(i)) {
+      for (int j = 0; j < ch.length; j++) {
+        if (ch[j] == code.charAt(i)) {
           ci = j;
           break;
         }
@@ -239,15 +239,15 @@ public class IdentifierValidation {
 
     int[] wi = {1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28};
 
-    char[] c = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
+    char[] ch = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
         'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'T', 'U', 'W', 'X', 'Y'};
 
     int sum = 0;
 
     for (int i = 0; i < 17; i++) {
       int ci = 32;
-      for (int j = 0; j < c.length; j++) {
-        if (c[j] == code.charAt(i)) {
+      for (int j = 0; j < ch.length; j++) {
+        if (ch[j] == code.charAt(i)) {
           ci = j;
           break;
         }
@@ -265,7 +265,7 @@ public class IdentifierValidation {
     if (c18 == 31) {
       checkBit = '0';
     } else {
-      checkBit = c[c18];
+      checkBit = ch[c18];
     }
 
     return checkBit;

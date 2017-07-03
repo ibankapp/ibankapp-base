@@ -52,37 +52,27 @@ import org.ibankapp.base.validation.validator.IdentifierValidator;
 public @interface Identifier {
 
   /**
-   * 错误信息
-   *
-   * @return 错误信息
+   * 获取 错误信息.
    */
   String message() default "{constraints.identifier}";
 
   /**
-   * 分组
-   *
-   * @return 分组
+   * 分组.
    */
   Class<?>[] groups() default {};
 
   /**
-   * playload
-   *
-   * @return playload
+   * playload.
    */
   Class<? extends Payload>[] payload() default {};
 
   /**
-   * 证件类型字段
-   *
-   * @return 证件类型字段
+   * 证件类型字段.
    */
   String typefield();
 
   /**
-   * 证件号码字段
-   *
-   * @return 证件号码字段
+   * 证件号码字段.
    */
   String codefield();
 }

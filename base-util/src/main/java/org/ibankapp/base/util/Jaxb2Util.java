@@ -51,15 +51,15 @@ public class Jaxb2Util {
    * 将xml转换为指定类型的JavaBean.
    *
    * @param xml xml字符串
-   * @param c JavaBean类型
+   * @param tclass JavaBean类型
    * @param <T> JavaBean类型
    * @return JavaBean
    * @throws JAXBException 转换错误
    */
   @SuppressWarnings("unchecked")
-  public static <T> T converyToJavaBean(String xml, Class<T> c) throws JAXBException {
+  public static <T> T converyToJavaBean(String xml, Class<T> tclass) throws JAXBException {
 
-    JAXBContext context = JAXBContext.newInstance(c);
+    JAXBContext context = JAXBContext.newInstance(tclass);
     Unmarshaller unmarshaller = context.createUnmarshaller();
 
     return (T) unmarshaller.unmarshal(new StringReader(xml));

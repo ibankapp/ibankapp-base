@@ -70,8 +70,8 @@ public class BaseExceptionTest {
    */
   @Test
   public void testGetMessageId() {
-    BaseException e = new BaseException("E-BASE-TEST01");
-    assertEquals("E-BASE-TEST01", e.getMessageId());
+    BaseException error = new BaseException("E-BASE-TEST01");
+    assertEquals("E-BASE-TEST01", error.getMessageId());
   }
 
   /**
