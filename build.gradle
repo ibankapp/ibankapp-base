@@ -30,11 +30,11 @@ subprojects {
     System.out.println(JavaVersion.current())
 
     checkstyleMain {
-        enabled = JavaVersion.current() != "1.6"
+        enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
     }
 
     checkstyleTest {
-        enabled = JavaVersion.current() != "1.6"
+        enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
     }
 
     javadoc {
