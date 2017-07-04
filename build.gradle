@@ -27,6 +27,16 @@ subprojects {
         ac.options.bootClasspath = bootClasspathStr // options is always there but not defined on AbstractCompile so going to hit it anyway
     })
 */
+    System.out.println(JavaVersion.current())
+
+    checkstyleMain {
+        enabled = JavaVersion.current() != "1.6"
+    }
+
+    checkstyleTest {
+        enabled = JavaVersion.current() != "1.6"
+    }
+
     javadoc {
         options {
             encoding "UTF-8"
