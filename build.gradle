@@ -16,18 +16,9 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'maven'
     apply plugin: 'checkstyle'
-//    apply plugin: 'jacoco'
 
     sourceCompatibility = 1.6
     targetCompatibility = 1.6
-
-    /*
-    def bootClasspathStr = "/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar"
-    project.tasks.withType(AbstractCompile, { AbstractCompile ac ->
-        ac.options.bootClasspath = bootClasspathStr // options is always there but not defined on AbstractCompile so going to hit it anyway
-    })
-*/
-    System.out.println(JavaVersion.current())
 
     checkstyleMain {
         enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
@@ -48,7 +39,7 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = "6.5"
+        toolVersion = "8.0"
         configFile = rootProject.file('config/checkstyle/google_style.xml')
     }
 
@@ -194,13 +185,6 @@ subprojects {
 
         }
     }
-
-//    jacocoTestReport {
-//        reports {
-//            xml.enabled = true
-//            html.enabled = true
-//        }
-//    }
 
     check.dependsOn report
 
