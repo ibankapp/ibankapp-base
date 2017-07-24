@@ -34,30 +34,20 @@ public class Signaturer {
 
         try {
 
-            //PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64Util.decode(priKeyText));
             PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decode(priKeyText));
-
             KeyFactory keyf = KeyFactory.getInstance("RSA");
-
             PrivateKey prikey = keyf.generatePrivate(priPKCS8);
 
             // 用私钥对信息生成数字签名
-
             Signature signet = Signature.getInstance("MD5withRSA");
-
             signet.initSign(prikey);
-
             signet.update(plainText.getBytes());
 
-            //byte[] signed = Base64Util.encodeToByte(signet.sign());
             byte[] signed = Base64.encodeBytesToBytes(signet.sign());
-
             return signed;
 
         } catch (Exception e) {
-
             e.printStackTrace();
-
             throw new BaseSecurityException("E-BASE-SECURITY-000001").initCause(e);
 
         }

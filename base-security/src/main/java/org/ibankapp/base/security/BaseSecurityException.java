@@ -13,7 +13,7 @@ import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.exception.PropertyUtil;
 
 /**
- * 安全检查异常
+ * 持久化异常
  *
  * @author <a href="http://www.ibankapp.org">ibankapp</a>
  * @author <a href="mailto:liulj@ibankapp.org">esailor</a>

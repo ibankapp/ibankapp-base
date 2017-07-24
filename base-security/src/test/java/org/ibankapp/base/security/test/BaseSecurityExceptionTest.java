@@ -15,7 +15,7 @@ public class BaseSecurityExceptionTest {
             throw new BaseSecurityException("E-BASE-SECURITY-000003","通讯");
         } catch (Exception e) {
 
-        }
+    }
 
     }
 }

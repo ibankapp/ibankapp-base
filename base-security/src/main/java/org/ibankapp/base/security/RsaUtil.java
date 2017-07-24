@@ -39,7 +39,7 @@ public class RsaUtil {
      * @param keyBytes byte[]类型的公钥
      * @return  PublicKey类型的公钥
      */
-    public static PublicKey getPublicKey(byte[] keyBytes) {
+    public static PublicKey getPublicKey(byte[] keyBytes) throws BaseSecurityException {
         X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(keyBytes);
         try {
             KeyFactory factory = KeyFactory.getInstance(KEY_ALGORITHM);
@@ -59,7 +59,7 @@ public class RsaUtil {
      * @param keyBytes  byte[]类型的私钥
      * @return  PrivateKey类型的私钥
      */
-    public static PrivateKey getPrivateKey(byte[] keyBytes) {
+    public static PrivateKey getPrivateKey(byte[] keyBytes) throws BaseSecurityException  {
         PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(keyBytes);
         try {
             KeyFactory factory = KeyFactory.getInstance(KEY_ALGORITHM);
@@ -80,7 +80,7 @@ public class RsaUtil {
      * @param plainText 待加密的byte[]类型数据
      * @return  加密后的byte[]类型数据
      */
-    public static byte[] encrypt(PublicKey key, byte[] plainText) {
+    public static byte[] encrypt(PublicKey key, byte[] plainText) throws BaseSecurityException  {
 
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
@@ -107,11 +107,11 @@ public class RsaUtil {
     /**
      * 加密
      *
-     * @param key   公钥
+     * @param key   私钥
      * @param plainText 待加密的byte[]类型数据
      * @return  加密后的byte[]类型数据
      */
-    public static byte[] encrypt(PrivateKey key, byte[] plainText) {
+    public static byte[] encrypt(PrivateKey key, byte[] plainText) throws BaseSecurityException  {
 
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
@@ -137,14 +137,13 @@ public class RsaUtil {
 
     /**
      * 加密
-     * @param flag  1.公钥加密 2.公钥解密
+     * @param flag  0.公钥加密 1.私钥加密
      * @param key   密文
      * @param plainText 待加密的明文
      * @return  密文
      */
-    public static byte[] encrypt(String flag,String key, byte[] plainText) {
-
-        if (flag.equals("1"))  //公钥加密
+    public static byte[] encrypt(int flag,String key, byte[] plainText) throws BaseSecurityException  {
+        if (flag==EncryptType.PUBLICKEYFLAG.ordinal())  //公钥加密
         {
             PublicKey publicKey = null;
             try {
@@ -152,15 +151,21 @@ public class RsaUtil {
             } catch (IOException e) {
                 e.printStackTrace();
                 throw new BaseSecurityException("E-BASE-SECURITY-000004").initCause(e);
+            } catch (BaseSecurityException e) {
+                e.printStackTrace();
+                throw new BaseSecurityException("E-BASE-SECURITY-000004").initCause(e);
             }
             return encrypt(publicKey,plainText);
         }
-        else if (flag.equals("2"))  //私钥加密
+        else if (flag==EncryptType.PRIVATEKEYFLAG.ordinal())  //私钥加密
         {
             PrivateKey privateKey = null;
             try {
                 privateKey = getPrivateKey(Base64.decode(key));
             } catch (IOException e) {
+                e.printStackTrace();
+                throw new BaseSecurityException("E-BASE-SECURITY-000004").initCause(e);
+            } catch (BaseSecurityException e) {
                 e.printStackTrace();
                 throw new BaseSecurityException("E-BASE-SECURITY-000004").initCause(e);
             }
@@ -180,7 +185,7 @@ public class RsaUtil {
      * @param encodedText   密文
      * @return  明文
      */
-    public static String unencrypt(PrivateKey key, byte[] encodedText) {
+    public static String unencrypt(PrivateKey key, byte[] encodedText)  throws BaseSecurityException {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, key);
@@ -209,7 +214,7 @@ public class RsaUtil {
      * @param encodedText   密文
      * @return
      */
-    public static String unencrypt(PublicKey key, byte[] encodedText) {
+    public static String unencrypt(PublicKey key, byte[] encodedText) throws BaseSecurityException  {
         try {
             Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
             cipher.init(Cipher.DECRYPT_MODE, key);
@@ -234,38 +239,44 @@ public class RsaUtil {
 
     /**
      * 解密
-     * @param flag  1.私钥解密 2.公钥解密
+     * @param flag  0.私钥解密 1.公钥解密
      * @param key   密钥
      * @param encodedText   密文
      * @return
      */
-    public static String unencrypt(String flag,String key, byte[] encodedText) {
+    public static String unencrypt(int flag,String key, byte[] encodedText) throws BaseSecurityException  {
 
-        if (flag.equals("1"))    //私钥解密
+        if (flag==EncryptType.PUBLICKEYFLAG.ordinal())    //私钥解密
         {
             PrivateKey privateKey = null;
             try {
                 privateKey = getPrivateKey(Base64.decode(key));
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new BaseSecurityException("E-BASE-SECURITY-000004").initCause(e);
+                throw new BaseSecurityException("E-BASE-SECURITY-000005").initCause(e);
+            } catch (BaseSecurityException e) {
+                e.printStackTrace();
+                throw new BaseSecurityException("E-BASE-SECURITY-000005").initCause(e);
             }
             return unencrypt(privateKey,encodedText);
         }
-        else if (flag.equals("2"))   //公钥解密
+        else if (flag==EncryptType.PRIVATEKEYFLAG.ordinal())   //公钥解密
         {
             PublicKey publicKey = null;
             try {
                 publicKey = getPublicKey(Base64.decode(key));
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new BaseSecurityException("E-BASE-SECURITY-000004").initCause(e);
+                throw new BaseSecurityException("E-BASE-SECURITY-000005").initCause(e);
+            } catch (BaseSecurityException e) {
+                e.printStackTrace();
+                throw new BaseSecurityException("E-BASE-SECURITY-000005").initCause(e);
             }
             return unencrypt(publicKey,encodedText);
         }
         else
         {
-            throw new BaseSecurityException("E-BASE-SECURITY-000004");
+            throw new BaseSecurityException("E-BASE-SECURITY-000005");
         }
 
     }
