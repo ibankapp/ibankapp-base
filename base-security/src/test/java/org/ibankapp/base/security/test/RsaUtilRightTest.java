@@ -1,26 +1,10 @@
 package org.ibankapp.base.security.test;
 
 import net.iharder.Base64;
-import org.ibankapp.base.security.BaseSecurityException;
 import org.ibankapp.base.security.EncryptType;
 import org.ibankapp.base.security.RsaUtil;
 import org.junit.Assert;
 import org.junit.Test;
-
-import mockit.Mock;
-import mockit.MockUp;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-
-import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.*;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 
 /**
  * Created by llj on 17/6/15.
