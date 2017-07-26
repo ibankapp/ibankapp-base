@@ -1,7 +1,7 @@
 package org.ibankapp.base.security.test;
 
 import net.iharder.Base64;
-import org.ibankapp.base.security.EncryptType;
+import org.ibankapp.base.security.KeyType;
 import org.ibankapp.base.security.RsaUtil;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class RsaUtilRightTest {
         + "Cm5bOk+K8g9UdGmdNzleEU4MjiD01lNbebpRv/jQu8RPhhMcQIDAQAB";
     String plainText = "12345678";
     byte[] encryptBytes = RsaUtil
-        .encrypt(EncryptType.PUBLICKEYFLAG.ordinal(), publicStr, plainText.getBytes());
+        .encrypt(KeyType.PUBLICKEY, publicStr, plainText.getBytes());
     String encryptStr = Base64.encodeBytes(encryptBytes);
     System.out.println("1 encryptStr=[" + encryptStr + "]");
 
@@ -35,18 +35,18 @@ public class RsaUtilRightTest {
         + "NbdW05ApnJ9S/UZ0Qwoi1wAhDDkjgACZwEkYEUy1I8oJMYyv/+Me8jqXo4fg9RJGNR9KNRRgBWbFg==";
 
     String unencryptStr = RsaUtil
-        .unencrypt(EncryptType.PUBLICKEYFLAG.ordinal(), privateStr, encryptBytes);
+        .decrypt(KeyType.PUBLICKEY, privateStr, encryptBytes);
     System.out.println("1 unencryptStr=[" + unencryptStr + "]");
     Assert.assertEquals(unencryptStr, plainText);
 
     //私钥加密
     encryptBytes = RsaUtil
-        .encrypt(EncryptType.PRIVATEKEYFLAG.ordinal(), privateStr, plainText.getBytes());
+        .encrypt(KeyType.PRIVATEKEY, privateStr, plainText.getBytes());
     encryptStr = Base64.encodeBytes(encryptBytes);
     System.out.println("2 encryptStr=[" + encryptStr + "]");
 
     //公钥解密
-    unencryptStr = RsaUtil.unencrypt(EncryptType.PRIVATEKEYFLAG.ordinal(), publicStr, encryptBytes);
+    unencryptStr = RsaUtil.decrypt(KeyType.PRIVATEKEY, publicStr, encryptBytes);
     System.out.println("2 unencryptStr=[" + unencryptStr + "]");
     Assert.assertEquals(unencryptStr, plainText);
   }

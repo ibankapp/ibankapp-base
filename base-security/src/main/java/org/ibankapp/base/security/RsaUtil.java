@@ -142,14 +142,14 @@ public class RsaUtil {
   /**
    * 加密.
    *
-   * @param flag 0.公钥加密 1.私钥加密
+   * @param keyType 公私密钥类型
    * @param key 密文
    * @param plainText 待加密的明文
    * @return 密文
    */
-  public static byte[] encrypt(int flag, String key, byte[] plainText)
+  public static byte[] encrypt(KeyType keyType, String key, byte[] plainText)
       throws BaseSecurityException {
-    if (flag == EncryptType.PUBLICKEYFLAG.ordinal()) {
+    if (keyType == KeyType.PUBLICKEY) {
       PublicKey publicKey;
       try {
         publicKey = getPublicKey(Base64.decode(key));
@@ -161,7 +161,7 @@ public class RsaUtil {
         throw new BaseSecurityException("E-BASE-SECURITY-000004").initCause(e);
       }
       return encrypt(publicKey, plainText);
-    } else if (flag == EncryptType.PRIVATEKEYFLAG.ordinal()) {
+    } else if (keyType == KeyType.PRIVATEKEY) {
       PrivateKey privateKey;
       try {
         privateKey = getPrivateKey(Base64.decode(key));
@@ -186,7 +186,7 @@ public class RsaUtil {
    * @param encodedText 密文
    * @return 明文
    */
-  private static String unencrypt(PrivateKey key, byte[] encodedText) throws BaseSecurityException {
+  private static String decrypt(PrivateKey key, byte[] encodedText) throws BaseSecurityException {
     try {
       Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
       cipher.init(Cipher.DECRYPT_MODE, key);
@@ -215,7 +215,7 @@ public class RsaUtil {
    * @param key 公钥
    * @param encodedText 密文
    */
-  private static String unencrypt(PublicKey key, byte[] encodedText) throws BaseSecurityException {
+  private static String decrypt(PublicKey key, byte[] encodedText) throws BaseSecurityException {
     try {
       Cipher cipher = Cipher.getInstance(CIPHER_ALGORITHM);
       cipher.init(Cipher.DECRYPT_MODE, key);
@@ -239,16 +239,16 @@ public class RsaUtil {
   }
 
   /**
-   * 解密
+   * 解密.
    *
-   * @param flag 0.私钥解密 1.公钥解密
+   * @param keyType 公私密钥类型
    * @param key 密钥
    * @param encodedText 密文
    */
-  public static String unencrypt(int flag, String key, byte[] encodedText)
+  public static String decrypt(KeyType keyType, String key, byte[] encodedText)
       throws BaseSecurityException {
 
-    if (flag == EncryptType.PUBLICKEYFLAG.ordinal()) {
+    if (keyType == KeyType.PUBLICKEY) {
       PrivateKey privateKey;
       try {
         privateKey = getPrivateKey(Base64.decode(key));
@@ -259,8 +259,8 @@ public class RsaUtil {
         e.printStackTrace();
         throw new BaseSecurityException("E-BASE-SECURITY-000005").initCause(e);
       }
-      return unencrypt(privateKey, encodedText);
-    } else if (flag == EncryptType.PRIVATEKEYFLAG.ordinal()) {
+      return decrypt(privateKey, encodedText);
+    } else if (keyType == KeyType.PRIVATEKEY) {
       PublicKey publicKey;
       try {
         publicKey = getPublicKey(Base64.decode(key));
@@ -271,7 +271,7 @@ public class RsaUtil {
         e.printStackTrace();
         throw new BaseSecurityException("E-BASE-SECURITY-000005").initCause(e);
       }
-      return unencrypt(publicKey, encodedText);
+      return decrypt(publicKey, encodedText);
     } else {
       throw new BaseSecurityException("E-BASE-SECURITY-000005");
     }

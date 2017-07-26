@@ -16,14 +16,14 @@ package org.ibankapp.base.security;
  * @author <a href="mailto:liulj@ibankapp.org">esailor</a>
  * @since 1.0.0
  */
-public enum EncryptType {
+public enum KeyType {
   /**
-   * 使用公钥加密／私钥解密.
+   * 公钥.
    */
-  PUBLICKEYFLAG,
+  PUBLICKEY,
   /**
-   * 使用私钥加解／公钥解密.
+   * 私钥.
    */
-  PRIVATEKEYFLAG
+  PRIVATEKEY
 }
 
