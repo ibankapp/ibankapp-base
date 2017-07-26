@@ -1,0 +1,34 @@
+version: 2
+jobs:
+  build6:
+    working_directory: ~/ibankapp-base
+    docker:
+      - image: openjdk:6
+    steps:
+      - checkout
+      - run: export TERM="dumb";./gradlew check
+      - run: bash <(curl -s https://codecov.io/bash) -t 860d85d1-4f86-43ca-b022-42188ce57a34
+
+  build7:
+    working_directory: ~/ibankapp-base
+    docker:
+      - image: oracle/openjdk:7
+    steps:
+      - checkout
+      - run: export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8;export TERM="dumb";./gradlew check
+
+  build8:
+      working_directory: ~/ibankapp-base
+      docker:
+        - image: openjdk:8
+      steps:
+        - checkout
+        - run: export TERM="dumb";./gradlew check
+
+workflows:
+  version: 2
+  builds:
+    jobs:
+      - build6
+      - build7
+      - build8
