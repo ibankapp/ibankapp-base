@@ -41,6 +41,7 @@ subprojects {
     checkstyle {
         toolVersion = "8.0"
         configFile = rootProject.file('config/checkstyle/google_style.xml')
+        configProperties = [configdir: rootProject.file('config')]
     }
 
     configurations {

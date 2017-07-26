@@ -38,7 +38,7 @@
   </module>
 
   <module name="SuppressionFilter">
-    <property name="file" value="config/suppressions.xml"/>
+    <property name="file" value="${configdir}/suppressions.xml"/>
   </module>
 
   <module name="TreeWalker">
