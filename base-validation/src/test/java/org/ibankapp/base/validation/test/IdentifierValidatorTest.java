@@ -9,6 +9,7 @@
 
 package org.ibankapp.base.validation.test;
 
+import javax.validation.ValidationException;
 import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.validation.type.Idtp;
 import org.ibankapp.base.validation.validator.BeanValidator;
@@ -16,90 +17,88 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import javax.validation.ValidationException;
-
 public class IdentifierValidatorTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
-    @Test
-    public void testIDCARD() {
-        TestModelWithIdentifier  model = new TestModelWithIdentifier();
-        Idtp idtp = Idtp.IDCARD;
-        model.setIdtp(idtp);
-        model.setIdno("130404197602293014");
-        BeanValidator.validate(model);
-    }
+  @Test
+  public void testIdCard() {
+    TestModelWithIdentifier model = new TestModelWithIdentifier();
+    Idtp idtp = Idtp.IDCARD;
+    model.setIdtp(idtp);
+    model.setIdno("130404197602293014");
+    BeanValidator.validate(model);
+  }
 
-    @Test
-    public void testIDCARDInvalid() {
+  @Test
+  public void testIdCardInvalid() {
 
-        thrown.expect(BaseException.class);
-        thrown.expectMessage("证件号码不合法");
+    thrown.expect(BaseException.class);
+    thrown.expectMessage("证件号码不合法");
 
-        TestModelWithIdentifier  model = new TestModelWithIdentifier();
-        model.setIdtp(Idtp.IDCARD);
-        model.setIdno("130404197602293015");
-        BeanValidator.validate(model);
-    }
+    TestModelWithIdentifier model = new TestModelWithIdentifier();
+    model.setIdtp(Idtp.IDCARD);
+    model.setIdno("130404197602293015");
+    BeanValidator.validate(model);
+  }
 
-    @Test
-    public void testOCC() {
-        TestModelWithIdentifier  model = new TestModelWithIdentifier();
-        model.setIdtp(Idtp.OCC);
-        model.setIdno("81852090X");
-        BeanValidator.validate(model);
-    }
+  @Test
+  public void testOcc() {
+    TestModelWithIdentifier model = new TestModelWithIdentifier();
+    model.setIdtp(Idtp.OCC);
+    model.setIdno("81852090X");
+    BeanValidator.validate(model);
+  }
 
-    @Test
-    public void testOCCInvalid() {
+  @Test
+  public void testOccInvalid() {
 
-        thrown.expect(BaseException.class);
-        thrown.expectMessage("证件号码不合法");
+    thrown.expect(BaseException.class);
+    thrown.expectMessage("证件号码不合法");
 
-        TestModelWithIdentifier  model = new TestModelWithIdentifier();
-        model.setIdtp(Idtp.OCC);
-        model.setIdno("818520900");
-        BeanValidator.validate(model);
-    }
+    TestModelWithIdentifier model = new TestModelWithIdentifier();
+    model.setIdtp(Idtp.OCC);
+    model.setIdno("818520900");
+    BeanValidator.validate(model);
+  }
 
-    @Test
-    public void testUSCIC() {
-        TestModelWithIdentifier  model = new TestModelWithIdentifier();
-        model.setIdtp(Idtp.USCIC);
-        model.setIdno("911202246818640656");
-        BeanValidator.validate(model);
-    }
+  @Test
+  public void testUscic() {
+    TestModelWithIdentifier model = new TestModelWithIdentifier();
+    model.setIdtp(Idtp.USCIC);
+    model.setIdno("911202246818640656");
+    BeanValidator.validate(model);
+  }
 
-    @Test
-    public void testUSCICInvalid() {
+  @Test
+  public void testUscicInvalid() {
 
-        thrown.expect(BaseException.class);
-        thrown.expectMessage("证件号码不合法");
+    thrown.expect(BaseException.class);
+    thrown.expectMessage("证件号码不合法");
 
-        TestModelWithIdentifier  model = new TestModelWithIdentifier();
-        model.setIdtp(Idtp.USCIC);
-        model.setIdno("911202246818640657");
-        BeanValidator.validate(model);
-    }
+    TestModelWithIdentifier model = new TestModelWithIdentifier();
+    model.setIdtp(Idtp.USCIC);
+    model.setIdno("911202246818640657");
+    BeanValidator.validate(model);
+  }
 
-    @Test
-    public void testPASSPORT() {
-        TestModelWithIdentifier  model = new TestModelWithIdentifier();
-        model.setIdtp(Idtp.PASSPORT);
-        model.setIdno("911202246818640656");
-        BeanValidator.validate(model);
-    }
+  @Test
+  public void testPassport() {
+    TestModelWithIdentifier model = new TestModelWithIdentifier();
+    model.setIdtp(Idtp.PASSPORT);
+    model.setIdno("911202246818640656");
+    BeanValidator.validate(model);
+  }
 
-    @Test
-    public void testBaseException() {
+  @Test
+  public void testBaseException() {
 
-        thrown.expect(ValidationException.class);
+    thrown.expect(ValidationException.class);
 
-        TestModelWithIdentifierError model = new TestModelWithIdentifierError();
-        model.setIdtp(Idtp.USCIC);
-        model.setIdno("911202246818640656");
-        BeanValidator.validate(model);
-    }
+    TestModelWithIdentifierError model = new TestModelWithIdentifierError();
+    model.setIdtp(Idtp.USCIC);
+    model.setIdno("911202246818640656");
+    BeanValidator.validate(model);
+  }
 }

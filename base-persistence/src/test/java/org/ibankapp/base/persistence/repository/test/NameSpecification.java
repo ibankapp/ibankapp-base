@@ -9,23 +9,22 @@
 
 package org.ibankapp.base.persistence.repository.test;
 
-import org.ibankapp.base.persistence.domain.Specification;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.ibankapp.base.persistence.domain.Specification;
 
 public class NameSpecification implements Specification<SimpleModel> {
 
-    private String name;
+  private String name;
 
-    NameSpecification(String name) {
-        this.name = name;
-    }
+  NameSpecification(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
-        return cb.like(root.<String>get("name"), "%" + name + "%");
-    }
+  @Override
+  public Predicate toPredicate(Root<SimpleModel> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+    return cb.like(root.<String>get("name"), "%" + name + "%");
+  }
 }

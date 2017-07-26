@@ -11,7 +11,6 @@ package org.ibankapp.base.util;
 
 import java.io.StringReader;
 import java.io.StringWriter;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
@@ -26,45 +25,45 @@ import javax.xml.bind.Unmarshaller;
  */
 public class Jaxb2Util {
 
-    /**
-     * 将JavaBean转换为指定字符集的XML字符串
-     *
-     * @param obj      JavaBean
-     * @param encoding 字符集编码
-     * @return XML字符串
-     * @throws JAXBException 转换错误
-     */
-    public static String convertToXml(Object obj, String encoding) throws JAXBException {
+  /**
+   * 将JavaBean转换为指定字符集的XML字符串.
+   *
+   * @param obj JavaBean
+   * @param encoding 字符集编码
+   * @return XML字符串
+   * @throws JAXBException 转换错误
+   */
+  public static String convertToXml(Object obj, String encoding) throws JAXBException {
 
-        JAXBContext context = JAXBContext.newInstance(obj.getClass());
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
+    JAXBContext context = JAXBContext.newInstance(obj.getClass());
+    Marshaller marshaller = context.createMarshaller();
+    marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+    marshaller.setProperty(Marshaller.JAXB_ENCODING, encoding);
 
-        StringWriter writer = new StringWriter();
-        marshaller.marshal(obj, writer);
+    StringWriter writer = new StringWriter();
+    marshaller.marshal(obj, writer);
 
-        return writer.toString();
+    return writer.toString();
 
-    }
+  }
 
-    /**
-     * 将xml转换为指定类型的JavaBean
-     *
-     * @param xml xml字符串
-     * @param c   JavaBean类型
-     * @param <T> JavaBean类型
-     * @return JavaBean
-     * @throws JAXBException 转换错误
-     */
-    @SuppressWarnings("unchecked")
-    public static <T> T converyToJavaBean(String xml, Class<T> c) throws JAXBException {
+  /**
+   * 将xml转换为指定类型的JavaBean.
+   *
+   * @param xml xml字符串
+   * @param tclass JavaBean类型
+   * @param <T> JavaBean类型
+   * @return JavaBean
+   * @throws JAXBException 转换错误
+   */
+  @SuppressWarnings("unchecked")
+  public static <T> T converyToJavaBean(String xml, Class<T> tclass) throws JAXBException {
 
-        JAXBContext context = JAXBContext.newInstance(c);
-        Unmarshaller unmarshaller = context.createUnmarshaller();
+    JAXBContext context = JAXBContext.newInstance(tclass);
+    Unmarshaller unmarshaller = context.createUnmarshaller();
 
-        return (T) unmarshaller.unmarshal(new StringReader(xml));
+    return (T) unmarshaller.unmarshal(new StringReader(xml));
 
-    }
+  }
 
 }

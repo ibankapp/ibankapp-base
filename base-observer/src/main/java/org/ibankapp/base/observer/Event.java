@@ -20,24 +20,24 @@ import java.util.EventObject;
  */
 public class Event extends EventObject {
 
-    private final long timestamp;
+  private final long timestamp;
 
-    /**
-     * 构造函数
-     *
-     * @param source 触发改事件的原始对象
-     */
-    public Event(Object source) {
-        super(source);
-        this.timestamp = System.currentTimeMillis();
-    }
+  /**
+   * 构造函数.
+   *
+   * @param source 触发改事件的原始对象
+   */
+  public Event(Object source) {
+    super(source);
+    this.timestamp = System.currentTimeMillis();
+  }
 
-    /**
-     * 获取事件发生的事件
-     *
-     * @return 事件发生的时间
-     */
-    public long getTimestamp() {
-        return timestamp;
-    }
+  /**
+   * 获取事件发生的事件.
+   *
+   * @return 事件发生的时间
+   */
+  public long getTimestamp() {
+    return timestamp;
+  }
 }

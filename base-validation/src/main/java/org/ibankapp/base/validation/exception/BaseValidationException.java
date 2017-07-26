@@ -21,13 +21,13 @@ import org.ibankapp.base.exception.PropertyUtil;
  */
 public class BaseValidationException extends BaseException {
 
-    private final static String MESSAGE_FILE = "base_validation_message.properties";
+  private static final String MESSAGE_FILE = "base_validation_message.properties";
 
-    static {
-        PropertyUtil.load(MESSAGE_FILE);
-    }
+  static {
+    PropertyUtil.load(MESSAGE_FILE);
+  }
 
-    public BaseValidationException(String messageId, String param) {
-        super(messageId, param);
-    }
+  public BaseValidationException(String messageId, String param) {
+    super(messageId, param);
+  }
 }

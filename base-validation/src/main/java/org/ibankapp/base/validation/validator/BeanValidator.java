@@ -9,15 +9,12 @@
 
 package org.ibankapp.base.validation.validator;
 
-
-import org.ibankapp.base.validation.exception.BaseValidationException;
-
 import java.util.Iterator;
 import java.util.Set;
-
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
+import org.ibankapp.base.validation.exception.BaseValidationException;
 
 /**
  * Bean校验类
@@ -28,41 +25,41 @@ import javax.validation.Validator;
  */
 public class BeanValidator {
 
-    /**
-     * 校验传入的bean是否合法
-     *
-     * @param object 传入的bean
-     * @param <T>    bean的类型
-     */
-    public static <T> void validate(T object) {
+  /**
+   * 校验传入的bean是否合法.
+   *
+   * @param object 传入的bean
+   * @param <T> bean的类型
+   */
+  public static <T> void validate(T object) {
 
-        Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+    Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 
-        validate(validator, object);
+    validate(validator, object);
+  }
+
+  /**
+   * 校验传入的bean是否合法.
+   *
+   * @param validator 校验器
+   * @param object 传入的bean
+   * @param <T> bean的类型
+   */
+  private static <T> void validate(Validator validator, T object) {
+    Set<ConstraintViolation<T>> constraintViolations = validator.validate(object);
+
+    Iterator it = constraintViolations.iterator();
+
+    StringBuilder message = new StringBuilder();
+
+    while (it.hasNext()) {
+      @SuppressWarnings("unchecked")
+      ConstraintViolation<T> constraintViolation = (ConstraintViolation<T>) it.next();
+      message.append(constraintViolation.getMessage()).append(";");
     }
 
-    /**
-     * 校验传入的bean是否合法
-     *
-     * @param validator 校验器
-     * @param object    传入的bean
-     * @param <T>       bean的类型
-     */
-    private static <T> void validate(Validator validator, T object) {
-        Set<ConstraintViolation<T>> constraintViolations = validator.validate(object);
-
-        Iterator it = constraintViolations.iterator();
-
-        String message = "";
-
-        while (it.hasNext()) {
-            @SuppressWarnings("unchecked")
-            ConstraintViolation<T> constraintViolation = (ConstraintViolation<T>) it.next();
-            message += (constraintViolation.getMessage() + ";");
-        }
-
-        if (message.trim().length() != 0) {
-            throw new BaseValidationException("E-BASE-VALIDATION-000001", message);
-        }
+    if (message.toString().trim().length() != 0) {
+      throw new BaseValidationException("E-BASE-VALIDATION-000001", message.toString());
     }
+  }
 }

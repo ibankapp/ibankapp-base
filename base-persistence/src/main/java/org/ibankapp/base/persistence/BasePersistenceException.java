@@ -21,17 +21,17 @@ import org.ibankapp.base.exception.PropertyUtil;
  */
 public class BasePersistenceException extends BaseException {
 
-    private final static String MESSAGE_FILE = "base_persistence_message.properties";
+  private static final String MESSAGE_FILE = "base_persistence_message.properties";
 
-    static {
-        PropertyUtil.load(MESSAGE_FILE);
-    }
+  static {
+    PropertyUtil.load(MESSAGE_FILE);
+  }
 
-    public BasePersistenceException(String messageId) {
-        super(messageId);
-    }
+  public BasePersistenceException(String messageId) {
+    super(messageId);
+  }
 
-    public BasePersistenceException(String messageId, String param) {
-        super(messageId, param);
-    }
+  public BasePersistenceException(String messageId, String param) {
+    super(messageId, param);
+  }
 }

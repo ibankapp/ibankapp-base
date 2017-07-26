@@ -1,0 +1,9 @@
+engines:
+  checkstyle:
+    enabled: true
+    channel: "beta"
+    config: "config/checkstyle/google_style.xml"
+
+ratings:
+  paths:
+  - "**.java"

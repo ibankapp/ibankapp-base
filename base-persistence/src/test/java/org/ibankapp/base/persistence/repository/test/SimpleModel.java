@@ -18,26 +18,26 @@ import javax.persistence.Table;
 @Table(name = "SIMPLE_MODEL")
 class SimpleModel {
 
-    private String name;
+  private String name;
 
-    private String id;
+  private String id;
 
-    @Id
-    @Column(length = 36)
-    String getId() {
-        return id;
-    }
+  @Id
+  @Column(length = 36)
+  String getId() {
+    return id;
+  }
 
-    void setId(String id) {
-        this.id = id;
-    }
+  void setId(String id) {
+    this.id = id;
+  }
 
-    @Column
-    String getName() {
-        return name;
-    }
+  @Column
+  String getName() {
+    return name;
+  }
 
-    void setName(String name) {
-        this.name = name;
-    }
+  void setName(String name) {
+    this.name = name;
+  }
 }

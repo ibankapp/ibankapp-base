@@ -10,7 +10,6 @@
 package org.ibankapp.base.persistence.domain.test;
 
 import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -20,38 +19,38 @@ import javax.persistence.IdClass;
 @Entity
 class TestCompositedModel implements Serializable {
 
-    private String firstName;
+  private String firstName;
 
-    private String lastName;
+  private String lastName;
 
-    private String address;
+  private String address;
 
-    @Id
-    @Column
-    public String getFirstName() {
-        return firstName;
-    }
+  @Id
+  @Column
+  public String getFirstName() {
+    return firstName;
+  }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+  public void setFirstName(String firstName) {
+    this.firstName = firstName;
+  }
 
-    @Id
-    @Column
-    public String getLastName() {
-        return lastName;
-    }
+  @Id
+  @Column
+  public String getLastName() {
+    return lastName;
+  }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+  public void setLastName(String lastName) {
+    this.lastName = lastName;
+  }
 
-    @Column
-    public String getAddress() {
-        return address;
-    }
+  @Column
+  public String getAddress() {
+    return address;
+  }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+  public void setAddress(String address) {
+    this.address = address;
+  }
 }

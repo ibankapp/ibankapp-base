@@ -41,17 +41,17 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="TEST_MODELWITHUNIQUE")
+@Table(name = "TEST_MODELWITHUNIQUE")
 public class TestModelWithInheritedUnique extends TestModelWithUnique {
 
-    private String type;
+  private String type;
 
-    @Column
-    public String getType() {
-        return type;
-    }
+  @Column
+  public String getType() {
+    return type;
+  }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+  public void setType(String type) {
+    this.type = type;
+  }
 }

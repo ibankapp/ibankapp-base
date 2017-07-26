@@ -26,14 +26,14 @@ import javax.persistence.Table;
 @Table(name = "TEST_MODELWITHINHERITEDUNIQUES")
 public class TestModelWithInheritedUniques extends TestModelWithUniques {
 
-    private String number;
+  private String number;
 
-    @Column
-    public String getNumber() {
-        return number;
-    }
+  @Column
+  public String getNumber() {
+    return number;
+  }
 
-    public void setNumber(String type) {
-        this.number = number;
-    }
+  public void setNumber(String type) {
+    this.number = number;
+  }
 }

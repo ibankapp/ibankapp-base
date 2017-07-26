@@ -9,6 +9,11 @@
 
 package org.ibankapp.base.persistence.repository.test;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.annotation.Resource;
+import javax.persistence.LockModeType;
+import javax.persistence.PersistenceException;
 import org.ibankapp.base.persistence.domain.Page;
 import org.ibankapp.base.persistence.domain.Pageable;
 import org.ibankapp.base.persistence.domain.Sort;
@@ -25,587 +30,549 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.Resource;
-import javax.persistence.LockModeType;
-import javax.persistence.PersistenceException;
-import java.util.ArrayList;
-import java.util.List;
-
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContextConfig.class})
 public class JpaRepositoryTest {
 
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
-    @Resource
-    private JpaRepository repository;
+  @Resource
+  private JpaRepository repository;
 
 
-    @After
-    public void clear() {
-        repository.deleteAll(SimpleModel.class);
-        repository.deleteAll(CompositeModel.class);
+  @After
+  public void clear() {
+    repository.deleteAll(SimpleModel.class);
+    repository.deleteAll(CompositeModel.class);
+  }
+
+
+  private void persistOne() {
+
+    SimpleModel model = new SimpleModel();
+    model.setId("0");
+    model.setName("name");
+
+    repository.persist(model);
+  }
+
+  private List<SimpleModel> persistTwo() {
+
+    SimpleModel model = new SimpleModel();
+    model.setId("0");
+    model.setName("name");
+
+    SimpleModel model1 = new SimpleModel();
+    model1.setId("1");
+    model1.setName("name1");
+
+    List<SimpleModel> models = new ArrayList<SimpleModel>();
+    models.add(model);
+    models.add(model1);
+
+    return repository.persist(models);
+  }
+
+  private void persistThree() {
+
+    SimpleModel model = new SimpleModel();
+    model.setId("0");
+    model.setName("name");
+
+    SimpleModel model1 = new SimpleModel();
+    model1.setId("1");
+    model1.setName("name1");
+
+    SimpleModel model2 = new SimpleModel();
+    model2.setId("2");
+    model2.setName("name2");
+
+    List<SimpleModel> models = new ArrayList<SimpleModel>();
+    models.add(model);
+    models.add(model1);
+    models.add(model2);
+
+    repository.persist(models);
+  }
+
+  private void persistNum() {
+
+    for (int i = 0; i < 100; i++) {
+      SimpleModel model = new SimpleModel();
+      model.setId(((Integer) i).toString());
+      model.setName("name" + i);
+      repository.persist(model);
     }
+  }
 
+  @Test
+  @Transactional
+  public void testPersist() {
 
-    private void persistOne() {
+    persistOne();
 
-        SimpleModel model = new SimpleModel();
-        model.setId("0");
-        model.setName("name");
+    List<SimpleModel> models = repository.findAll(SimpleModel.class);
 
-        repository.persist(model);
-    }
+    Assert.assertEquals(1, models.size());
+    Assert.assertEquals("0", models.get(0).getId());
+    Assert.assertEquals("name", models.get(0).getName());
 
-    private List<SimpleModel> persistTwo() {
+  }
 
-        SimpleModel model = new SimpleModel();
-        model.setId("0");
-        model.setName("name");
+  @Test
+  @Transactional
+  public void testNullIdPersist() {
 
-        SimpleModel model1 = new SimpleModel();
-        model1.setId("1");
-        model1.setName("name1");
+    thrown.expect(PersistenceException.class);
 
-        List<SimpleModel> models = new ArrayList<SimpleModel>();
-        models.add(model);
-        models.add(model1);
+    SimpleModel model = new SimpleModel();
+    model.setName("name");
 
-        return repository.persist(models);
-    }
+    repository.persist(model);
+  }
 
-    private void persistThree() {
+  @Test
+  @Transactional
+  public void testNullPersist() {
+    thrown.expect(NullPointerException.class);
+    repository.persist((SimpleModel) null);
+  }
 
-        SimpleModel model = new SimpleModel();
-        model.setId("0");
-        model.setName("name");
+  @Test
+  @Transactional
+  public void testMerge() {
 
-        SimpleModel model1 = new SimpleModel();
-        model1.setId("1");
-        model1.setName("name1");
+    persistOne();
 
-        SimpleModel model2 = new SimpleModel();
-        model2.setId("2");
-        model2.setName("name2");
+    SimpleModel model = new SimpleModel();
+    model.setId("0");
+    model.setName("name1");
+    SimpleModel model1 = repository.merge(model);
 
-        List<SimpleModel> models = new ArrayList<SimpleModel>();
-        models.add(model);
-        models.add(model1);
-        models.add(model2);
+    Assert.assertEquals(model.getId(), model1.getId());
+    Assert.assertEquals(model.getName(), model1.getName());
 
-        repository.persist(models);
-    }
+    List<SimpleModel> models = repository.findAll(SimpleModel.class);
 
-    private void persistNum() {
+    Assert.assertEquals(1, models.size());
+    Assert.assertEquals("0", models.get(0).getId());
+    Assert.assertEquals("name1", models.get(0).getName());
 
-        for (int i = 0; i < 100; i++) {
-            SimpleModel model = new SimpleModel();
-            model.setId(((Integer) i).toString());
-            model.setName("name" + i);
-            repository.persist(model);
-        }
-    }
+  }
 
-    @Test
-    @Transactional
-    public void testPersist() {
+  @Test
+  @Transactional
+  public void testNullIdMerge() {
 
-        persistOne();
+    thrown.expect(PersistenceException.class);
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class);
+    SimpleModel model = new SimpleModel();
+    model.setName("name");
 
-        Assert.assertEquals(1, models.size());
-        Assert.assertEquals("0", models.get(0).getId());
-        Assert.assertEquals("name", models.get(0).getName());
+    repository.merge(model);
+  }
 
-    }
+  @Test
+  @Transactional
+  public void testNullMerge() {
+    thrown.expect(NullPointerException.class);
+    repository.merge((SimpleModel) null);
+  }
 
-    @Test
-    @Transactional
-    public void testNullIdPersist() {
+  @Test
+  @Transactional
+  public void testPersists() {
 
-        thrown.expect(PersistenceException.class);
+    List<SimpleModel> models = persistTwo();
 
-        SimpleModel model = new SimpleModel();
-        model.setName("name");
+    Assert.assertEquals(2, models.size());
 
-        repository.persist(model);
-    }
+  }
 
-    @Test
-    @Transactional
-    public void testNullPersist() {
-        thrown.expect(NullPointerException.class);
-        repository.persist((SimpleModel) null);
-    }
+  @Test
+  @Transactional
+  public void testNullPersists() {
 
-    @Test
-    @Transactional
-    public void testMerge() {
+    List<SimpleModel> models = repository.persist(null);
 
-        persistOne();
+    Assert.assertNotNull(models);
+    Assert.assertEquals(0, models.size());
+  }
 
-        SimpleModel model = new SimpleModel();
-        model.setId("0");
-        model.setName("name1");
-        SimpleModel model1 = repository.merge(model);
 
-        Assert.assertEquals(model.getId(), model1.getId());
-        Assert.assertEquals(model.getName(), model1.getName());
+  @Test
+  @Transactional
+  public void testMerges() {
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class);
+    persistTwo();
 
-        Assert.assertEquals(1, models.size());
-        Assert.assertEquals("0", models.get(0).getId());
-        Assert.assertEquals("name1", models.get(0).getName());
+    SimpleModel model = new SimpleModel();
+    model.setId("0");
+    model.setName("name2");
 
-    }
+    SimpleModel model1 = new SimpleModel();
+    model1.setId("2");
+    model1.setName("name3");
 
-    @Test
-    @Transactional
-    public void testNullIdMerge() {
+    List<SimpleModel> models = new ArrayList<SimpleModel>();
+    models.add(model);
+    models.add(model1);
 
-        thrown.expect(PersistenceException.class);
+    repository.merge(models);
 
-        SimpleModel model = new SimpleModel();
-        model.setName("name");
+    List<SimpleModel> models1 = repository.findAll(SimpleModel.class);
 
-        repository.merge(model);
-    }
+    Assert.assertEquals(3, repository.count(SimpleModel.class));
+    Assert.assertEquals(3, models1.size());
+    Assert.assertEquals("name2", repository.findOne(SimpleModel.class, "0").getName());
+    Assert.assertEquals("name1", repository.findOne(SimpleModel.class, "1").getName());
+    Assert.assertEquals("name3", repository.findOne(SimpleModel.class, "2").getName());
 
-    @Test
-    @Transactional
-    public void testNullMerge() {
-        thrown.expect(NullPointerException.class);
-        repository.merge((SimpleModel) null);
-    }
+  }
 
-    @Test
-    @Transactional
-    public void testPersists() {
+  @Test
+  @Transactional
+  public void testNullMerges() {
 
-        List<SimpleModel> models = persistTwo();
+    List<SimpleModel> models = repository.merge(null);
 
-        Assert.assertEquals(2, models.size());
+    Assert.assertNotNull(models);
+    Assert.assertEquals(0, models.size());
+  }
 
-    }
+  @Test
+  @Transactional
+  public void testExist() {
 
-    @Test
-    @Transactional
-    public void testNullPersists() {
+    persistOne();
 
-        List<SimpleModel> models = repository.persist(null);
+    Assert.assertTrue(repository.exist(SimpleModel.class, "0"));
+    Assert.assertFalse(repository.exist(SimpleModel.class, "1"));
+  }
 
-        Assert.assertNotNull(models);
-        Assert.assertEquals(0, models.size());
-    }
+  @Test
+  @Transactional
+  public void testFindAllSort() {
 
+    persistThree();
 
-    @Test
-    @Transactional
-    public void testMerges() {
+    Sort sort = new Sort("name");
 
-        persistTwo();
+    List<SimpleModel> models = repository.findAll(SimpleModel.class, sort);
 
-        SimpleModel model = new SimpleModel();
-        model.setId("0");
-        model.setName("name2");
+    Assert.assertEquals("name", models.get(0).getName());
+    Assert.assertEquals("name1", models.get(1).getName());
+    Assert.assertEquals("name2", models.get(2).getName());
 
-        SimpleModel model1 = new SimpleModel();
-        model1.setId("2");
-        model1.setName("name3");
+    sort = new Sort(Sort.Direction.DESC, "name");
 
-        List<SimpleModel> models = new ArrayList<SimpleModel>();
-        models.add(model);
-        models.add(model1);
+    models = repository.findAll(SimpleModel.class, sort);
 
-        repository.merge(models);
+    Assert.assertEquals("name2", models.get(0).getName());
+    Assert.assertEquals("name1", models.get(1).getName());
+    Assert.assertEquals("name", models.get(2).getName());
 
-        List<SimpleModel> models1 = repository.findAll(SimpleModel.class);
+  }
 
-        Assert.assertEquals(3, repository.count(SimpleModel.class));
-        Assert.assertEquals(3, models1.size());
-        Assert.assertEquals("name2", repository.findOne(SimpleModel.class, "0").getName());
-        Assert.assertEquals("name1", repository.findOne(SimpleModel.class, "1").getName());
-        Assert.assertEquals("name3", repository.findOne(SimpleModel.class, "2").getName());
+  @Test
+  @Transactional
+  public void testFindAllSpec() {
+    persistThree();
 
-    }
+    Specification<SimpleModel> spec = new NameSpecification("name1");
 
-    @Test
-    @Transactional
-    public void testNullMerges() {
+    List<SimpleModel> models = repository.findAll(SimpleModel.class, spec);
 
-        List<SimpleModel> models = repository.merge(null);
+    Assert.assertEquals(1, models.size());
+    Assert.assertEquals(1, repository.count(SimpleModel.class, spec));
+    Assert.assertEquals("name1", models.get(0).getName());
 
-        Assert.assertNotNull(models);
-        Assert.assertEquals(0, models.size());
-    }
+    spec = new NameDistinctSpecification("name");
+    models = repository.findAll(SimpleModel.class, spec);
+    Assert.assertEquals(3, models.size());
+    Assert.assertEquals(3, repository.count(SimpleModel.class, spec));
 
-    @Test
-    @Transactional
-    public void testExist() {
+    spec = new NullSpecification();
+    models = repository.findAll(SimpleModel.class, spec);
+    Assert.assertEquals(3, models.size());
+    Assert.assertEquals(3, repository.count(SimpleModel.class, spec));
 
-        persistOne();
+  }
 
-        Assert.assertTrue(repository.exist(SimpleModel.class, "0"));
-        Assert.assertFalse(repository.exist(SimpleModel.class, "1"));
-    }
+  @Test
+  @Transactional
+  public void testFindAllSpecSort() {
+    persistThree();
 
-    @Test
-    @Transactional
-    public void testFindAllSort() {
+    Specification<SimpleModel> spec = new NameSpecification("name");
 
-        persistThree();
+    Sort sort = new Sort("name");
 
-        Sort sort = new Sort("name");
+    List<SimpleModel> models = repository.findAll(SimpleModel.class, spec, sort);
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class, sort);
+    Assert.assertEquals(3, models.size());
+    Assert.assertEquals("name", models.get(0).getName());
+    Assert.assertEquals("name1", models.get(1).getName());
+    Assert.assertEquals("name2", models.get(2).getName());
 
-        Assert.assertEquals("name", models.get(0).getName());
-        Assert.assertEquals("name1", models.get(1).getName());
-        Assert.assertEquals("name2", models.get(2).getName());
+    sort = new Sort(Sort.Direction.DESC, "name");
+    models = repository.findAll(SimpleModel.class, spec, sort);
+    Assert.assertEquals(3, models.size());
+    Assert.assertEquals("name2", models.get(0).getName());
+    Assert.assertEquals("name1", models.get(1).getName());
+    Assert.assertEquals("name", models.get(2).getName());
 
-        sort = new Sort(Sort.Direction.DESC, "name");
+    spec = new NameSpecification("name_");
 
-        models = repository.findAll(SimpleModel.class, sort);
+    models = repository.findAll(SimpleModel.class, spec, sort);
+    Assert.assertEquals(2, models.size());
+    Assert.assertEquals("name2", models.get(0).getName());
+    Assert.assertEquals("name1", models.get(1).getName());
+  }
 
-        Assert.assertEquals("name2", models.get(0).getName());
-        Assert.assertEquals("name1", models.get(1).getName());
-        Assert.assertEquals("name", models.get(2).getName());
+  @Test
+  @Transactional
+  public void testFindAllFull() {
+    persistThree();
 
-//        models.get(0).setName(null);
-//        models = repository.findAll(TestSimpleModel.class, sort);
+    List<SimpleModel> models = repository
+        .findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE);
 
-//        Assert.assertEquals("name1", models.get(0).getName());
-//        Assert.assertEquals("name", models.get(1).getName());
-//        Assert.assertEquals(null, models.get(2).getName());
-//
-//        models.get(0).setName("NAME1");
-//        models = repository.findAll(TestSimpleModel.class, sort);
-//
-//        Assert.assertEquals("name", models.get(0).getName());
-//        Assert.assertEquals("NAME1", models.get(1).getName());
-//        Assert.assertEquals(null, models.get(2).getName());
+    Assert.assertEquals(3, models.size());
 
-//        Sort.Order order = new Sort.Order(Sort.Direction.ASC, "name");
-//        order = order.ignoreCase();
-//        sort = new Sort(order);
-//        models = repository.findAll(TestSimpleModel.class, sort);
-//
-//        Assert.assertEquals(null, models.get(0).getName());
-//        Assert.assertEquals("NAME1", models.get(1).getName());
-//        Assert.assertEquals("name", models.get(2).getName());
-//
-//        order = new Sort.Order(Sort.Direction.DESC, "name");
-//        order = order.ignoreCase();
-//        sort = new Sort(order);
-//        models = repository.findAll(TestSimpleModel.class, sort);
-//
-//        Assert.assertEquals("name", models.get(0).getName());
-//        Assert.assertEquals("NAME1", models.get(1).getName());
-//        Assert.assertEquals(null, models.get(2).getName());
+    models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE);
 
+    Assert.assertEquals(3, models.size());
+  }
 
-    }
+  @Test
+  @Transactional
+  public void testFindAllIds() {
+    persistThree();
 
-    @Test
-    @Transactional
-    public void testFindAllSpec() {
-        persistThree();
+    List<SimpleModel> models = repository.findAll(SimpleModel.class, null, false);
+    Assert.assertEquals(0, models.size());
 
-        Specification<SimpleModel> spec = new NameSpecification("name1");
+    List<String> ids = new ArrayList<String>();
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class, spec);
+    models = repository.findAll(SimpleModel.class, ids, false);
+    Assert.assertEquals(0, models.size());
 
-        Assert.assertEquals(1, models.size());
-        Assert.assertEquals(1, repository.count(SimpleModel.class, spec));
-        Assert.assertEquals("name1", models.get(0).getName());
+    ids.add("1");
+    ids.add("2");
 
-        spec = new NameDistinctSpecification("name");
-        models = repository.findAll(SimpleModel.class, spec);
-        Assert.assertEquals(3, models.size());
-        Assert.assertEquals(3, repository.count(SimpleModel.class, spec));
+    models = repository.findAll(SimpleModel.class, ids, false);
+    Assert.assertEquals(2, models.size());
 
-        spec = new NullSpecification();
-        models = repository.findAll(SimpleModel.class, spec);
-        Assert.assertEquals(3, models.size());
-        Assert.assertEquals(3, repository.count(SimpleModel.class, spec));
+    models = repository.findAll(SimpleModel.class, ids, true);
+    Assert.assertEquals(2, models.size());
 
-    }
+    ids = new ArrayList<String>();
 
-    @Test
-    @Transactional
-    public void testFindAllSpecSort() {
-        persistThree();
+    ids.add("1");
+    ids.add("4");
 
-        Specification<SimpleModel> spec = new NameSpecification("name");
+    models = repository.findAll(SimpleModel.class, ids, true);
+    Assert.assertEquals(1, models.size());
 
-        Sort sort = new Sort("name");
+    models = repository.findAll(SimpleModel.class, ids, false);
+    Assert.assertEquals(1, models.size());
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class, spec, sort);
+    ids = new ArrayList<String>();
 
-        Assert.assertEquals(3, models.size());
-        Assert.assertEquals("name", models.get(0).getName());
-        Assert.assertEquals("name1", models.get(1).getName());
-        Assert.assertEquals("name2", models.get(2).getName());
+    ids.add("3");
+    ids.add("4");
 
-        sort = new Sort(Sort.Direction.DESC, "name");
-        models = repository.findAll(SimpleModel.class, spec, sort);
-        Assert.assertEquals(3, models.size());
-        Assert.assertEquals("name2", models.get(0).getName());
-        Assert.assertEquals("name1", models.get(1).getName());
-        Assert.assertEquals("name", models.get(2).getName());
+    models = repository.findAll(SimpleModel.class, ids, true);
+    Assert.assertEquals(0, models.size());
 
-        spec = new NameSpecification("name_");
+    models = repository.findAll(SimpleModel.class, ids, false);
+    Assert.assertEquals(0, models.size());
 
-        models = repository.findAll(SimpleModel.class, spec, sort);
-        Assert.assertEquals(2, models.size());
-        Assert.assertEquals("name2", models.get(0).getName());
-        Assert.assertEquals("name1", models.get(1).getName());
-    }
+  }
 
-    @Test
-    @Transactional
-    public void testFindAllFull() {
-        persistThree();
+  private void persistCompisiteModelThree() {
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE);
+    CompositeId id1 = new CompositeId("0", "0");
+    CompositeId id2 = new CompositeId("0", "1");
 
-        Assert.assertEquals(3, models.size());
+    CompositeModel model = new CompositeModel();
+    model.setId(id1);
+    model.setName("name");
 
-        models = repository.findAll(SimpleModel.class, null, null, LockModeType.PESSIMISTIC_WRITE);
+    CompositeModel model1 = new CompositeModel();
+    model1.setId(id2);
+    model1.setName("name1");
 
-        Assert.assertEquals(3, models.size());
-    }
+    CompositeId id3 = new CompositeId("0", "2");
 
-    @Test
-    @Transactional
-    public void testFindAllIds() {
-        persistThree();
+    CompositeModel model2 = new CompositeModel();
+    model2.setId(id3);
+    model2.setName("name2");
 
-        List<SimpleModel> models = repository.findAll(SimpleModel.class, null, false);
-        Assert.assertEquals(0, models.size());
+    List<CompositeModel> models = new ArrayList<CompositeModel>();
+    models.add(model);
+    models.add(model1);
+    models.add(model2);
 
-        List<String> ids = new ArrayList<String>();
+    repository.persist(models);
+  }
 
-        models = repository.findAll(SimpleModel.class, ids, false);
-        Assert.assertEquals(0, models.size());
+  @Test
+  @Transactional
+  public void testFindAllCompositeIds() {
 
-        ids.add("1");
-        ids.add("2");
+    persistCompisiteModelThree();
 
-        models = repository.findAll(SimpleModel.class, ids, false);
-        Assert.assertEquals(2, models.size());
+    CompositeId id1 = new CompositeId("0", "0");
+    CompositeId id2 = new CompositeId("0", "1");
 
-        models = repository.findAll(SimpleModel.class, ids, true);
-        Assert.assertEquals(2, models.size());
+    List<CompositeId> ids = new ArrayList<CompositeId>();
+    ids.add(id1);
+    ids.add(id2);
 
-        ids = new ArrayList<String>();
+    List<CompositeModel> models = repository.findAll(CompositeModel.class, ids, false);
+    Assert.assertEquals(2, models.size());
 
-        ids.add("1");
-        ids.add("4");
+    models = repository.findAll(CompositeModel.class, ids, true);
+    Assert.assertEquals(2, models.size());
 
-        models = repository.findAll(SimpleModel.class, ids, true);
-        Assert.assertEquals(1, models.size());
+    id1 = new CompositeId("0", "0");
+    id2 = new CompositeId("1", "1");
 
-        models = repository.findAll(SimpleModel.class, ids, false);
-        Assert.assertEquals(1, models.size());
+    ids = new ArrayList<CompositeId>();
+    ids.add(id1);
+    ids.add(id2);
 
-        ids = new ArrayList<String>();
+    models = repository.findAll(CompositeModel.class, ids, true);
+    Assert.assertEquals(1, models.size());
 
-        ids.add("3");
-        ids.add("4");
+    models = repository.findAll(CompositeModel.class, ids, false);
+    Assert.assertEquals(1, models.size());
+  }
 
-        models = repository.findAll(SimpleModel.class, ids, true);
-        Assert.assertEquals(0, models.size());
+  @Test
+  @Transactional
+  public void testDelete() {
+    persistThree();
 
-        models = repository.findAll(SimpleModel.class, ids, false);
-        Assert.assertEquals(0, models.size());
+    repository.delete(SimpleModel.class, "0");
 
-    }
+    List<SimpleModel> simpleModels = repository.findAll(SimpleModel.class);
+    Assert.assertEquals(2, simpleModels.size());
 
-    private void persistCompisiteModelThree() {
+    persistCompisiteModelThree();
 
-        CompositeId id1 = new CompositeId("0", "0");
-        CompositeId id2 = new CompositeId("0", "1");
-        CompositeId id3 = new CompositeId("0", "2");
+    CompositeId id = new CompositeId("0", "0");
 
-        CompositeModel model = new CompositeModel();
-        model.setId(id1);
-        model.setName("name");
+    repository.delete(CompositeModel.class, id);
 
+    List<CompositeModel> compositeModels = repository.findAll(CompositeModel.class);
+    Assert.assertEquals(2, compositeModels.size());
 
-        CompositeModel model1 = new CompositeModel();
-        model1.setId(id2);
-        model1.setName("name1");
+  }
 
-        CompositeModel model2 = new CompositeModel();
-        model2.setId(id3);
-        model2.setName("name2");
+  @Test
+  @Transactional
+  public void testDeleteNull() {
 
-        List<CompositeModel> models = new ArrayList<CompositeModel>();
-        models.add(model);
-        models.add(model1);
-        models.add(model2);
+    thrown.expect(NullPointerException.class);
 
-        repository.persist(models);
-    }
+    persistThree();
 
-    @Test
-    @Transactional
-    public void testFindAllCompositeIds() {
+    repository.delete(SimpleModel.class, "3");
 
-        persistCompisiteModelThree();
+  }
 
-        CompositeId id1 = new CompositeId("0", "0");
-        CompositeId id2 = new CompositeId("0", "1");
+  @Test
+  @Transactional
+  public void testDeleteMerge() {
 
-        List<CompositeId> ids = new ArrayList<CompositeId>();
-        ids.add(id1);
-        ids.add(id2);
+    SimpleModel model = new SimpleModel();
+    model.setId("4");
+    model.setName("name4");
 
-        List<CompositeModel> models = repository.findAll(CompositeModel.class, ids, false);
-        Assert.assertEquals(2, models.size());
+    repository.delete(model);
+  }
 
-        models = repository.findAll(CompositeModel.class, ids, true);
-        Assert.assertEquals(2, models.size());
+  @Test
+  @Transactional
+  public void testDeletes() {
+    persistThree();
 
-        id1 = new CompositeId("0", "0");
-        id2 = new CompositeId("1", "1");
+    List<String> ids = new ArrayList<String>();
 
-        ids = new ArrayList<CompositeId>();
-        ids.add(id1);
-        ids.add(id2);
+    ids.add("0");
+    ids.add("1");
 
-        models = repository.findAll(CompositeModel.class, ids, true);
-        Assert.assertEquals(1, models.size());
+    List<SimpleModel> models = repository.findAll(SimpleModel.class, ids, true);
+    repository.delete(models);
 
-        models = repository.findAll(CompositeModel.class, ids, false);
-        Assert.assertEquals(1, models.size());
-    }
+    models = repository.findAll(SimpleModel.class);
+    Assert.assertEquals(1, models.size());
+    Assert.assertEquals("2", models.get(0).getId());
 
-    @Test
-    @Transactional
-    public void testDelete() {
-        persistThree();
+  }
 
-        repository.delete(SimpleModel.class, "0");
+  @Test
+  @Transactional
+  public void testFindAllPage() {
+    persistNum();
 
-        List<SimpleModel> simpleModels = repository.findAll(SimpleModel.class);
-        Assert.assertEquals(2, simpleModels.size());
+    Pageable pageable = new Pageable(0, 15);
 
-        persistCompisiteModelThree();
+    Page<SimpleModel> page = repository.findAll(SimpleModel.class, pageable);
 
-        CompositeId id = new CompositeId("0", "0");
+    Assert.assertEquals(15, page.getPageSize());
+    Assert.assertEquals(15, page.getItems().size());
+    Assert.assertEquals(100, page.getTotalCount());
+    Assert.assertEquals(0, page.getCurrentIndex());
 
-        repository.delete(CompositeModel.class, id);
+    Specification<SimpleModel> spec = new NameSpecification("name1");
+    pageable = new Pageable(0, 5);
 
-        List<CompositeModel> compositeModels = repository.findAll(CompositeModel.class);
-        Assert.assertEquals(2, compositeModels.size());
+    page = repository.findAll(SimpleModel.class, spec, pageable);
+    Assert.assertEquals(5, page.getPageSize());
+    Assert.assertEquals(5, page.getItems().size());
+    Assert.assertEquals(11, page.getTotalCount());
 
-    }
+    pageable = new Pageable(3, 5);
 
-    @Test
-    @Transactional
-    public void testDeleteNull() {
+    page = repository.findAll(SimpleModel.class, spec, pageable);
+    Assert.assertEquals(5, page.getPageSize());
+    Assert.assertEquals(0, page.getItems().size());
+    Assert.assertEquals(11, page.getTotalCount());
 
-        thrown.expect(NullPointerException.class);
+    pageable = new Pageable(0, 5);
+    Sort sort = new Sort("name");
 
-        persistThree();
+    page = repository.findAll(SimpleModel.class, spec, sort, pageable);
+    Assert.assertEquals(5, page.getPageSize());
+    Assert.assertEquals(5, page.getItems().size());
+    Assert.assertEquals(11, page.getTotalCount());
 
-        repository.delete(SimpleModel.class, "3");
+    Assert.assertEquals("name1", page.getItems().get(0).getName());
+    Assert.assertEquals("name10", page.getItems().get(1).getName());
+    Assert.assertEquals("name11", page.getItems().get(2).getName());
 
-    }
+    page.setCurrentIndex(-1);
+    Assert.assertEquals(0, page.getCurrentIndex());
 
-    @Test
-    @Transactional
-    public void testDeleteMerge() {
+    new Page<SimpleModel>(page.getItems(), page.getTotalCount());
+    new Page<SimpleModel>(page.getItems(), page.getTotalCount(), 0);
 
-        SimpleModel model = new SimpleModel();
-        model.setId("4");
-        model.setName("name4");
+    page.setTotalCount(-1);
 
-        repository.delete(model);
-    }
+    Assert.assertEquals(0, page.getTotalCount());
 
-    @Test
-    @Transactional
-    public void testDeletes() {
-        persistThree();
+    pageable.setPage(0);
+    pageable.setSize(10);
 
-        List<String> ids = new ArrayList<String>();
+    Assert.assertEquals(0, pageable.getPage());
+    Assert.assertEquals(10, pageable.getSize());
 
-        ids.add("0");
-        ids.add("1");
-
-        List<SimpleModel> models = repository.findAll(SimpleModel.class, ids, true);
-        repository.delete(models);
-
-        models = repository.findAll(SimpleModel.class);
-        Assert.assertEquals(1, models.size());
-        Assert.assertEquals("2", models.get(0).getId());
-
-    }
-
-    @Test
-    @Transactional
-    public void testFindAllPage() {
-        persistNum();
-
-        Pageable pageable = new Pageable(0, 15);
-
-        Page<SimpleModel> page = repository.findAll(SimpleModel.class, pageable);
-
-        Assert.assertEquals(15, page.getPageSize());
-        Assert.assertEquals(15, page.getItems().size());
-        Assert.assertEquals(100, page.getTotalCount());
-        Assert.assertEquals(0, page.getCurrentIndex());
-
-        Specification<SimpleModel> spec = new NameSpecification("name1");
-        pageable = new Pageable(0, 5);
-
-        page = repository.findAll(SimpleModel.class, spec, pageable);
-        Assert.assertEquals(5, page.getPageSize());
-        Assert.assertEquals(5, page.getItems().size());
-        Assert.assertEquals(11, page.getTotalCount());
-
-        pageable = new Pageable(3, 5);
-
-        page = repository.findAll(SimpleModel.class, spec, pageable);
-        Assert.assertEquals(5, page.getPageSize());
-        Assert.assertEquals(0, page.getItems().size());
-        Assert.assertEquals(11, page.getTotalCount());
-
-        pageable = new Pageable(0, 5);
-        Sort sort = new Sort("name");
-
-        page = repository.findAll(SimpleModel.class, spec, sort, pageable);
-        Assert.assertEquals(5, page.getPageSize());
-        Assert.assertEquals(5, page.getItems().size());
-        Assert.assertEquals(11, page.getTotalCount());
-
-        Assert.assertEquals("name1", page.getItems().get(0).getName());
-        Assert.assertEquals("name10", page.getItems().get(1).getName());
-        Assert.assertEquals("name11", page.getItems().get(2).getName());
-
-        page.setCurrentIndex(-1);
-        Assert.assertEquals(0, page.getCurrentIndex());
-
-        new Page<SimpleModel>(page.getItems(), page.getTotalCount());
-        new Page<SimpleModel>(page.getItems(), page.getTotalCount(), 0);
-
-        page.setTotalCount(-1);
-
-        Assert.assertEquals(0, page.getTotalCount());
-
-        pageable.setPage(0);
-        pageable.setSize(10);
-
-        Assert.assertEquals(0, pageable.getPage());
-        Assert.assertEquals(10, pageable.getSize());
-
-        page = repository.findAll(SimpleModel.class, spec, (Pageable) null);
-        Assert.assertEquals(11, page.getItems().size());
-    }
+    page = repository.findAll(SimpleModel.class, spec, (Pageable) null);
+    Assert.assertEquals(11, page.getItems().size());
+  }
 }

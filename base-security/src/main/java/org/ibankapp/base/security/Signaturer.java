@@ -6,14 +6,14 @@
  * See the LICENSE file in English or LICENSE.zh_CN in chinese
  * in the root directory or <http://www.apache.org/licenses/>.
  */
-package org.ibankapp.base.security;
 
-import net.iharder.Base64;
+package org.ibankapp.base.security;
 
 import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.Signature;
 import java.security.spec.PKCS8EncodedKeySpec;
+import net.iharder.Base64;
 
 /**
  * 用私钥对指定信息进行签名，并返回加签后的密文
@@ -24,34 +24,32 @@ import java.security.spec.PKCS8EncodedKeySpec;
  */
 public class Signaturer {
 
-    /**
-     * 用私钥对指定信息进行签名，并返回加签后的密文
-     * @param priKeyText    私钥
-     * @param plainText     待签名的字符串
-     * @return  加签后的密文
-     */
-    public static byte[] sign(byte[] priKeyText, String plainText) {
+  /**
+   * 用私钥对指定信息进行签名，并返回加签后的密文.
+   *
+   * @param priKeyText 私钥
+   * @param plainText 待签名的字符串
+   * @return 加签后的密文
+   */
+  public static byte[] sign(byte[] priKeyText, String plainText) {
 
-        try {
+    try {
+      PKCS8EncodedKeySpec pripkcs8 = new PKCS8EncodedKeySpec(Base64.decode(priKeyText));
+      KeyFactory keyf = KeyFactory.getInstance("RSA");
+      PrivateKey prikey = keyf.generatePrivate(pripkcs8);
 
-            PKCS8EncodedKeySpec priPKCS8 = new PKCS8EncodedKeySpec(Base64.decode(priKeyText));
-            KeyFactory keyf = KeyFactory.getInstance("RSA");
-            PrivateKey prikey = keyf.generatePrivate(priPKCS8);
+      // 用私钥对信息生成数字签名
+      Signature signet = Signature.getInstance("MD5withRSA");
+      signet.initSign(prikey);
+      signet.update(plainText.getBytes());
 
-            // 用私钥对信息生成数字签名
-            Signature signet = Signature.getInstance("MD5withRSA");
-            signet.initSign(prikey);
-            signet.update(plainText.getBytes());
+      return Base64.encodeBytesToBytes(signet.sign());
 
-            byte[] signed = Base64.encodeBytesToBytes(signet.sign());
-            return signed;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new BaseSecurityException("E-BASE-SECURITY-000001").initCause(e);
-
-        }
-
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new BaseSecurityException("E-BASE-SECURITY-000001").initCause(e);
     }
+
+  }
 
 }

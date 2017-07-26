@@ -27,19 +27,16 @@
 
 package org.ibankapp.base.validation.constraint;
 
-
-import org.ibankapp.base.validation.validator.IdentifierValidator;
+import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
+import static java.lang.annotation.ElementType.TYPE;
+import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-
 import javax.validation.Constraint;
 import javax.validation.Payload;
-
-import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import org.ibankapp.base.validation.validator.IdentifierValidator;
 
 /**
  * 证件验证注解
@@ -53,13 +50,29 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Constraint(validatedBy = IdentifierValidator.class)
 @Documented
 public @interface Identifier {
-    String message() default "{constraints.identifier}";
 
-    Class<?>[] groups() default {};
+  /**
+   * 获取 错误信息.
+   */
+  String message() default "{constraints.identifier}";
 
-    Class<? extends Payload>[] payload() default {};
+  /**
+   * 分组.
+   */
+  Class<?>[] groups() default {};
 
-    String typefield();
+  /**
+   * playload.
+   */
+  Class<? extends Payload>[] payload() default {};
 
-    String codefield();
+  /**
+   * 证件类型字段.
+   */
+  String typefield();
+
+  /**
+   * 证件号码字段.
+   */
+  String codefield();
 }
