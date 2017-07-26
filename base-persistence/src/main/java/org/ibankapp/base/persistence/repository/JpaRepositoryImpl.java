@@ -114,6 +114,11 @@ public class JpaRepositoryImpl implements JpaRepository {
   }
 
   @Override
+  public <T, D extends Serializable> T findOne(Class<T> entityClass, D id, LockModeType lockMode) {
+    return em.find(entityClass, id, lockMode);
+  }
+
+  @Override
   public <T, D extends Serializable> boolean exist(Class<T> entityClass, D id) {
 
     return findOne(entityClass, id) != null;

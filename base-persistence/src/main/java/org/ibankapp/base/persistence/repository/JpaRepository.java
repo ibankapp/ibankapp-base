@@ -74,6 +74,18 @@ public interface JpaRepository {
   <T, D extends Serializable> T findOne(Class<T> entityClass, D id);
 
   /**
+   * 根据ID和JPA实体类型查询记录，并按照lockMode锁定记录.
+   *
+   * @param entityClass Jpa实体类型
+   * @param id 实体对象ID
+   * @param lockMode 锁模式
+   * @param <T> Jpa实体类型
+   * @param <D> 实体对象ID类型
+   * @return 符合条件的实体对象
+   */
+  <T, D extends Serializable> T findOne(Class<T> entityClass, D id, LockModeType lockMode);
+
+  /**
    * 根据ID和Jpa实体类型检查记录是否存在.
    *
    * @param entityClass Jpa实体类型
