@@ -21,17 +21,17 @@ import org.ibankapp.base.exception.PropertyUtil;
  */
 public class BaseSecurityException extends BaseException {
 
-    private final static String MESSAGE_FILE = "base_security_message.properties";
+  private static final String MESSAGE_FILE = "base_security_message.properties";
 
-    static {
-        PropertyUtil.load(MESSAGE_FILE);
-    }
+  static {
+    PropertyUtil.load(MESSAGE_FILE);
+  }
 
-    public BaseSecurityException(String messageId) {
-        super(messageId);
-    }
+  BaseSecurityException(String messageId) {
+    super(messageId);
+  }
 
-    public BaseSecurityException(String messageId, String param) {
-        super(messageId, param);
-    }
+  public BaseSecurityException(String messageId, String param) {
+    super(messageId, param);
+  }
 }

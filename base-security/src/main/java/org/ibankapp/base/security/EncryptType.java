@@ -17,13 +17,13 @@ package org.ibankapp.base.security;
  * @since 1.0.0
  */
 public enum EncryptType {
-    /**
-     * 使用公钥加密／私钥解密
-     */
-    PUBLICKEYFLAG,
-    /**
-     * 使用私钥加解／公钥解密
-     */
-    PRIVATEKEYFLAG
+  /**
+   * 使用公钥加密／私钥解密.
+   */
+  PUBLICKEYFLAG,
+  /**
+   * 使用私钥加解／公钥解密.
+   */
+  PRIVATEKEYFLAG
 }
 
