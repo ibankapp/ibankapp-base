@@ -39,7 +39,11 @@ subprojects {
     }
 
     checkstyle {
-        toolVersion = "8.0"
+        if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
+            toolVersion = "8.0"
+        } else {
+            toolVersion = "6.5"
+        }
         configFile = rootProject.file('config/checkstyle/google_style.xml')
         configProperties = [configdir: rootProject.file('config')]
     }
