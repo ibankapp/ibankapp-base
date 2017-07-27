@@ -57,7 +57,7 @@ public class SignProviderTest {
     thrown.expect(BaseSecurityException.class);
     thrown.expectMessage("签名失败");
 
-    SignProvider.sign(clearText,clearText);
+    SignProvider.sign(clearText, clearText);
   }
 
   @Test
@@ -65,6 +65,14 @@ public class SignProviderTest {
     thrown.expect(BaseSecurityException.class);
     thrown.expectMessage("签名失败");
 
-    SignProvider.verify(clearText,clearText,clearText);
+    SignProvider.verify(clearText, clearText, clearText);
+  }
+
+  @Test
+  public void testVerifyError2() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("验证签名失败");
+
+    SignProvider.verify(publicStr, clearText, clearText);
   }
 }
