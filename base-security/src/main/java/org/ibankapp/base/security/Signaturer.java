@@ -20,7 +20,7 @@ import net.iharder.Base64;
  *
  * @author <a href="http://www.ibankapp.org">ibankapp</a>
  * @author <a href="mailto:liulj@ibankapp.org">esailor</a>
- * @since 1.0.0.0
+ * @since 1.0.0
  */
 public class Signaturer {
 

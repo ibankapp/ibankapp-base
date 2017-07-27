@@ -26,17 +26,14 @@ import net.iharder.Base64;
  *
  * @author <a href="http://www.ibankapp.org">ibankapp</a>
  * @author <a href="mailto:liulj@ibankapp.org">esailor</a>
- * @since 1.0.0.0
+ * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
+ * @since 1.0.0
  */
 public class RsaUtil {
 
   private static final String KEY_ALGORITHM = "RSA";
 
   private static final String CIPHER_ALGORITHM = "RSA/ECB/PKCS1Padding";
-
-  private RsaUtil() {
-
-  }
 
   /**
    * 还原公钥，X509EncodedKeySpec 用于构建公钥的规范.
