@@ -5,13 +5,19 @@ import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.util.Arrays;
 import net.iharder.Base64;
+import org.ibankapp.base.security.BaseSecurityException;
 import org.ibankapp.base.security.KeyType;
 import org.ibankapp.base.security.RsaUtil;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class RsaUtilRightTest {
+
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
 
   private String privateStr = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIetOUUKP3bBQoaqhYb"
       + "X2IUVpST8iQ9FpV9HAOHWvY6c7tt+ttKtuWACGTF6D3FwoU731TifVPjHZyNWQ115UTtoqQJi89JAZWJ1/pfMaSWN"
@@ -93,5 +99,55 @@ public class RsaUtilRightTest {
     clearBytes = RsaUtil.decrypt(publicKey, cipherBytes);
 
     Assert.assertTrue(Arrays.equals(clearText.getBytes(), clearBytes));
+  }
+
+  @Test
+  public void testBase64EncodeError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("Base64转码失败");
+
+    RsaUtil.decrypt(KeyType.PRIVATEKEY, privateStr, clearText);
+  }
+
+  @Test
+  public void testGetPrivateKeyError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("构建私钥失败");
+
+    byte[] cipherBytes = RsaUtil.encrypt(KeyType.PUBLICKEY, publicStr, clearText.getBytes());
+
+    RsaUtil.decrypt(KeyType.PRIVATEKEY, publicStr, cipherBytes);
+  }
+
+  @Test
+  public void testGetPublicKeyError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("构建公钥失败");
+
+    RsaUtil.encrypt(KeyType.PUBLICKEY, privateStr, clearText.getBytes());
+  }
+
+  @Test
+  public void testEncryptGetKeyError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("构建密钥失败");
+
+    RsaUtil.encrypt(KeyType.PUBLICKEY, clearText, clearText.getBytes());
+  }
+
+  @Test
+  public void testDecryptGetKeyError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("构建密钥失败");
+
+    RsaUtil.decrypt(KeyType.PUBLICKEY, clearText, clearText.getBytes());
+  }
+
+  @Test
+  public void testCharsetError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("Base64转码失败");
+
+    RsaUtil.encrypt(KeyType.PUBLICKEY, publicStr, clearText, "utf-21");
   }
 }
