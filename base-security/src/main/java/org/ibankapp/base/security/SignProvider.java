@@ -10,14 +10,9 @@
 package org.ibankapp.base.security;
 
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.KeyFactory;
-import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.Signature;
-import java.security.SignatureException;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.X509EncodedKeySpec;
 import net.iharder.Base64;
 
 /**
@@ -29,25 +24,48 @@ import net.iharder.Base64;
  */
 public class SignProvider {
 
+  private SignProvider() {
+
+  }
+
+  /**
+   * 用私钥对指定信息进行签名，并返回电子签名.
+   *
+   * @param priKeyStr 私钥
+   * @param plainText 待签名的字符串
+   * @return 电子签名
+   */
+  public static String sign(String priKeyStr, String plainText) {
+
+    try {
+      PrivateKey prikey = RsaUtil.getPrivateKey(Base64.decode(priKeyStr));
+
+      // 用私钥对信息生成数字签名
+      Signature signet = Signature.getInstance("MD5withRSA");
+      signet.initSign(prikey);
+      signet.update(plainText.getBytes());
+
+      return Base64.encodeBytes(signet.sign());
+
+    } catch (Exception e) {
+      throw new BaseSecurityException("E-BASE-SECURITY-000001").initCause(e);
+    }
+
+  }
+
   /**
    * 校验传入的plaintextbyte数组，与原加签的字符串验证运算是否验证通过.
    *
-   * @param pubKeyText 公钥
+   * @param pubKeyBytes 公钥
    * @param plainText 待验证的字符串
    * @param signText 通过私钥数字签名后的密文(Base64编码)
    * @return true:验证通过 false:验证失败
    */
-  private static boolean verify(byte[] pubKeyText, byte[] signText, String plainText) {
+  private static boolean verify(byte[] pubKeyBytes, String signText, String plainText) {
 
     try {
-      // 解密由base64编码的公钥,并构造X509EncodedKeySpec对象
-      X509EncodedKeySpec bobPubKeySpec = new X509EncodedKeySpec(Base64.decode(pubKeyText));
-
-      // RSA对称加密算法
-      KeyFactory keyFactory = KeyFactory.getInstance("RSA");
-
       // 取公钥匙对象
-      PublicKey pubKey = keyFactory.generatePublic(bobPubKeySpec);
+      PublicKey pubKey = RsaUtil.getPublicKey(pubKeyBytes);
 
       // 解密由base64编码的数字签名
       byte[] signed = Base64.decode(signText);
@@ -57,45 +75,24 @@ public class SignProvider {
 
       // 验证签名是否正常
       return signatureChecker.verify(signed);
-    } catch (IOException e) {
-      e.printStackTrace();
-      //验签失败
-      throw new BaseSecurityException("E-BASE-SECURITY-000002").initCause(e);
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-      throw new BaseSecurityException("E-BASE-SECURITY-000002").initCause(e);
-    } catch (InvalidKeySpecException e) {
-      e.printStackTrace();
-      throw new BaseSecurityException("E-BASE-SECURITY-000002").initCause(e);
-    } catch (InvalidKeyException e) {
-      e.printStackTrace();
-      throw new BaseSecurityException("E-BASE-SECURITY-000002").initCause(e);
-    } catch (SignatureException e) {
-      e.printStackTrace();
+    } catch (Exception e) {
       throw new BaseSecurityException("E-BASE-SECURITY-000002").initCause(e);
     }
   }
 
   /**
-   * 校验传入的plaintext字符串，与原加签的字符串运算,验证是否通过.
+   * 校验传入的plaintext字符串，与原加签的字符串运算,验证电子签名是否正确.
    *
    * @param pubKeyText 公钥字符串
-   * @param plainText 需校验的字符串（比如mac地址）
-   * @param signedText 通过私钥数字签名后的密文(Base64编码)
+   * @param plainText 需校验的字符串
+   * @param signedText 电子签名
    * @return true:验证通过 false:验证失败
    */
   public static boolean verify(String pubKeyText, String signedText, String plainText) {
     try {
-      byte[] pubKeyBytes = pubKeyText.getBytes();
-
-      //license转码
-      byte[] signed;
-      signed = Base64.decode(signedText);
-
-      //公钥去验证
-      return SignProvider.verify(pubKeyBytes, signed, plainText);
+      byte[] pubKeyBytes = Base64.decode(pubKeyText);
+      return SignProvider.verify(pubKeyBytes, signedText, plainText);
     } catch (IOException e) {
-      e.printStackTrace();
       throw new BaseSecurityException("E-BASE-SECURITY-000002").initCause(e);
     }
   }
