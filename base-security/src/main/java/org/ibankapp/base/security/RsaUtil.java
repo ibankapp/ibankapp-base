@@ -35,6 +35,10 @@ public class RsaUtil {
 
   private static final String CIPHER_ALGORITHM = "RSA/ECB/PKCS1Padding";
 
+  private RsaUtil() {
+
+  }
+
   /**
    * 还原公钥，X509EncodedKeySpec 用于构建公钥的规范.
    *
@@ -130,7 +134,7 @@ public class RsaUtil {
     try {
       clearBytes = clearText.getBytes(charset);
     } catch (UnsupportedEncodingException e) {
-      throw new BaseSecurityException("E-BASE-SECURITY-000010");
+      throw new BaseSecurityException("E-BASE-SECURITY-000010").initCause(e);
     }
     return Base64.encodeBytes(encrypt(keyType, skey, clearBytes));
   }
