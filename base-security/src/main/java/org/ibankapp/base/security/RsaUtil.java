@@ -41,7 +41,7 @@ public class RsaUtil {
    * @param keyBytes byte[]类型的公钥
    * @return PublicKey类型的公钥
    */
-  private static PublicKey getPublicKey(byte[] keyBytes) {
+  public static PublicKey getPublicKey(byte[] keyBytes) {
     X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(keyBytes);
     try {
       KeyFactory factory = KeyFactory.getInstance(KEY_ALGORITHM);
@@ -57,7 +57,7 @@ public class RsaUtil {
    * @param keyBytes byte[]类型的私钥
    * @return PrivateKey类型的私钥
    */
-  private static PrivateKey getPrivateKey(byte[] keyBytes) {
+  public static PrivateKey getPrivateKey(byte[] keyBytes) {
     PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(keyBytes);
     try {
       KeyFactory factory = KeyFactory.getInstance(KEY_ALGORITHM);

@@ -1,11 +1,8 @@
 package org.ibankapp.base.security.test;
 
 import java.io.UnsupportedEncodingException;
-import java.security.KeyFactory;
 import java.security.PrivateKey;
 import java.security.PublicKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.security.spec.X509EncodedKeySpec;
 import java.util.Arrays;
 import net.iharder.Base64;
 import org.ibankapp.base.security.KeyType;
@@ -43,12 +40,8 @@ public class RsaUtilRightTest {
    */
   @Before
   public void init() throws Exception {
-    X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(Base64.decode(publicStr));
-    KeyFactory factory = KeyFactory.getInstance("RSA");
-    publicKey = factory.generatePublic(x509EncodedKeySpec);
-
-    PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(Base64.decode(privateStr));
-    privateKey = factory.generatePrivate(pkcs8EncodedKeySpec);
+    publicKey = RsaUtil.getPublicKey(Base64.decode(publicStr));
+    privateKey = RsaUtil.getPrivateKey(Base64.decode(privateStr));
   }
 
 
