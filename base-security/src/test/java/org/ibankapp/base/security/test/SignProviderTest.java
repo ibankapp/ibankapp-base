@@ -9,53 +9,70 @@
 
 package org.ibankapp.base.security.test;
 
-import net.iharder.Base64;
+import java.io.IOException;
+import org.ibankapp.base.security.BaseSecurityException;
 import org.ibankapp.base.security.SignProvider;
-import org.ibankapp.base.security.Signaturer;
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class SignProviderTest {
 
+  @Rule
+  public ExpectedException thrown = ExpectedException.none();
+
+  private String privateStr = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIetOUUKP3bBQoaqhYb"
+      + "X2IUVpST8iQ9FpV9HAOHWvY6c7tt+ttKtuWACGTF6D3FwoU731TifVPjHZyNWQ115UTtoqQJi89JAZWJ1/pfMaSWN"
+      + "mLQ4wef0M6XTY8A8Kbls6T4ryD1R0aZ03OV4RTgyOIPTWU1t5ulG/+NC7xE+GExxAgMBAAECgYBoMl2IKx2gOz23J"
+      + "GBVtZDAbGYe6J7uDqO5b1M7HesICnfaNA997xMtq47jk4UmrsQDXIvw51Sflqwb1FT6BYCe/sLyg/0H3yglkGID8A"
+      + "6mvCCHf9MSbyZt7Q36Mwcy7fc6UjMYq6YyIPFKn3JfRsXyKea1mngPGPLBXs76o2wEUQJBAPzzX8ik8h9lkYM6qn2"
+      + "KoZk4YcUEO7dNFCzlFdYb+k6OoMIA8Sa30XkJs49ZGnupq+9EXofql9NhByMZC3pLen0CQQCJT+7AIeHvACXyxcba"
+      + "5d3Ci02vNmKkhm6OrQ6F4xKNyh7663t6Q+RWr10uOonaUZ6YH4keuvyKWiMI+ztY5wgFAkAG8ohG8oDT6+47NHlKS"
+      + "Wx20N2ek6cwOaW8Ne6LmukdDz3LFkuJTLMsJ+AOp9vaWaanQ7F0+jSBUcDobd+q1DfhAkB3LJjayI1/EXHeMylT8w"
+      + "11O9JAr8MNaF+sFSb1rQ79YN9ih96zTxlu4uTMqqHaidxLy5MGyONGcNTXhrULg/jBAkEAgyFkw9l3+NbdW05ApnJ"
+      + "9S/UZ0Qwoi1wAhDDkjgACZwEkYEUy1I8oJMYyv/+Me8jqXo4fg9RJGNR9KNRRgBWbFg==";
+
+  private String publicStr = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCHrTlFCj92wUKGqoWG19iFFaUk/IkP"
+      + "RaVfRwDh1r2OnO7bfrbSrblgAhkxeg9xcKFO99U4n1T4x2cjVkNdeVE7aKkCYvPSQGVidf6XzGkljZi0OMHn9DOl0"
+      + "2PAPCm5bOk+K8g9UdGmdNzleEU4MjiD01lNbebpRv/jQu8RPhhMcQIDAQAB";
+
+  private String clearText = "1234567890杏花村abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+      + "~！@#￥%……&*";
+
   @Test
-  public void testVerify() {
-    SignProvider sp = new SignProvider();
-    Signaturer st = new Signaturer();
-    String priKeyStr = "MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAJF4Wp4cxBNmY4FXgNT7pe6eEx"
-        + "Zc03yDHKMTw+n0oR5ByTHPla6GXu6wIiwlChxripICBzrIVF+OSioB7wJWlzadb/TuaInyH4z2BRZIkqF66pUuR"
-        + "cNzRjBv8slcc5blY0TDxIIWZrxQC3GpsEBAIp8SvPPdOJF5v2OXpr8tlKp5AgMBAAECgYATqEfWhdyZIoTfvYtT"
-        + "PI43qHS72N9bO/xqrQkUXFJJXGprqLl5U/8QEg0MGhU7seyPvmZrsxZzsy6ibpB1qG3WZj7/pkuVWnJteyBe4yI"
-        + "1fBZKzP5o+aqB8CBFQcrBofyk9L0OzVsnuaz5jCgXkWvUHkpvD4xW2hilLZIT6YLI4QJBAOzdm37uPFqwImFZqs"
-        + "GnzWFBNdNsj5zu/0I++2qgWN8Lyx7MHdlJoidswKScykK/CTPbex9XpOSOdBlF5qDn4scCQQCdOK7Y1jzETh4bF"
-        + "1uzSWTqYFPtqSj3TzmoqqFArtYNyqvJc1E0u12LsVR8IBKBka0qiw8AJpQOnWpXjIKmYci/AkAS3cPY5FjiUE0s"
-        + "u9uh+R+es3b6FBeMRG0IdcPIxmTNvz66gT+PYxILWdouQl7J2jV9b+nqoSx9F+ufZ7Xq8w1ZAkBETlEgogtqmin"
-        + "YSVCs1xFCBrHQCnNi5we88Mz4Jj2XZls2PaSlTVX6EAQNnX2Mz3a1ig7tWNVweBGwkbpdgRRPAkEAg4oCnncCL1"
-        + "AkF3B2QEktQjSKps3HlR7JxVIUhzNnzAqju3opmVL+zQvTGycAJ0I2+my1LNE6I3OazWWjRJcdYw==";
-    String pubKeyStr = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCReFqeHMQTZmOBV4DU+6XunhMWXNN8gxyjE8"
-        + "Pp9KEeQckxz5Wuhl7usCIsJQoca4qSAgc6yFRfjkoqAe8CVpc2nW/07miJ8h+M9gUWSJKheuqVLkXDc0Ywb/LJX"
-        + "HOW5WNEw8SCFma8UAtxqbBAQCKfErzz3TiReb9jl6a/LZSqeQIDAQAB";
-    byte[] priKeyBytes = priKeyStr.getBytes();
+  public void testVerify() throws IOException {
 
-    String plainText = "12345678";
-    byte[] signed = Signaturer.sign(priKeyBytes, plainText);
-    String signedStr = Base64.encodeBytes(signed);
+    String signedStr = SignProvider.sign(privateStr, clearText);
+    Assert.assertTrue(SignProvider.verify(publicStr, signedStr, clearText));
+    Assert.assertFalse(SignProvider.verify(publicStr, signedStr, clearText + "1"));
 
-    boolean verifyFlag = false;
-    try {
-      verifyFlag = SignProvider.verify(pubKeyStr, signedStr, plainText);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    signedStr = "1" + signedStr.substring(1);
+    Assert.assertFalse(SignProvider.verify(publicStr, signedStr, clearText));
 
-    Assert.assertTrue(verifyFlag);
+  }
 
-    plainText = "12345679";
-    try {
-      verifyFlag = SignProvider.verify(pubKeyStr, signedStr, plainText);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    Assert.assertFalse(verifyFlag);
+  @Test
+  public void testSignError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("签名失败");
 
+    SignProvider.sign(clearText, clearText);
+  }
+
+  @Test
+  public void testVerifyError() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("签名失败");
+
+    SignProvider.verify(clearText, clearText, clearText);
+  }
+
+  @Test
+  public void testVerifyError2() {
+    thrown.expect(BaseSecurityException.class);
+    thrown.expectMessage("验证签名失败");
+
+    SignProvider.verify(publicStr, clearText, clearText);
   }
 }
