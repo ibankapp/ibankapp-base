@@ -95,9 +95,13 @@ public class IdentifierValidation {
   public static boolean isOcc(String occ) {
     occ = occ.trim().toUpperCase();
 
-    return occ.length() == 9 && !(!Character.isDigit(occ.charAt(8)) && occ.charAt(8) != 'X')
-        && occ.charAt(8) == getOccCheckBit(occ.substring(0, 8));
-
+    if (occ.length() == 9) {
+      return !(!Character.isDigit(occ.charAt(8)) && occ.charAt(8) != 'X')
+          && occ.charAt(8) == getOccCheckBit(occ.substring(0, 8));
+    } else {
+      return occ.length() == 10 && occ.charAt(8) == '-' && !(!Character.isDigit(occ.charAt(9))
+          && occ.charAt(9) != 'X') && occ.charAt(9) == getOccCheckBit(occ.substring(0, 8));
+    }
   }
 
   /**

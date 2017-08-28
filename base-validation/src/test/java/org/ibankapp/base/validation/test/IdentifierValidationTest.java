@@ -56,7 +56,7 @@ public class IdentifierValidationTest {
     assertTrue(IdentifierValidation.isOcc("81852090X"));
     assertFalse(IdentifierValidation.isOcc("81852090A"));
     assertFalse(IdentifierValidation.isOcc("818520903"));
-    assertFalse(IdentifierValidation.isOcc("68510470-9"));
+    assertTrue(IdentifierValidation.isOcc("68510470-9"));
     assertFalse(IdentifierValidation.isOcc("685104708"));
     assertFalse(IdentifierValidation.isOcc("6851047X8"));
     assertTrue(IdentifierValidation.isOcc("M00010RN6"));
