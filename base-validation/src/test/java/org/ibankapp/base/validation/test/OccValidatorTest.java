@@ -27,7 +27,10 @@ public class OccValidatorTest {
     BeanValidator.validate(model);
     model.setOcc("81852090X");
     BeanValidator.validate(model);
+    model.setOcc("10393995-0");
+    BeanValidator.validate(model);
   }
+
 
   @Test
   public void testOccInvalid() {
@@ -59,6 +62,7 @@ public class OccValidatorTest {
     BeanValidator.validate(model);
   }
 
+
   @Test
   public void testOccInvalid3() {
     thrown.expect(BaseException.class);
@@ -69,4 +73,23 @@ public class OccValidatorTest {
     BeanValidator.validate(model);
   }
 
+  @Test
+  public void testOccInvalid4() {
+    thrown.expect(BaseException.class);
+    thrown.expectMessage("组织机构代码不合法");
+
+    TestModelWithOcc model = new TestModelWithOcc();
+    model.setOcc("81852091211");
+    BeanValidator.validate(model);
+  }
+
+  @Test
+  public void testOccInvalid5() {
+    thrown.expect(BaseException.class);
+    thrown.expectMessage("组织机构代码不合法");
+
+    TestModelWithOcc model = new TestModelWithOcc();
+    model.setOcc("81852091-B");
+    BeanValidator.validate(model);
+  }
 }
