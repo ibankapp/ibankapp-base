@@ -86,6 +86,57 @@ public interface JpaRepository {
   <T, D extends Serializable> T findOne(Class<T> entityClass, D id, LockModeType lockMode);
 
   /**
+   * 按照查询条件返回单条记录,如没有满足条件的记录或查询出多条记录,抛出异常,同时将记录按照LockMode进行锁定.
+   *
+   * @param spec 查询条件
+   * @param entityClass Jpa实体类型
+   * @param lockMode 锁模式
+   * @param <T> jpa实体类型
+   * @return 符合条件的实体对象
+   * @throws javax.persistence.NoResultException 当没有满足记录时抛出
+   * @throws javax.persistence.NonUniqueResultException 当存在多条满足条件的记录时抛出
+   */
+  <T> T findOne(Specification<T> spec, Class<T> entityClass, LockModeType lockMode);
+
+
+  /**
+   * 按照查询条件返回单条记录,如没有满足条件的记录或查询出多条记录,抛出异常.
+   *
+   * @param spec 查询条件
+   * @param entityClass Jpa实体类型
+   * @param <T> jpa实体类型
+   * @return 符合条件的实体对象
+   * @throws javax.persistence.NoResultException 当没有满足记录时抛出
+   * @throws javax.persistence.NonUniqueResultException 当存在多条满足条件的记录时抛出
+   */
+  <T> T findOne(Specification<T> spec, Class<T> entityClass);
+
+  /**
+   * 按照jpql语句查询出单条记录,如没有满足条件的记录或查询出多条记录,抛出异常,同时将记录按照LockMode进行锁定.
+   *
+   * @param jpql jpql语句
+   * @param entityClass Jpa实体类型
+   * @param lockMode 锁模式
+   * @param <T> jpa实体类型
+   * @return 符合条件的实体对象
+   * @throws javax.persistence.NoResultException 当没有满足记录时抛出
+   * @throws javax.persistence.NonUniqueResultException 当存在多条满足条件的记录时抛出
+   */
+  <T> T findOne(String jpql, Class<T> entityClass, LockModeType lockMode);
+
+  /**
+   * 按照jpql语句查询出单条记录,如没有满足条件的记录或查询出多条记录,抛出异常.
+   *
+   * @param jpql jpql语句
+   * @param entityClass Jpa实体类型
+   * @param <T> jpa实体类型
+   * @return 符合条件的实体对象
+   * @throws javax.persistence.NoResultException 当没有满足记录时抛出
+   * @throws javax.persistence.NonUniqueResultException 当存在多条满足条件的记录时抛出
+   */
+  <T> T findOne(String jpql, Class<T> entityClass);
+
+  /**
    * 根据ID和Jpa实体类型检查记录是否存在.
    *
    * @param entityClass Jpa实体类型
@@ -196,6 +247,27 @@ public interface JpaRepository {
       boolean isBatch);
 
   /**
+   * 按照jpql语句查询满足条件的数据记录.
+   *
+   * @param entityClass Jpa实体类型
+   * @param jpql jpql语句
+   * @param <T> Jpa实体类型
+   * @return 查询结果List
+   */
+  <T> List<T> findAll(Class<T> entityClass, String jpql);
+
+  /**
+   * 按照jpql语句、分页规则返回查询结果.
+   *
+   * @param entityClass Jpa实体类型
+   * @param jpql jpql语句
+   * @param pageable 分页规则
+   * @param <T> Jpa实体类型
+   * @return 分页查询结果
+   */
+  <T> Page<T> findAll(Class<T> entityClass, String jpql, Pageable pageable);
+
+  /**
    * 返回总记录条数.
    *
    * @param entityClass Jpa实体类型
@@ -213,6 +285,14 @@ public interface JpaRepository {
    * @return 满足条件的记录条数
    */
   <T> long count(Class<T> entityClass, Specification<T> spec);
+
+  /**
+   * 返回满足jpql查询语句的记录条数.
+   *
+   * @param jpql jpql语句
+   * @return 满足条件的记录数
+   */
+  long count(String jpql);
 
   /**
    * 删除指定ID的数据库记录.
