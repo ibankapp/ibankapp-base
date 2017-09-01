@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import org.ibankapp.base.persistence.BasePersistenceException;
-import org.ibankapp.base.util.StringUtils;
 
 /**
  * 排序请求配置类.

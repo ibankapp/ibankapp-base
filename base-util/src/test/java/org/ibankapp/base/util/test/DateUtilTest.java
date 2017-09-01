@@ -25,11 +25,6 @@ public class DateUtilTest {
   public PowerMockRule rule = new PowerMockRule();
 
   @Test
-  public void testNewDateUtil() {
-    new DateUtil();
-  }
-
-  @Test
   @PrepareForTest(DateUtil.class)
   public void testFmtCurrentDate() throws Exception {
 
