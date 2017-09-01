@@ -13,7 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.persistence.LockModeType;
+import javax.persistence.NoResultException;
+import javax.persistence.NonUniqueResultException;
 import javax.persistence.PersistenceException;
+import org.ibankapp.base.persistence.BasePersistenceException;
 import org.ibankapp.base.persistence.domain.Page;
 import org.ibankapp.base.persistence.domain.Pageable;
 import org.ibankapp.base.persistence.domain.Sort;
@@ -26,10 +29,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
+@Rollback(value = false)
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = {TestContextConfig.class})
 public class JpaRepositoryTest {
@@ -107,7 +113,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testPersist() {
 
     persistOne();
@@ -121,7 +126,7 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
+  @Rollback
   public void testNullIdPersist() {
 
     thrown.expect(PersistenceException.class);
@@ -133,14 +138,12 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testNullPersist() {
     thrown.expect(NullPointerException.class);
     repository.persist((SimpleModel) null);
   }
 
   @Test
-  @Transactional
   public void testMerge() {
 
     persistOne();
@@ -162,7 +165,7 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
+  @Rollback
   public void testNullIdMerge() {
 
     thrown.expect(PersistenceException.class);
@@ -174,14 +177,12 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testNullMerge() {
     thrown.expect(NullPointerException.class);
     repository.merge((SimpleModel) null);
   }
 
   @Test
-  @Transactional
   public void testPersists() {
 
     List<SimpleModel> models = persistTwo();
@@ -191,7 +192,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testNullPersists() {
 
     List<SimpleModel> models = repository.persist(null);
@@ -202,7 +202,6 @@ public class JpaRepositoryTest {
 
 
   @Test
-  @Transactional
   public void testMerges() {
 
     persistTwo();
@@ -226,13 +225,16 @@ public class JpaRepositoryTest {
     Assert.assertEquals(3, repository.count(SimpleModel.class));
     Assert.assertEquals(3, models1.size());
     Assert.assertEquals("name2", repository.findOne(SimpleModel.class, "0").getName());
+    Assert.assertEquals("name1",
+        repository.findOne(SimpleModel.class, "1", LockModeType.WRITE).getName());
     Assert.assertEquals("name1", repository.findOne(SimpleModel.class, "1").getName());
+    Assert.assertEquals("name3",
+        repository.findOne(SimpleModel.class, "2", LockModeType.READ).getName());
     Assert.assertEquals("name3", repository.findOne(SimpleModel.class, "2").getName());
 
   }
 
   @Test
-  @Transactional
   public void testNullMerges() {
 
     List<SimpleModel> models = repository.merge(null);
@@ -242,7 +244,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testExist() {
 
     persistOne();
@@ -252,7 +253,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testFindAllSort() {
 
     persistThree();
@@ -276,7 +276,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testFindAllSpec() {
     persistThree();
 
@@ -301,7 +300,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testFindAllSpecSort() {
     persistThree();
 
@@ -332,7 +330,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testFindAllFull() {
     persistThree();
 
@@ -347,7 +344,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testFindAllIds() {
     persistThree();
 
@@ -420,7 +416,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testFindAllCompositeIds() {
 
     persistCompisiteModelThree();
@@ -453,7 +448,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testDelete() {
     persistThree();
 
@@ -474,7 +468,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testDeleteNull() {
 
     thrown.expect(NullPointerException.class);
@@ -482,11 +475,9 @@ public class JpaRepositoryTest {
     persistThree();
 
     repository.delete(SimpleModel.class, "3");
-
   }
 
   @Test
-  @Transactional
   public void testDeleteMerge() {
 
     SimpleModel model = new SimpleModel();
@@ -497,7 +488,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testDeletes() {
     persistThree();
 
@@ -516,7 +506,6 @@ public class JpaRepositoryTest {
   }
 
   @Test
-  @Transactional
   public void testFindAllPage() {
     persistNum();
 
@@ -575,4 +564,156 @@ public class JpaRepositoryTest {
     page = repository.findAll(SimpleModel.class, spec, (Pageable) null);
     Assert.assertEquals(11, page.getItems().size());
   }
+
+  @Test
+  public void testCountError() {
+
+    thrown.expect(BasePersistenceException.class);
+    thrown.expectMessage("jpql语句不能为空");
+
+    repository.count(" ");
+  }
+
+  @Test
+  public void testCountError1() {
+
+    thrown.expect(BasePersistenceException.class);
+    thrown.expectMessage("jpql语句不能为空");
+
+    repository.count(" order by");
+  }
+
+  @Test
+  public void testCountError2() {
+
+    thrown.expect(BasePersistenceException.class);
+    thrown.expectMessage("必须包含关键字from");
+
+    repository.count(" SimpleModel order by");
+  }
+
+  @Test
+  public void testFindSpecSingle() {
+    persistThree();
+
+    Specification<SimpleModel> spec = new NameSpecification("name1");
+
+    SimpleModel model = repository.findOne(spec, SimpleModel.class);
+
+    Assert.assertEquals("1", model.getId());
+    Assert.assertEquals("name1", model.getName());
+
+    model = repository.findOne(spec, SimpleModel.class, LockModeType.WRITE);
+
+    Assert.assertEquals("1", model.getId());
+    Assert.assertEquals("name1", model.getName());
+  }
+
+  @Test
+  public void testFindJpqlSingleLock() {
+    persistThree();
+
+    SimpleModel model = repository
+        .findOne("from SimpleModel where name = 'name1'", SimpleModel.class,
+            LockModeType.PESSIMISTIC_WRITE);
+
+    Assert.assertEquals("1", model.getId());
+    Assert.assertEquals("name1", model.getName());
+  }
+
+  @Test
+  public void testFindJpqlSingle() {
+    persistThree();
+
+    SimpleModel model = repository
+        .findOne("from SimpleModel where name = 'name1'", SimpleModel.class);
+
+    Assert.assertEquals("1", model.getId());
+    Assert.assertEquals("name1", model.getName());
+  }
+
+  @Test
+  public void testFindJpqlSingleError() {
+
+    thrown.expect(NonUniqueResultException.class);
+
+    persistThree();
+
+    repository.findOne("from SimpleModel where name like 'name%'", SimpleModel.class);
+  }
+
+  @Test
+  public void testFindJpqlSingleError1() {
+
+    thrown.expect(NoResultException.class);
+
+    persistThree();
+
+    repository.findOne("from SimpleModel where name = 'name%'", SimpleModel.class);
+
+  }
+
+  @Test
+  public void testFindAllJpql() {
+    persistNum();
+
+    List<SimpleModel> simpleModels = repository
+        .findAll(SimpleModel.class, "from SimpleModel");
+
+    Assert.assertEquals(100, simpleModels.size());
+
+    simpleModels = repository
+        .findAll(SimpleModel.class, "from SimpleModel where name like 'name1%'");
+
+    Assert.assertEquals(11, simpleModels.size());
+  }
+
+  @Test
+  public void testFindAllJpqlPage() {
+    persistNum();
+
+    Pageable pageable = new Pageable(0, 15);
+
+    Page<SimpleModel> page = repository
+        .findAll(SimpleModel.class, "from SimpleModel", pageable);
+
+    Assert.assertEquals(15, page.getPageSize());
+    Assert.assertEquals(15, page.getItems().size());
+    Assert.assertEquals(100, page.getTotalCount());
+    Assert.assertEquals(0, page.getCurrentIndex());
+
+    pageable = new Pageable(0, 5);
+
+    page = repository
+        .findAll(SimpleModel.class, "from SimpleModel where name like 'name1%'", pageable);
+
+    Assert.assertEquals(5, page.getPageSize());
+    Assert.assertEquals(5, page.getItems().size());
+    Assert.assertEquals(11, page.getTotalCount());
+
+    pageable = new Pageable(3, 5);
+
+    page = repository
+        .findAll(SimpleModel.class, "from SimpleModel where name like 'name1%'", pageable);
+
+    Assert.assertEquals(5, page.getPageSize());
+    Assert.assertEquals(0, page.getItems().size());
+    Assert.assertEquals(11, page.getTotalCount());
+
+    pageable = new Pageable(0, 5);
+
+    page = repository
+        .findAll(SimpleModel.class, "from SimpleModel where name like 'name1%' order by name",
+            pageable);
+
+    Assert.assertEquals(5, page.getPageSize());
+    Assert.assertEquals(5, page.getItems().size());
+    Assert.assertEquals(11, page.getTotalCount());
+
+    Assert.assertEquals("name1", page.getItems().get(0).getName());
+    Assert.assertEquals("name10", page.getItems().get(1).getName());
+    Assert.assertEquals("name11", page.getItems().get(2).getName());
+  }
+
+
 }

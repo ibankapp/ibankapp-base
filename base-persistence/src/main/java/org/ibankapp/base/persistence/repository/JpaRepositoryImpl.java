@@ -15,20 +15,25 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.persistence.EntityManager;
 import javax.persistence.LockModeType;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.ibankapp.base.persistence.BasePersistenceException;
 import org.ibankapp.base.persistence.domain.Page;
 import org.ibankapp.base.persistence.domain.Pageable;
 import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.domain.Specification;
 import org.ibankapp.base.persistence.specification.ByIdsSpecification;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
+import org.ibankapp.base.util.StringUtils;
 import org.ibankapp.base.validation.validator.BeanValidator;
 
 /**
@@ -119,6 +124,38 @@ public class JpaRepositoryImpl implements JpaRepository {
   }
 
   @Override
+  public <T> T findOne(Specification<T> spec, Class<T> entityClass, LockModeType lockMode) {
+
+    TypedQuery<T> query = getQuery(spec, entityClass, null);
+
+    return getSingleResult(query, lockMode);
+  }
+
+  @Override
+  public <T> T findOne(Specification<T> spec, Class<T> entityClass) {
+    return findOne(spec, entityClass, null);
+  }
+
+  @Override
+  public <T> T findOne(String jpql, Class<T> entityClass, LockModeType lockMode) {
+    TypedQuery<T> query = em.createQuery(jpql, entityClass);
+
+    return getSingleResult(query, lockMode);
+  }
+
+  @Override
+  public <T> T findOne(String jpql, Class<T> entityClass) {
+    return findOne(jpql, entityClass, null);
+  }
+
+  private <T> T getSingleResult(TypedQuery<T> query, LockModeType lockMode) {
+    if (lockMode != null) {
+      query.setLockMode(lockMode);
+    }
+    return query.getSingleResult();
+  }
+
+  @Override
   public <T, D extends Serializable> boolean exist(Class<T> entityClass, D id) {
 
     return findOne(entityClass, id) != null;
@@ -132,15 +169,13 @@ public class JpaRepositoryImpl implements JpaRepository {
 
   @Override
   public <T> Page<T> findAll(Class<T> entityClass, Pageable pageable) {
-    return findAll(entityClass, null, pageable);
+    return findAll(entityClass, (Specification<T>) null, pageable);
   }
-
 
   @Override
   public <T> List<T> findAll(Class<T> entityClass, Sort sort) {
     return findAll(entityClass, null, sort, (LockModeType) null);
   }
-
 
   @Override
   public <T> List<T> findAll(Class<T> entityClass, Specification<T> spec) {
@@ -166,19 +201,7 @@ public class JpaRepositoryImpl implements JpaRepository {
     TypedQuery<T> query = getQuery(spec, entityClass, sort);
     long totalCount = count(entityClass, spec);
 
-    if (pageable == null) {
-      return new Page<T>(query.getResultList(), totalCount);
-    }
-
-    query.setFirstResult(pageable.getOffset());
-    query.setMaxResults(pageable.getSize());
-
-    if (totalCount > pageable.getOffset()) {
-      return new Page<T>(query.getResultList(), totalCount, pageable.getSize(), pageable.getPage());
-    } else {
-      return new Page<T>(new ArrayList<T>(), totalCount, pageable.getSize(), pageable.getPage());
-    }
-
+    return getPage(query, pageable, totalCount);
   }
 
   @Override
@@ -219,6 +242,40 @@ public class JpaRepositoryImpl implements JpaRepository {
     TypedQuery<T> query = getQuery(specification, entityClass, null);
 
     return query.setParameter(specification.parameter, ids).getResultList();
+  }
+
+  @Override
+  public <T> List<T> findAll(Class<T> entityClass, String jpql) {
+
+    TypedQuery<T> query = em.createQuery(jpql, entityClass);
+
+    return query.getResultList();
+  }
+
+  @Override
+  public <T> Page<T> findAll(Class<T> entityClass, String jpql, Pageable pageable) {
+
+    TypedQuery<T> query = em.createQuery(jpql, entityClass);
+
+    long totalCount = count(jpql);
+
+    return getPage(query, pageable, totalCount);
+  }
+
+  private <T> Page<T> getPage(TypedQuery<T> query, Pageable pageable, long totalCount) {
+
+    if (pageable == null) {
+      return new Page<T>(query.getResultList(), totalCount);
+    }
+
+    query.setFirstResult(pageable.getOffset());
+    query.setMaxResults(pageable.getSize());
+
+    if (totalCount > pageable.getOffset()) {
+      return new Page<T>(query.getResultList(), totalCount, pageable.getSize(), pageable.getPage());
+    } else {
+      return new Page<T>(new ArrayList<T>(), totalCount, pageable.getSize(), pageable.getPage());
+    }
   }
 
   /**
@@ -265,7 +322,6 @@ public class JpaRepositoryImpl implements JpaRepository {
     return root;
   }
 
-
   @Override
   public <T> long count(Class<T> entityClass) {
     String queryString = String.format("Select count(*) from %s", entityClass.getSimpleName());
@@ -287,6 +343,40 @@ public class JpaRepositoryImpl implements JpaRepository {
     }
 
     return em.createQuery(query).getSingleResult();
+  }
+
+  @Override
+  public long count(String jpql) {
+
+    Query query = em.createQuery(" select count (*) " + removeSelect(removeOrders(jpql)));
+
+    return (Long) query.getSingleResult();
+
+  }
+
+  private String removeSelect(String jpql) {
+    if (!StringUtils.hasText(jpql)) {
+      throw new BasePersistenceException("E-BASE-PERSISTENCE-000005");
+    }
+    int beginPos = jpql.toLowerCase().indexOf("from");
+    if (beginPos == -1) {
+      throw new BasePersistenceException("E-BASE-PERSISTENCE-000004", jpql);
+    }
+    return jpql.substring(beginPos);
+  }
+
+  private String removeOrders(String jpql) {
+    if (!StringUtils.hasText(jpql)) {
+      throw new BasePersistenceException("E-BASE-PERSISTENCE-000005");
+    }
+    Pattern pattern = Pattern.compile("order\\s*by[\\w|\\W|\\s|\\S]*", Pattern.CASE_INSENSITIVE);
+    Matcher matcher = pattern.matcher(jpql);
+    StringBuffer sb = new StringBuffer();
+    while (matcher.find()) {
+      matcher.appendReplacement(sb, "");
+    }
+    matcher.appendTail(sb);
+    return sb.toString();
   }
 
   @Override

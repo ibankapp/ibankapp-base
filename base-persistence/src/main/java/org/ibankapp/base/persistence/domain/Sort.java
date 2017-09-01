@@ -55,7 +55,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
   public Sort(List<Order> orders) {
 
     if (null == orders || orders.isEmpty()) {
-      throw new BasePersistenceException("E-BASE-PERSISTANCE-000002");
+      throw new BasePersistenceException("E-BASE-PERSISTENCE-000002");
     }
 
     this.orders = orders;
@@ -92,7 +92,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
   public Sort(Direction direction, List<String> properties) {
 
     if (properties == null || properties.isEmpty()) {
-      throw new BasePersistenceException("E-BASE-PERSISTANCE-000002");
+      throw new BasePersistenceException("E-BASE-PERSISTENCE-000002");
     }
 
     this.orders = new ArrayList<Order>(properties.size());
@@ -203,7 +203,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
       try {
         return Direction.valueOf(value.toUpperCase(Locale.US));
       } catch (Exception e) {
-        throw new BasePersistenceException("E-BASE-PERSISTANCE-000003", value).initCause(e);
+        throw new BasePersistenceException("E-BASE-PERSISTENCE-000003", value).initCause(e);
       }
     }
 
@@ -256,7 +256,7 @@ public class Sort implements Iterable<Sort.Order>, Serializable {
      */
     public Order(Direction direction, String property) {
       if (!StringUtils.hasText(property)) {
-        throw new BasePersistenceException("E-BASE-PERSISTANCE-000002");
+        throw new BasePersistenceException("E-BASE-PERSISTENCE-000002");
       }
 
       this.direction = direction == null ? DEFAULT_DIRECTION : direction;

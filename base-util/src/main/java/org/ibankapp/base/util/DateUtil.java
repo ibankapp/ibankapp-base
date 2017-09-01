@@ -20,7 +20,7 @@ import java.util.TimeZone;
  * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
  * @since 1.0.0
  */
-public class DateUtil {
+public abstract class DateUtil {
 
   /**
    * 按照指定的格式返回当前日期字符串.
