@@ -33,6 +33,7 @@ import org.ibankapp.base.persistence.domain.Sort;
 import org.ibankapp.base.persistence.domain.Specification;
 import org.ibankapp.base.persistence.specification.ByIdsSpecification;
 import org.ibankapp.base.persistence.validation.validator.UniqueValidator;
+import org.ibankapp.base.util.StringUtils;
 import org.ibankapp.base.validation.validator.BeanValidator;
 
 /**
