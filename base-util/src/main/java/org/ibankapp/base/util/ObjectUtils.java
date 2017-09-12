@@ -52,6 +52,7 @@ public abstract class ObjectUtils {
    * i.e. {@code null} or of zero length.
    *
    * @param array the array to check
+   * @return whether the given array is empty
    * @see #isEmpty(Object)
    */
   public static boolean isEmpty(Object[] array) {

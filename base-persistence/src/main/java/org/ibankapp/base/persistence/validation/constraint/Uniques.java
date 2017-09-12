@@ -33,6 +33,8 @@ public @interface Uniques {
 
   /**
    * Unique注解数组.
+   *
+   * @return Unique注解数组
    */
   Unique[] constraints();
 }

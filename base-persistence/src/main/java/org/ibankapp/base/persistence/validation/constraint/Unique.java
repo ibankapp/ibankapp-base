@@ -33,11 +33,15 @@ public @interface Unique {
 
   /**
    * 获取 错误信息.
+   *
+   * @return 错误信息
    */
   String message() default "违反唯一约束";
 
   /**
    * 属性数组.
+   *
+   * @return 属性数组
    */
   String[] properties();
 }

@@ -88,6 +88,7 @@ public abstract class StringUtils {
    * Objects since attributes may e.g. be primitive value objects as well.
    *
    * @param str the candidate String
+   * @return whether the given array is empty
    * @since 3.2.1
    */
   public static boolean isEmpty(Object str) {
@@ -99,7 +100,7 @@ public abstract class StringUtils {
    * of length 0.
    * <p>Note: this method returns {@code true} for a {@code CharSequence}
    * that purely consists of whitespace.
-   * <p><pre class="code">
+   * <pre class="code">
    * StringUtils.hasLength(null) = false
    * StringUtils.hasLength("") = false
    * StringUtils.hasLength(" ") = true
@@ -133,7 +134,7 @@ public abstract class StringUtils {
    * <p>More specifically, this method returns {@code true} if the
    * {@code CharSequence} is not {@code null}, its length is greater than
    * 0, and it contains at least one non-whitespace character.
-   * <p><pre class="code">
+   * <pre class="code">
    * StringUtils.hasText(null) = false
    * StringUtils.hasText("") = false
    * StringUtils.hasText(" ") = false
@@ -338,6 +339,7 @@ public abstract class StringUtils {
    *
    * @param str the {@code String} to check
    * @param prefix the prefix to look for
+   * @return if the given {@code String} starts with the specified prefix,
    * @see java.lang.String#startsWith
    */
   public static boolean startsWithIgnoreCase(String str, String prefix) {
@@ -362,6 +364,7 @@ public abstract class StringUtils {
    *
    * @param str the {@code String} to check
    * @param suffix the suffix to look for
+   * @return if the given {@code String} ends with the specified suffix,
    * @see java.lang.String#endsWith
    */
   public static boolean endsWithIgnoreCase(String str, String suffix) {
@@ -387,6 +390,7 @@ public abstract class StringUtils {
    * @param str the original string (or StringBuilder)
    * @param index the index in the original string to start matching against
    * @param substring the substring to match at the given index
+   * @return whether the given string matches the given substring at the given index.
    */
   public static boolean substringMatch(CharSequence str, int index, CharSequence substring) {
     for (int j = 0; j < substring.length(); j++) {
@@ -403,6 +407,7 @@ public abstract class StringUtils {
    *
    * @param str string to search in. Return 0 if this is {@code null}.
    * @param sub string to search for. Return 0 if this is {@code null}.
+   * @return Count the occurrences of the substring {@code sub} in string {@code str}
    */
   public static int countOccurrencesOf(String str, String sub) {
     if (!hasLength(str) || !hasLength(sub)) {
@@ -524,6 +529,7 @@ public abstract class StringUtils {
    * "this.name.is.qualified", returns "qualified".
    *
    * @param qualifiedName the qualified name
+   * @return Unqualify a string qualified by a '.' dot character.
    */
   public static String unqualify(String qualifiedName) {
     return unqualify(qualifiedName, '.');
@@ -535,6 +541,7 @@ public abstract class StringUtils {
    *
    * @param qualifiedName the qualified name
    * @param separator the separator
+   * @return Unqualify a string qualified by a separator character
    */
   public static String unqualify(String qualifiedName, char separator) {
     return qualifiedName.substring(qualifiedName.lastIndexOf(separator) + 1);
@@ -604,7 +611,7 @@ public abstract class StringUtils {
 
   /**
    * Extract the filename extension from the given Java resource path,
-   * e.g. "mypath/myfile.txt" -> "txt".
+   * e.g. "mypath/myfile.txt" -&gt; "txt".
    *
    * @param path the file path (may be {@code null})
    * @return the extracted filename extension, or {@code null} if none
@@ -629,7 +636,7 @@ public abstract class StringUtils {
 
   /**
    * Strip the filename extension from the given Java resource path,
-   * e.g. "mypath/myfile.txt" -> "mypath/myfile".
+   * e.g. "mypath/myfile.txt" -&gt; "mypath/myfile".
    *
    * @param path the file path (may be {@code null})
    * @return the path with stripped filename extension, or {@code null} if none
