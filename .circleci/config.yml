@@ -15,7 +15,7 @@ jobs:
       - image: openjdk:7
     steps:
       - checkout
-      - run: export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8;export TERM="dumb";./gradlew check
+      - run: export TERM="dumb";./gradlew check
 
   build8:
       working_directory: ~/ibankapp-base
