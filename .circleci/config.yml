@@ -12,7 +12,7 @@ jobs:
   build7:
     working_directory: ~/ibankapp-base
     docker:
-      - image: oracle/openjdk:7
+      - image: openjdk:7
     steps:
       - checkout
       - run: export JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8;export TERM="dumb";./gradlew check
