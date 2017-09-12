@@ -27,19 +27,22 @@ public @interface Occ {
 
   /**
    * 获取 错误信息.
+   *
+   * @return 错误信息
    */
   String message() default "{constraints.occ}";
 
   /**
    * 分组.
+   *
+   * @return 分组
    */
   Class<?>[] groups() default {};
 
   /**
-   * playload.
+   * payload.
+   *
+   * @return payload
    */
   Class<? extends Payload>[] payload() default {};
-
-
-
 }

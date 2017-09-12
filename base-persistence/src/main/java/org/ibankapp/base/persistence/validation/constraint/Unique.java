@@ -32,7 +32,7 @@ import java.lang.annotation.Target;
 public @interface Unique {
 
   /**
-   * 获取 错误信息.
+   * 错误信息.
    */
   String message() default "违反唯一约束";
 
