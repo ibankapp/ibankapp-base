@@ -102,6 +102,7 @@ public class StringUtilsTests {
     assertEquals("a", StringUtils.trimAllWhitespace(" a "));
     assertEquals("ab", StringUtils.trimAllWhitespace(" a b "));
     assertEquals("abc", StringUtils.trimAllWhitespace(" a b  c "));
+    assertEquals("abc",StringUtils.trimAllWhitespace(" a b \n c "));
   }
 
   @Test
