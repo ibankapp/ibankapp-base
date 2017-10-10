@@ -11,22 +11,22 @@
 subprojects {
 
     group 'org.ibankapp'
-    version '1.0.0-beta.5'
+    version '1.0.0-beta.6'
 
     apply plugin: 'java'
     apply plugin: 'maven'
-    apply plugin: 'checkstyle'
+//    apply plugin: 'checkstyle'
 
     sourceCompatibility = 1.6
     targetCompatibility = 1.6
-
-    checkstyleMain {
-        enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
-    }
-
-    checkstyleTest {
-        enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
-    }
+//
+//    checkstyleMain {
+//        enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
+//    }
+//
+//    checkstyleTest {
+//        enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
+//    }
 
     javadoc {
         options {
@@ -38,15 +38,15 @@ subprojects {
         }
     }
 
-    checkstyle {
-        if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
-            toolVersion = "8.0"
-        } else {
-            toolVersion = "6.5"
-        }
-        configFile = rootProject.file('config/checkstyle/google_style.xml')
-        configProperties = [configdir: rootProject.file('config')]
-    }
+//    checkstyle {
+//        if (JavaVersion.current() == JavaVersion.VERSION_1_8) {
+//            toolVersion = "8.0"
+//        } else {
+//            toolVersion = "6.5"
+//        }
+//        configFile = rootProject.file('config/checkstyle/google_style.xml')
+//        configProperties = [configdir: rootProject.file('config')]
+//    }
 
     configurations {
         jacoco
