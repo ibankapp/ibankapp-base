@@ -1,5 +1,6 @@
 package org.ibankapp.ecb.jmscore.impl;
 
+import javax.annotation.Resource;
 import javax.jms.BytesMessage;
 import javax.jms.Destination;
 import javax.jms.JMSException;
@@ -30,7 +31,7 @@ import org.springframework.jms.support.JmsUtils;
  */
 public class JmsCoreService implements IJmsCoreService {
 
-	@Autowired
+	@Resource
 	JmsTemplate jmsTemplate;
 
 	private static Log log = LogFactory.getLog(JmsCoreService.class);
