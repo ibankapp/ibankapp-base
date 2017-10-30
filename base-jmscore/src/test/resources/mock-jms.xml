@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+">
+
+  <!--bean配置-->
+  <bean id="jmsCoreService" class="org.ibankapp.ecb.jmscore.impl.JmsCoreService"/>
+
+  <!--  mockrunner  -->
+  <bean id="destinationManager" class="com.mockrunner.jms.DestinationManager"/>
+  <bean id="mockQueue" factory-bean="destinationManager" factory-method="createQueue">
+    <constructor-arg index="0" value="demoMockRunnerQueue"/>
+  </bean>
+  <bean id="configurationManager" class="com.mockrunner.jms.ConfigurationManager"/>
+  <bean id="jmsQueueConnectionFactory" class="com.mockrunner.mock.jms.MockQueueConnectionFactory">
+    <constructor-arg index="0" ref="destinationManager"/>
+    <constructor-arg index="1" ref="configurationManager"/>
+  </bean>
+
+  <!--  spring -->
+  <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+    <property name="connectionFactory" ref="jmsQueueConnectionFactory"/>
+  </bean>
+
+</beans>
