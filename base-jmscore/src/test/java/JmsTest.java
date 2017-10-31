@@ -1,13 +1,8 @@
-import com.mockrunner.jms.DestinationManager;
 import java.io.UnsupportedEncodingException;
-import javax.jms.BytesMessage;
 import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.Session;
-import javax.jms.TextMessage;
-import org.ibankapp.ecb.jmscore.IJmsCoreService;
-import org.ibankapp.ecb.jmscore.impl.JmsCoreService;
+
+import org.ibankapp.base.jmscore.IJmsCoreService;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
