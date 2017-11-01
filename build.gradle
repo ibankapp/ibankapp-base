@@ -11,7 +11,7 @@
 subprojects {
 
     group 'org.ibankapp'
-    version '1.0.0-beta.6'
+    version '1.0.0-beta.7-SNAPSHOT'
 
     apply plugin: 'java'
     apply plugin: 'maven'
@@ -117,6 +117,19 @@ subprojects {
         }
     }
 
+    if (this.hasProperty('nexusUsername')) {
+
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    snapshotRepository(url: "http://nexus.ibankapp.org:8081/repository/maven-snapshots/") {
+                        authentication(userName: nexusUsername, password: nexusPassword)
+                    }
+                }
+            }
+        }
+    }
+
     if (this.hasProperty('ossrhUsername')) {
 
         apply plugin: 'signing'
@@ -141,10 +154,6 @@ subprojects {
                     beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
 
                     repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-                        authentication(userName: ossrhUsername, password: ossrhPassword)
-                    }
-
-                    snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
                         authentication(userName: ossrhUsername, password: ossrhPassword)
                     }
 
