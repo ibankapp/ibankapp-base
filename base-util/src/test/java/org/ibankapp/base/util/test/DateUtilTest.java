@@ -75,9 +75,7 @@ public class DateUtilTest {
 
     String date = DateUtil.getStringFromXMLGregorianCalendar(cal, "yyyy-MM-dd HH:mm:ss");
 
-    Assert.assertEquals("2017-10-10 17:09:45",date);
+    Assert.assertEquals("2017-10-10 17:09:45", date);
 
   }
-
-
 }

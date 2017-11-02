@@ -57,17 +57,24 @@ public class DateUtil {
     DateFormat format = new SimpleDateFormat(pattern);
     Date date = format.parse(sdate);
 
-    GregorianCalendar cal = new GregorianCalendar();
-    cal.setTime(date);
-
-    return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+    return getXMLGregorianCalendarFromDate(date);
   }
 
   public static String getStringFromXMLGregorianCalendar(XMLGregorianCalendar cal, String pattern) {
     DateFormat format = new SimpleDateFormat(pattern);
+    return format.format(getDateFromXMLGregorianCalendar(cal));
+  }
 
+  public static Date getDateFromXMLGregorianCalendar(XMLGregorianCalendar cal) {
     GregorianCalendar gCal = cal.toGregorianCalendar();
+    return gCal.getTime();
+  }
 
-    return format.format(gCal.getTime());
+  public static XMLGregorianCalendar getXMLGregorianCalendarFromDate(Date date) throws DatatypeConfigurationException {
+
+    GregorianCalendar cal = new GregorianCalendar();
+    cal.setTime(date);
+
+    return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
   }
 }
