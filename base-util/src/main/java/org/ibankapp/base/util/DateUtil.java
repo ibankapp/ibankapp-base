@@ -9,8 +9,14 @@
 
 package org.ibankapp.base.util;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
 /**
@@ -20,7 +26,8 @@ import java.util.TimeZone;
  * @author <a href="mailto:codelder@ibankapp.org">codelder</a>
  * @since 1.0.0
  */
-public abstract class DateUtil {
+public class DateUtil {
+
 
   /**
    * 按照指定的格式返回当前日期字符串.
@@ -35,7 +42,7 @@ public abstract class DateUtil {
   /**
    * 按照制定格式返回指定日期的日期字符串.
    *
-   * @param date 日期
+   * @param date       日期
    * @param dateFormat 日期格式
    * @return 指定日期的日期字符串
    */
@@ -43,5 +50,24 @@ public abstract class DateUtil {
     SimpleDateFormat sdf = new SimpleDateFormat(dateFormat);
     sdf.setTimeZone(TimeZone.getDefault());
     return sdf.format(date);
+  }
+
+  public static XMLGregorianCalendar getXMLGregorianCalendarFromString(String sdate, String pattern)
+          throws ParseException, DatatypeConfigurationException {
+    DateFormat format = new SimpleDateFormat(pattern);
+    Date date = format.parse(sdate);
+
+    GregorianCalendar cal = new GregorianCalendar();
+    cal.setTime(date);
+
+    return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+  }
+
+  public static String getStringFromXMLGregorianCalendar(XMLGregorianCalendar cal, String pattern) {
+    DateFormat format = new SimpleDateFormat(pattern);
+
+    GregorianCalendar gCal = cal.toGregorianCalendar();
+
+    return format.format(gCal.getTime());
   }
 }
