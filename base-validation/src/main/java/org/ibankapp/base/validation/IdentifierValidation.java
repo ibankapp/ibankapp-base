@@ -18,14 +18,15 @@
 
 package org.ibankapp.base.validation;
 
+import org.apache.commons.lang.StringUtils;
+import org.ibankapp.base.validation.exception.BaseValidationException;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-import org.apache.commons.lang.StringUtils;
-import org.ibankapp.base.validation.exception.BaseValidationException;
 
 /**
  * 证件号码验证器
@@ -62,8 +63,8 @@ public class IdentifierValidation {
     Set<String> zones = new HashSet<String>();
 
     Collections.addAll(zones, "11", "12", "13", "14", "15", "21", "22", "23", "31", "32", "33",
-        "34", "35", "36", "37", "41", "42", "43", "44", "45", "46", "50", "51", "52", "53",
-        "54", "61", "62", "63", "64", "71", "81", "82", "91");
+            "34", "35", "36", "37", "41", "42", "43", "44", "45", "46", "50", "51", "52", "53",
+            "54", "61", "62", "63", "64", "71", "81", "82", "91");
 
     if (!zones.contains(cardNo.substring(0, 2))) {
       return false;
@@ -93,14 +94,18 @@ public class IdentifierValidation {
    * @return 是否合法的组织机构代码格式
    */
   public static boolean isOcc(String occ) {
+
+    if (occ == null)
+      return false;
+
     occ = occ.trim().toUpperCase();
 
     if (occ.length() == 9) {
       return !(!Character.isDigit(occ.charAt(8)) && occ.charAt(8) != 'X')
-          && occ.charAt(8) == getOccCheckBit(occ.substring(0, 8));
+              && occ.charAt(8) == getOccCheckBit(occ.substring(0, 8));
     } else {
       return occ.length() == 10 && occ.charAt(8) == '-' && !(!Character.isDigit(occ.charAt(9))
-          && occ.charAt(9) != 'X') && occ.charAt(9) == getOccCheckBit(occ.substring(0, 8));
+              && occ.charAt(9) != 'X') && occ.charAt(9) == getOccCheckBit(occ.substring(0, 8));
     }
   }
 
@@ -137,8 +142,8 @@ public class IdentifierValidation {
     }
 
     return set.contains(uscic.charAt(1)) && StringUtils.isNumeric(uscic.substring(2, 8))
-        && isOcc(uscic.substring(8, 17)) && getUscicCheckBit(uscic.substring(0, 17)) == uscic
-        .charAt(17);
+            && isOcc(uscic.substring(8, 17)) && getUscicCheckBit(uscic.substring(0, 17)) == uscic
+            .charAt(17);
 
   }
 
@@ -193,8 +198,8 @@ public class IdentifierValidation {
     int[] wi = {3, 7, 9, 10, 5, 8, 4, 2};
 
     char[] ch = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
-        'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-        'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
+            'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+            'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
     int sum = 0;
 
@@ -244,7 +249,7 @@ public class IdentifierValidation {
     int[] wi = {1, 3, 9, 27, 19, 26, 16, 17, 20, 29, 25, 13, 8, 24, 10, 30, 28};
 
     char[] ch = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D',
-        'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'T', 'U', 'W', 'X', 'Y'};
+            'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'Q', 'R', 'T', 'U', 'W', 'X', 'Y'};
 
     int sum = 0;
 

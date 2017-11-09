@@ -52,12 +52,16 @@ public class DateUtil {
     return sdf.format(date);
   }
 
+  public static Date getDateFromString(String sdate, String pattern) throws ParseException {
+    DateFormat format = new SimpleDateFormat(pattern);
+    return format.parse(sdate);
+  }
+
   public static XMLGregorianCalendar getXMLGregorianCalendarFromString(String sdate, String pattern)
           throws ParseException, DatatypeConfigurationException {
-    DateFormat format = new SimpleDateFormat(pattern);
-    Date date = format.parse(sdate);
 
-    return getXMLGregorianCalendarFromDate(date);
+    return getXMLGregorianCalendarFromDate(getDateFromString(sdate,pattern));
+
   }
 
   public static String getStringFromXMLGregorianCalendar(XMLGregorianCalendar cal, String pattern) {
