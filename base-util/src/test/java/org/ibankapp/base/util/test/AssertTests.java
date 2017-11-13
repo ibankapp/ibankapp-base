@@ -23,6 +23,7 @@ import static java.util.Collections.singletonMap;
 
 import java.util.Collection;
 import java.util.Map;
+
 import org.ibankapp.base.util.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -226,7 +227,7 @@ public class AssertTests {
   public void isInstanceOfWithTypeMismatchAndNullMessage() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage(
-        "Object of class [java.lang.Long] must be an instance of class java.lang.String");
+            "Object of class [java.lang.Long] must be an instance of class java.lang.String");
     Assert.isInstanceOf(String.class, 42L, null);
   }
 
@@ -241,8 +242,8 @@ public class AssertTests {
   public void isInstanceOfWithTypeMismatchAndCustomMessageWithSeparator() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage(
-        "Custom message: Object of class [java.lang.Long] must be an instance of class "
-            + "java.lang.String");
+            "Custom message: Object of class [java.lang.Long] must be an instance of class "
+                    + "java.lang.String");
     Assert.isInstanceOf(String.class, 42L, "Custom message:");
   }
 
@@ -290,7 +291,7 @@ public class AssertTests {
   public void isAssignableWithTypeMismatchAndCustomMessageWithSeparator() {
     thrown.expect(IllegalArgumentException.class);
     thrown.expectMessage(
-        "Custom message: class java.lang.Integer is not assignable to class java.lang.String");
+            "Custom message: class java.lang.Integer is not assignable to class java.lang.String");
     Assert.isAssignable(String.class, Integer.class, "Custom message:");
   }
 
@@ -300,5 +301,61 @@ public class AssertTests {
     thrown.expectMessage("Custom message for class java.lang.Integer");
     Assert.isAssignable(String.class, Integer.class, "Custom message for ");
   }
+
+  @Test
+  public void match() {
+
+    Assert.match("[0-9]{12}", "123456789012", "输入字符串必须为12位数字字符");
+  }
+
+  @Test
+  public void matchWithEmptyRegex() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("正则表达式不能为空");
+
+    Assert.match(" ", "123456789012", "输入字符串必须为12位数字字符");
+  }
+
+  @Test
+  public void matchWithNullRegex() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("正则表达式不能为空");
+
+    Assert.match(null, "123456789012", "输入字符串必须为12位数字字符");
+  }
+
+  @Test
+  public void matchWithEmptyText() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("待验证字符串不能为空");
+
+    Assert.match("[0-9]{12}", "", "输入字符串必须为12位数字字符");
+  }
+
+  @Test
+  public void matchWithNullText() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("待验证字符串不能为空");
+
+    Assert.match("[0-9]{12}", null, "输入字符串必须为12位数字字符");
+  }
+
+  @Test
+  public void matchWithNoMessage() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("待验证字符串12345不满足正则表达式\"[0-9]{12}\"");
+
+    Assert.match("[0-9]{12}", "12345", null);
+  }
+
+  @Test
+  public void matchWithMessage() {
+    thrown.expect(IllegalArgumentException.class);
+    thrown.expectMessage("输入字符串必须为12位的数字字符");
+
+    Assert.match("[0-9]{12}", "12345", "输入字符串必须为12位的数字字符");
+  }
+
+
 
 }
