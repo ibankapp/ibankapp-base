@@ -16,6 +16,7 @@
 
 package org.ibankapp.base.validation.test;
 
+import org.ibankapp.base.validation.exception.BaseValidationException;
 import org.ibankapp.base.validation.validator.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -49,7 +50,7 @@ public class AssertTests {
 
   @Test
   public void isTrueWithFalse() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.isTrue(false, "enigma");
   }
@@ -76,14 +77,14 @@ public class AssertTests {
 
   @Test
   public void hasLengthWithEmptyString() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.hasLength("", "enigma");
   }
 
   @Test
   public void hasLengthWithNull() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.hasLength(null, "enigma");
   }
@@ -95,21 +96,21 @@ public class AssertTests {
 
   @Test
   public void hasTextWithWhitespaceOnly() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.hasText("\t ", "enigma");
   }
 
   @Test
   public void hasTextWithEmptyString() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.hasText("", "enigma");
   }
 
   @Test
   public void hasTextWithNull() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.hasText(null, "enigma");
   }
@@ -141,14 +142,14 @@ public class AssertTests {
 
   @Test
   public void notEmptyArrayWithEmptyArray() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.notEmpty(new String[]{}, "enigma");
   }
 
   @Test
   public void notEmptyArrayWithNullArray() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.notEmpty((Object[]) null, "enigma");
   }
@@ -170,14 +171,14 @@ public class AssertTests {
 
   @Test
   public void notEmptyCollectionWithEmptyCollection() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.notEmpty(emptyList(), "enigma");
   }
 
   @Test
   public void notEmptyCollectionWithNullCollection() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.notEmpty((Collection<?>) null, "enigma");
   }
@@ -189,14 +190,14 @@ public class AssertTests {
 
   @Test
   public void notEmptyMapWithNullMap() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.notEmpty((Map<?, ?>) null, "enigma");
   }
 
   @Test
   public void notEmptyMapWithEmptyMap() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma");
     Assert.notEmpty(emptyMap(), "enigma");
   }
@@ -208,21 +209,21 @@ public class AssertTests {
 
   @Test
   public void isInstanceOfWithNullType() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("Type to check against must not be null");
     Assert.isInstanceOf(null, "foo", "enigma");
   }
 
   @Test
   public void isInstanceOfWithNullInstance() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma: null");
     Assert.isInstanceOf(String.class, null, "enigma");
   }
 
   @Test
   public void isInstanceOfWithTypeMismatchAndNullMessage() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage(
             "Object of class [java.lang.Long] must be an instance of class java.lang.String");
     Assert.isInstanceOf(String.class, 42L, null);
@@ -230,14 +231,14 @@ public class AssertTests {
 
   @Test
   public void isInstanceOfWithTypeMismatchAndCustomMessage() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("Custom message: java.lang.Long");
     Assert.isInstanceOf(String.class, 42L, "Custom message");
   }
 
   @Test
   public void isInstanceOfWithTypeMismatchAndCustomMessageWithSeparator() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage(
             "Custom message: Object of class [java.lang.Long] must be an instance of class "
                     + "java.lang.String");
@@ -246,7 +247,7 @@ public class AssertTests {
 
   @Test
   public void isInstanceOfWithTypeMismatchAndCustomMessageWithSpace() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("Custom message for java.lang.Long");
     Assert.isInstanceOf(String.class, 42L, "Custom message for ");
   }
@@ -258,35 +259,35 @@ public class AssertTests {
 
   @Test
   public void isAssignableWithNullSupertype() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("Super type to check against must not be null");
     Assert.isAssignable(null, Integer.class, "enigma");
   }
 
   @Test
   public void isAssignableWithNullSubtype() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("enigma: null");
     Assert.isAssignable(Integer.class, null, "enigma");
   }
 
   @Test
   public void isAssignableWithTypeMismatchAndNullMessage() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("class java.lang.Integer is not assignable to class java.lang.String");
     Assert.isAssignable(String.class, Integer.class, null);
   }
 
   @Test
   public void isAssignableWithTypeMismatchAndCustomMessage() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("Custom message: class java.lang.Integer");
     Assert.isAssignable(String.class, Integer.class, "Custom message");
   }
 
   @Test
   public void isAssignableWithTypeMismatchAndCustomMessageWithSeparator() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage(
             "Custom message: class java.lang.Integer is not assignable to class java.lang.String");
     Assert.isAssignable(String.class, Integer.class, "Custom message:");
@@ -294,7 +295,7 @@ public class AssertTests {
 
   @Test
   public void isAssignableWithTypeMismatchAndCustomMessageWithSpace() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("Custom message for class java.lang.Integer");
     Assert.isAssignable(String.class, Integer.class, "Custom message for ");
   }
@@ -307,7 +308,7 @@ public class AssertTests {
 
   @Test
   public void matchWithEmptyRegex() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("正则表达式不能为空");
 
     Assert.match(" ", "123456789012", "输入字符串必须为12位数字字符");
@@ -315,7 +316,7 @@ public class AssertTests {
 
   @Test
   public void matchWithNullRegex() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("正则表达式不能为空");
 
     Assert.match(null, "123456789012", "输入字符串必须为12位数字字符");
@@ -323,7 +324,7 @@ public class AssertTests {
 
   @Test
   public void matchWithEmptyText() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("待验证字符串不能为空");
 
     Assert.match("[0-9]{12}", "", "输入字符串必须为12位数字字符");
@@ -331,7 +332,7 @@ public class AssertTests {
 
   @Test
   public void matchWithNullText() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("待验证字符串不能为空");
 
     Assert.match("[0-9]{12}", null, "输入字符串必须为12位数字字符");
@@ -339,7 +340,7 @@ public class AssertTests {
 
   @Test
   public void matchWithNoMessage() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("待验证字符串12345不满足正则表达式\"[0-9]{12}\"");
 
     Assert.match("[0-9]{12}", "12345", null);
@@ -347,7 +348,7 @@ public class AssertTests {
 
   @Test
   public void matchWithMessage() {
-    thrown.expect(IllegalArgumentException.class);
+    thrown.expect(BaseValidationException.class);
     thrown.expectMessage("输入字符串必须为12位的数字字符");
 
     Assert.match("[0-9]{12}", "12345", "输入字符串必须为12位的数字字符");
