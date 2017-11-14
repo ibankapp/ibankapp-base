@@ -3,6 +3,7 @@ dependencies {
     compile 'commons-lang:commons-lang:2.6'
     compile 'commons-beanutils:commons-beanutils:1.9.3'
     compile project(":base-exception")
+    compile project(":base-util")
     testCompile 'junit:junit:4.11'
 //    testCompile 'com.zaxxer:HikariCP:2.5.1'
 //    testCompile 'com.h2database:h2:1.4.192'

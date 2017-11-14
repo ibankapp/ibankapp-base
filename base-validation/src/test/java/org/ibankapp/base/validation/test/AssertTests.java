@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package org.ibankapp.base.util.test;
+package org.ibankapp.base.validation.test;
 
-import static java.util.Collections.emptyList;
-import static java.util.Collections.emptyMap;
-import static java.util.Collections.singletonList;
-import static java.util.Collections.singletonMap;
+import org.ibankapp.base.validation.validator.Assert;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import java.util.Collection;
 import java.util.Map;
 
-import org.ibankapp.base.util.Assert;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import static java.util.Collections.*;
 
 /**
  * Unit tests for the {@link Assert} class.
@@ -355,7 +352,6 @@ public class AssertTests {
 
     Assert.match("[0-9]{12}", "12345", "输入字符串必须为12位的数字字符");
   }
-
 
 
 }
