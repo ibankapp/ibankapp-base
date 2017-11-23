@@ -52,22 +52,33 @@ public class DateUtil {
     return sdf.format(date);
   }
 
+  public static Date getDateFromString(String sdate, String pattern) throws ParseException {
+    DateFormat format = new SimpleDateFormat(pattern);
+    return format.parse(sdate);
+  }
+
   public static XMLGregorianCalendar getXMLGregorianCalendarFromString(String sdate, String pattern)
           throws ParseException, DatatypeConfigurationException {
+
+    return getXMLGregorianCalendarFromDate(getDateFromString(sdate,pattern));
+
+  }
+
+  public static String getStringFromXMLGregorianCalendar(XMLGregorianCalendar cal, String pattern) {
     DateFormat format = new SimpleDateFormat(pattern);
-    Date date = format.parse(sdate);
+    return format.format(getDateFromXMLGregorianCalendar(cal));
+  }
+
+  public static Date getDateFromXMLGregorianCalendar(XMLGregorianCalendar cal) {
+    GregorianCalendar gCal = cal.toGregorianCalendar();
+    return gCal.getTime();
+  }
+
+  public static XMLGregorianCalendar getXMLGregorianCalendarFromDate(Date date) throws DatatypeConfigurationException {
 
     GregorianCalendar cal = new GregorianCalendar();
     cal.setTime(date);
 
     return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
-  }
-
-  public static String getStringFromXMLGregorianCalendar(XMLGregorianCalendar cal, String pattern) {
-    DateFormat format = new SimpleDateFormat(pattern);
-
-    GregorianCalendar gCal = cal.toGregorianCalendar();
-
-    return format.format(gCal.getTime());
   }
 }

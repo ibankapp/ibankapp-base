@@ -27,7 +27,15 @@ public class BaseValidationException extends BaseException {
     PropertyUtil.load(MESSAGE_FILE);
   }
 
+  public BaseValidationException(String messageId) {
+    super(messageId);
+  }
+
   public BaseValidationException(String messageId, String param) {
     super(messageId, param);
+  }
+
+  public BaseValidationException(String messageId, String param1, String param2) {
+    super(messageId, param1, param2);
   }
 }

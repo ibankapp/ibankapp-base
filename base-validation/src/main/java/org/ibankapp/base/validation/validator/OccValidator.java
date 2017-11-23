@@ -9,10 +9,11 @@
 
 package org.ibankapp.base.validation.validator;
 
-import javax.validation.ConstraintValidator;
-import javax.validation.ConstraintValidatorContext;
 import org.ibankapp.base.validation.IdentifierValidation;
 import org.ibankapp.base.validation.constraint.Occ;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 public class OccValidator implements ConstraintValidator<Occ, String> {
 
@@ -20,6 +21,6 @@ public class OccValidator implements ConstraintValidator<Occ, String> {
   }
 
   public boolean isValid(String occ, ConstraintValidatorContext context) {
-    return IdentifierValidation.isOcc(occ);
+    return occ == null || IdentifierValidation.isOcc(occ);
   }
 }
