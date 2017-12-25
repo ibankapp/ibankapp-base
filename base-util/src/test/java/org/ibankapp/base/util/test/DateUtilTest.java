@@ -10,7 +10,6 @@
 package org.ibankapp.base.util.test;
 
 import org.ibankapp.base.util.DateUtil;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -23,6 +22,8 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
+
+import static org.junit.Assert.assertEquals;
 
 @PowerMockIgnore({"javax.xml.*", "org.xml.sax.*", "org.w3c.dom.*", "org.springframework.context.*", "org.apache.log4j.*"})
 public class DateUtilTest {
@@ -39,8 +40,8 @@ public class DateUtilTest {
 
     PowerMockito.whenNew(Date.class).withNoArguments().thenReturn(cal.getTime());
 
-    Assert.assertEquals("20170524", DateUtil.getFmtCurrentDateString("yyyyMMdd"));
-    Assert.assertEquals("2017/05/24", DateUtil.getFmtCurrentDateString("yyyy/MM/dd"));
+    assertEquals("20170524", DateUtil.getFmtCurrentDateString("yyyyMMdd"));
+    assertEquals("2017/05/24", DateUtil.getFmtCurrentDateString("yyyy/MM/dd"));
   }
 
   @Test
@@ -49,8 +50,8 @@ public class DateUtilTest {
     Calendar cal = Calendar.getInstance();
     cal.set(2017, Calendar.MAY, 25);
 
-    Assert.assertEquals("20170525", DateUtil.getFmtFromDate(cal.getTime(), "yyyyMMdd"));
-    Assert.assertEquals("2017-05-25", DateUtil.getFmtFromDate(cal.getTime(), "yyyy-MM-dd"));
+    assertEquals("20170525", DateUtil.getFmtFromDate(cal.getTime(), "yyyyMMdd"));
+    assertEquals("2017-05-25", DateUtil.getFmtFromDate(cal.getTime(), "yyyy-MM-dd"));
   }
 
   @Test
@@ -59,12 +60,12 @@ public class DateUtilTest {
     XMLGregorianCalendar cal = DateUtil.getXMLGregorianCalendarFromString("2017-09-10 17:09:45", "yyyy-MM-dd " +
             "HH:mm:ss");
 
-    Assert.assertEquals(10, cal.getDay());
-    Assert.assertEquals(2017, cal.getYear());
-    Assert.assertEquals(9, cal.getMonth());
-    Assert.assertEquals(17, cal.getHour());
-    Assert.assertEquals(9, cal.getMinute());
-    Assert.assertEquals(45, cal.getSecond());
+    assertEquals(10, cal.getDay());
+    assertEquals(2017, cal.getYear());
+    assertEquals(9, cal.getMonth());
+    assertEquals(17, cal.getHour());
+    assertEquals(9, cal.getMinute());
+    assertEquals(45, cal.getSecond());
   }
 
   @Test
@@ -75,7 +76,31 @@ public class DateUtilTest {
 
     String date = DateUtil.getStringFromXMLGregorianCalendar(cal, "yyyy-MM-dd HH:mm:ss");
 
-    Assert.assertEquals("2017-10-10 17:09:45", date);
+    assertEquals("2017-10-10 17:09:45", date);
 
+  }
+
+  @Test
+  public void testUtilDateAdd() throws ParseException {
+
+    Date date = DateUtil.getDateFromString("2017-12-20", "yyyy-MM-dd");
+
+    assertEquals("2027-12-20",
+            DateUtil.getFmtFromDate(DateUtil.dateAdd(date, Calendar.YEAR, 10), "yyyy-MM-dd"));
+
+    date = DateUtil.getDateFromString("2016-02-29", "yyyy-MM-dd");
+
+    assertEquals("2017-02-28",
+            DateUtil.getFmtFromDate(DateUtil.dateAdd(date, Calendar.YEAR, 1), "yyyy-MM-dd"));
+
+    date = DateUtil.getDateFromString("2016-02-29", "yyyy-MM-dd");
+
+    assertEquals("2016-03-29",
+            DateUtil.getFmtFromDate(DateUtil.dateAdd(date, Calendar.MONTH, 1), "yyyy-MM-dd"));
+
+    date = DateUtil.getDateFromString("2016-02-29", "yyyy-MM-dd");
+
+    assertEquals("2016-03-01",
+            DateUtil.getFmtFromDate(DateUtil.dateAdd(date, Calendar.DATE, 1), "yyyy-MM-dd"));
   }
 }
