@@ -11,7 +11,6 @@ package org.ibankapp.base.util.test;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.sql.Date;
 import org.ibankapp.base.util.FinDate;
 import org.junit.Assert;
 import org.junit.Test;
@@ -52,9 +51,18 @@ public class FinDateTest {
   }
 
   @Test
-  public void testAddSubDays() throws Exception {
+  public void testAddDays() throws Exception {
 
     FinDate fdt = getFinDate("2017-1-30","yyyy-MM-dd");
+    FinDate addFdt = fdt.addDays(30);
+    FinDate subFdt = fdt.addDays(-30);
+    Assert.assertEquals("2017-03-01",addFdt.toString());
+    Assert.assertEquals("2016-12-31",subFdt.toString());
+  }
+
+  @Test
+  public void testAddDays1() throws Exception {
+    FinDate fdt = new FinDate(2017-1900,1-1,30);
     FinDate addFdt = fdt.addDays(30);
     FinDate subFdt = fdt.addDays(-30);
     Assert.assertEquals("2017-03-01",addFdt.toString());

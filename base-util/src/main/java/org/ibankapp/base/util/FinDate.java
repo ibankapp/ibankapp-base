@@ -26,6 +26,10 @@ public class FinDate extends Date {
     super(date);
   }
 
+  public FinDate(int year, int month, int day) {
+    super(year, month, day);
+  }
+
   public FinDate getFinDateFromUtilDate(java.util.Date udt)
   {
     FinDate fdt = new FinDate(udt.getTime());
