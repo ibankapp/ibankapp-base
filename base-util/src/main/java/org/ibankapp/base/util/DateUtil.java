@@ -15,6 +15,7 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
@@ -60,7 +61,7 @@ public class DateUtil {
   public static XMLGregorianCalendar getXMLGregorianCalendarFromString(String sdate, String pattern)
           throws ParseException, DatatypeConfigurationException {
 
-    return getXMLGregorianCalendarFromDate(getDateFromString(sdate,pattern));
+    return getXMLGregorianCalendarFromDate(getDateFromString(sdate, pattern));
 
   }
 
@@ -80,5 +81,16 @@ public class DateUtil {
     cal.setTime(date);
 
     return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+  }
+
+  public static Date dateAdd(Date source, int field, int amount) {
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(source);
+    cal.add(field, amount);
+    return cal.getTime();
+  }
+
+  public static java.sql.Date dateAdd(java.sql.Date source, int field, int amount) {
+    return new java.sql.Date(dateAdd(new Date(source.getTime()), field, amount).getTime());
   }
 }

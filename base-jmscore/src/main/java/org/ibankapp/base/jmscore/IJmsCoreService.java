@@ -9,4 +9,6 @@ public interface IJmsCoreService {
 
   byte[] ReceiveMessage(Destination destination) throws JMSException;
 
+  byte[] ReceiveMessage(Destination destination,long timeout);
+
 }

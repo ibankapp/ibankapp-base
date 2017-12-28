@@ -6,6 +6,7 @@ import org.ibankapp.base.jmscore.IJmsCoreService;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.jms.support.JmsUtils;
+import org.springframework.jms.support.destination.JmsDestinationAccessor;
 
 import javax.annotation.Resource;
 import javax.jms.*;
@@ -38,7 +39,14 @@ public class JmsCoreService implements IJmsCoreService {
 
   @Override
   public byte[] ReceiveMessage(Destination destination) {
+    return ReceiveMessage(destination, JmsDestinationAccessor.RECEIVE_TIMEOUT_INDEFINITE_WAIT);
+  }
+
+  @Override
+  public byte[] ReceiveMessage(Destination destination, long timeout) {
     byte[] msg = null;
+
+    jmsTemplate.setReceiveTimeout(timeout);
     Message message = jmsTemplate.receive(destination);
 
     try {
