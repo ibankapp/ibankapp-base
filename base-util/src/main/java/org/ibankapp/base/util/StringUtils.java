@@ -24,29 +24,16 @@
 
 package org.ibankapp.base.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.Set;
-import java.util.StringTokenizer;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.security.MessageDigest;
+import java.util.*;
 
 /**
  * Miscellaneous {@link String} utility methods.
- *
+ * <p>
  * <p>Mainly for internal use within the framework; consider
  * <a href="http://commons.apache.org/proper/commons-lang/">Apache's Commons Lang</a>
  * for a more comprehensive suite of {@code String} utilities.
- *
+ * <p>
  * <p>This class delivers some simple functionality that should really be
  * provided by the core Java {@link String} and {@link StringBuilder}
  * classes. It also provides easy-to-use methods to convert between
@@ -297,7 +284,7 @@ public abstract class StringUtils {
   /**
    * Trim all occurrences of the supplied leading character from the given {@code String}.
    *
-   * @param str the {@code String} to check
+   * @param str              the {@code String} to check
    * @param leadingCharacter the leading character to be trimmed
    * @return the trimmed {@code String}
    */
@@ -316,7 +303,7 @@ public abstract class StringUtils {
   /**
    * Trim all occurrences of the supplied trailing character from the given {@code String}.
    *
-   * @param str the {@code String} to check
+   * @param str               the {@code String} to check
    * @param trailingCharacter the trailing character to be trimmed
    * @return the trimmed {@code String}
    */
@@ -337,7 +324,7 @@ public abstract class StringUtils {
    * Test if the given {@code String} starts with the specified prefix,
    * ignoring upper/lower case.
    *
-   * @param str the {@code String} to check
+   * @param str    the {@code String} to check
    * @param prefix the prefix to look for
    * @return if the given {@code String} starts with the specified prefix,
    * @see java.lang.String#startsWith
@@ -362,7 +349,7 @@ public abstract class StringUtils {
    * Test if the given {@code String} ends with the specified suffix,
    * ignoring upper/lower case.
    *
-   * @param str the {@code String} to check
+   * @param str    the {@code String} to check
    * @param suffix the suffix to look for
    * @return if the given {@code String} ends with the specified suffix,
    * @see java.lang.String#endsWith
@@ -387,8 +374,8 @@ public abstract class StringUtils {
    * Test whether the given string matches the given substring
    * at the given index.
    *
-   * @param str the original string (or StringBuilder)
-   * @param index the index in the original string to start matching against
+   * @param str       the original string (or StringBuilder)
+   * @param index     the index in the original string to start matching against
    * @param substring the substring to match at the given index
    * @return whether the given string matches the given substring at the given index.
    */
@@ -428,7 +415,7 @@ public abstract class StringUtils {
    * Replace all occurrences of a substring within a string with
    * another string.
    *
-   * @param inString {@code String} to examine
+   * @param inString   {@code String} to examine
    * @param oldPattern {@code String} to replace
    * @param newPattern {@code String} to insert
    * @return a {@code String} with the replacements
@@ -467,7 +454,7 @@ public abstract class StringUtils {
    * Delete all occurrences of the given substring.
    *
    * @param inString the original {@code String}
-   * @param pattern the pattern to delete all occurrences of
+   * @param pattern  the pattern to delete all occurrences of
    * @return the resulting {@code String}
    */
   public static String delete(String inString, String pattern) {
@@ -477,9 +464,9 @@ public abstract class StringUtils {
   /**
    * Delete any character in a given {@code String}.
    *
-   * @param inString the original {@code String}
+   * @param inString      the original {@code String}
    * @param charsToDelete a set of characters to delete. E.g. "az\n" will delete 'a's, 'z's and new
-   * lines.
+   *                      lines.
    * @return the resulting {@code String}
    */
   public static String deleteAny(String inString, String charsToDelete) {
@@ -540,7 +527,7 @@ public abstract class StringUtils {
    * "this:name:is:qualified" returns "qualified" if using a ':' separator.
    *
    * @param qualifiedName the qualified name
-   * @param separator the separator
+   * @param separator     the separator
    * @return Unqualify a string qualified by a separator character
    */
   public static String unqualify(String qualifiedName, char separator) {
@@ -663,7 +650,7 @@ public abstract class StringUtils {
    * Apply the given relative path to the given Java resource path,
    * assuming standard Java folder separation (i.e. "/" separators).
    *
-   * @param path the path to start from (usually a full file path)
+   * @param path         the path to start from (usually a full file path)
    * @param relativePath the relative path to apply (relative to the full file path above)
    * @return the full file path that results from applying the relative path
    */
@@ -760,8 +747,8 @@ public abstract class StringUtils {
    * <p>This is the inverse operation of {@link Locale#toString Locale's toString}.
    *
    * @param localeString the locale {@code String}, following {@code Locale's} {@code toString()}
-   * format ("en", "en_UK", etc); also accepts spaces as separators, as an alternative to
-   * underscores
+   *                     format ("en", "en_UK", etc); also accepts spaces as separators, as an alternative to
+   *                     underscores
    * @return a corresponding {@code Locale} instance
    * @throws IllegalArgumentException in case of an invalid locale specification
    */
@@ -778,7 +765,7 @@ public abstract class StringUtils {
       // There is definitely a variant, and it is everything after the country
       // code sans the separator between the country code and the variant.
       int endIndexOfCountryCode =
-          localeString.indexOf(country, language.length()) + country.length();
+              localeString.indexOf(country, language.length()) + country.length();
       // Strip off any leading '_' and whitespace, what's left is the variant.
       variant = trimLeadingWhitespace(localeString.substring(endIndexOfCountryCode));
       if (variant.startsWith("_")) {
@@ -793,7 +780,7 @@ public abstract class StringUtils {
       char ch = localePart.charAt(i);
       if (ch != ' ' && ch != '_' && ch != '#' && !Character.isLetterOrDigit(ch)) {
         throw new IllegalArgumentException(
-            "Locale part \"" + localePart + "\" contains invalid characters");
+                "Locale part \"" + localePart + "\" contains invalid characters");
       }
     }
   }
@@ -813,8 +800,8 @@ public abstract class StringUtils {
    * Parse the given {@code timeZoneString} value into a {@link TimeZone}.
    *
    * @param timeZoneString the time zone {@code String}, following {@link
-   * TimeZone#getTimeZone(String)} but throwing {@link IllegalArgumentException} in case of an
-   * invalid time zone specification
+   *                       TimeZone#getTimeZone(String)} but throwing {@link IllegalArgumentException} in case of an
+   *                       invalid time zone specification
    * @return a corresponding {@link TimeZone} instance
    * @throws IllegalArgumentException in case of an invalid time zone specification
    */
@@ -823,7 +810,7 @@ public abstract class StringUtils {
     if ("GMT".equals(timeZone.getID()) && !timeZoneString.startsWith("GMT")) {
       // We don't want that GMT fallback...
       throw new IllegalArgumentException(
-          "Invalid time zone specification '" + timeZoneString + "'");
+              "Invalid time zone specification '" + timeZoneString + "'");
     }
     return timeZone;
   }
@@ -838,7 +825,7 @@ public abstract class StringUtils {
    * the given {@code String}.
    *
    * @param array the array to append to (can be {@code null})
-   * @param str the {@code String} to append
+   * @param str   the {@code String} to append
    * @return the new array (never {@code null})
    */
   public static String[] addStringToArray(String[] array, String str) {
@@ -994,7 +981,7 @@ public abstract class StringUtils {
    * Split a {@code String} at the first occurrence of the delimiter.
    * Does not include the delimiter in the result.
    *
-   * @param toSplit the string to split
+   * @param toSplit   the string to split
    * @param delimiter to split the string up with
    * @return a two element array with index 0 being before the delimiter, and index 1 being after
    * the delimiter (neither element includes the delimiter); or {@code null} if the delimiter wasn't
@@ -1021,7 +1008,7 @@ public abstract class StringUtils {
    * <p>Will trim both the key and value before adding them to the
    * {@code Properties} instance.
    *
-   * @param array the array to process
+   * @param array     the array to process
    * @param delimiter to split each element using (typically the equals symbol)
    * @return a {@code Properties} instance representing the array contents, or {@code null} if the
    * array to process was {@code null} or empty
@@ -1037,16 +1024,16 @@ public abstract class StringUtils {
    * <p>Will trim both the key and value before adding them to the
    * {@code Properties} instance.
    *
-   * @param array the array to process
-   * @param delimiter to split each element using (typically the equals symbol)
+   * @param array         the array to process
+   * @param delimiter     to split each element using (typically the equals symbol)
    * @param charsToDelete one or more characters to remove from each element prior to attempting the
-   * split operation (typically the quotation mark symbol), or {@code null} if no removal should
-   * occur
+   *                      split operation (typically the quotation mark symbol), or {@code null} if no removal should
+   *                      occur
    * @return a {@code Properties} instance representing the array contents, or {@code null} if the
    * array to process was {@code null} or empty
    */
   public static Properties splitArrayElementsIntoProperties(
-      String[] array, String delimiter, String charsToDelete) {
+          String[] array, String delimiter, String charsToDelete) {
 
     if (ObjectUtils.isEmpty(array)) {
       return null;
@@ -1075,9 +1062,9 @@ public abstract class StringUtils {
    * tokens. A delimiter is always a single character; for multi-character
    * delimiters, consider using {@link #delimitedListToStringArray}.
    *
-   * @param str the {@code String} to tokenize
+   * @param str        the {@code String} to tokenize
    * @param delimiters the delimiter characters, assembled as a {@code String} (each of the
-   * characters is individually considered as a delimiter)
+   *                   characters is individually considered as a delimiter)
    * @return an array of the tokens
    * @see java.util.StringTokenizer
    * @see String#trim()
@@ -1095,20 +1082,20 @@ public abstract class StringUtils {
    * tokens. A delimiter is always a single character; for multi-character
    * delimiters, consider using {@link #delimitedListToStringArray}.
    *
-   * @param str the {@code String} to tokenize
-   * @param delimiters the delimiter characters, assembled as a {@code String} (each of the
-   * characters is individually considered as a delimiter)
-   * @param trimTokens trim the tokens via {@link String#trim()}
+   * @param str               the {@code String} to tokenize
+   * @param delimiters        the delimiter characters, assembled as a {@code String} (each of the
+   *                          characters is individually considered as a delimiter)
+   * @param trimTokens        trim the tokens via {@link String#trim()}
    * @param ignoreEmptyTokens omit empty tokens from the result array (only applies to tokens that
-   * are empty after trimming; StringTokenizer will not consider subsequent delimiters as token in
-   * the first place).
+   *                          are empty after trimming; StringTokenizer will not consider subsequent delimiters as token in
+   *                          the first place).
    * @return an array of the tokens ({@code null} if the input {@code String} was {@code null})
    * @see java.util.StringTokenizer
    * @see String#trim()
    * @see #delimitedListToStringArray
    */
   public static String[] tokenizeToStringArray(
-      String str, String delimiters, boolean trimTokens, boolean ignoreEmptyTokens) {
+          String str, String delimiters, boolean trimTokens, boolean ignoreEmptyTokens) {
 
     if (str == null) {
       return null;
@@ -1136,9 +1123,9 @@ public abstract class StringUtils {
    * than as bunch of potential delimiter characters, in contrast to
    * {@link #tokenizeToStringArray}.
    *
-   * @param str the input {@code String}
+   * @param str       the input {@code String}
    * @param delimiter the delimiter between elements (this is a single delimiter, rather than a
-   * bunch individual delimiter characters)
+   *                  bunch individual delimiter characters)
    * @return an array of the tokens in the list
    * @see #tokenizeToStringArray
    */
@@ -1154,16 +1141,16 @@ public abstract class StringUtils {
    * than as bunch of potential delimiter characters, in contrast to
    * {@link #tokenizeToStringArray}.
    *
-   * @param str the input {@code String}
-   * @param delimiter the delimiter between elements (this is a single delimiter, rather than a
-   * bunch individual delimiter characters)
+   * @param str           the input {@code String}
+   * @param delimiter     the delimiter between elements (this is a single delimiter, rather than a
+   *                      bunch individual delimiter characters)
    * @param charsToDelete a set of characters to delete; useful for deleting unwanted line breaks:
-   * e.g. "\r\n\f" will delete all new lines and line feeds in a {@code String}
+   *                      e.g. "\r\n\f" will delete all new lines and line feeds in a {@code String}
    * @return an array of the tokens in the list
    * @see #tokenizeToStringArray
    */
   public static String[] delimitedListToStringArray(String str, String delimiter,
-      String charsToDelete) {
+                                                    String charsToDelete) {
     if (str == null) {
       return new String[0];
     }
@@ -1224,14 +1211,14 @@ public abstract class StringUtils {
    * Convert a {@link Collection} to a delimited {@code String} (e.g. CSV).
    * <p>Useful for {@code toString()} implementations.
    *
-   * @param coll the {@code Collection} to convert
-   * @param delim the delimiter to use (typically a ",")
+   * @param coll   the {@code Collection} to convert
+   * @param delim  the delimiter to use (typically a ",")
    * @param prefix the {@code String} to start each element with
    * @param suffix the {@code String} to end each element with
    * @return the delimited {@code String}
    */
   public static String collectionToDelimitedString(Collection<?> coll, String delim, String prefix,
-      String suffix) {
+                                                   String suffix) {
     if (CollectionUtils.isEmpty(coll)) {
       return "";
     }
@@ -1251,7 +1238,7 @@ public abstract class StringUtils {
    * Convert a {@code Collection} into a delimited {@code String} (e.g. CSV).
    * <p>Useful for {@code toString()} implementations.
    *
-   * @param coll the {@code Collection} to convert
+   * @param coll  the {@code Collection} to convert
    * @param delim the delimiter to use (typically a ",")
    * @return the delimited {@code String}
    */
@@ -1274,7 +1261,7 @@ public abstract class StringUtils {
    * Convert a {@code String} array into a delimited {@code String} (e.g. CSV).
    * <p>Useful for {@code toString()} implementations.
    *
-   * @param arr the array to display
+   * @param arr   the array to display
    * @param delim the delimiter to use (typically a ",")
    * @return the delimited {@code String}
    */
@@ -1316,6 +1303,35 @@ public abstract class StringUtils {
   public static String getRandomUuid() {
     String str = UUID.randomUUID().toString();
     return str.substring(0, 8) + str.substring(9, 13) + str.substring(14, 18) + str
-        .substring(19, 23) + str.substring(24);
+            .substring(19, 23) + str.substring(24);
+  }
+
+  public static String hash(byte[] unencodedMessage, String algorithm) {
+    MessageDigest md = null;
+    try {
+      md = MessageDigest.getInstance(algorithm);
+    } catch (Exception e) {
+      e.printStackTrace();
+
+      return null;
+    }
+
+    md.reset();
+
+    md.update(unencodedMessage);
+
+    byte[] encodedPassword = md.digest();
+
+    StringBuffer buf = new StringBuffer();
+
+    for (int i = 0; i < encodedPassword.length; ++i) {
+      if ((encodedPassword[i] & 0xFF) < 16) {
+        buf.append("0");
+      }
+
+      buf.append(Long.toString(encodedPassword[i] & 0xFF, 16));
+    }
+
+    return buf.toString();
   }
 }
