@@ -77,10 +77,10 @@ public class DateUtil {
 
   public static XMLGregorianCalendar getXMLGregorianCalendarFromDate(Date date) throws DatatypeConfigurationException {
 
-    GregorianCalendar cal = new GregorianCalendar();
-    cal.setTime(date);
+    String FORMATER = "yyyy-MM-dd'T'HH:mm:ss";
+    DateFormat format = new SimpleDateFormat(FORMATER);
 
-    return DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+    return DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
   }
 
   public static Date dateAdd(Date source, int field, int amount) {
