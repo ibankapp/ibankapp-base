@@ -71,8 +71,8 @@ public class DateUtilTest {
   @Test
   public void testGetStringFromXMLGregorianCalendar() throws ParseException, DatatypeConfigurationException {
 
-    XMLGregorianCalendar cal = DateUtil.getXMLGregorianCalendarFromString("2017-10-10 17:09:45", "yyyy-MM-dd " +
-            "HH:mm:ss");
+    XMLGregorianCalendar cal = DateUtil.getXMLGregorianCalendarFromString("2017-10-10 17:09:45",
+            "yyyy-MM-dd HH:mm:ss");
 
     String date = DateUtil.getStringFromXMLGregorianCalendar(cal, "yyyy-MM-dd HH:mm:ss");
 
