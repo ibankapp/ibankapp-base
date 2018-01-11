@@ -2,6 +2,7 @@ package org.ibankapp.base.jmscore.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.jmscore.IJmsCoreService;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -61,7 +62,7 @@ public class JmsCoreService implements IJmsCoreService {
         msg = (byte[]) oMsg.getObject();
       }
     } catch (JMSException e) {
-      throw JmsUtils.convertJmsAccessException(e);
+      throw new BaseException("E-BASE-000001", "接收报文发生错误").initCause(e);
     }
 
     return msg;
