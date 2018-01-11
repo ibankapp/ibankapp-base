@@ -16,7 +16,7 @@
 
 package org.ibankapp.base.validation.test;
 
-import org.ibankapp.base.validation.exception.BaseValidationException;
+import org.ibankapp.base.exception.BaseValidationException;
 import org.ibankapp.base.validation.validator.Assert;
 import org.junit.Rule;
 import org.junit.Test;

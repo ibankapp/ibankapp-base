@@ -19,7 +19,7 @@ package org.ibankapp.base.validation.validator;
 import org.ibankapp.base.util.CollectionUtils;
 import org.ibankapp.base.util.ObjectUtils;
 import org.ibankapp.base.util.StringUtils;
-import org.ibankapp.base.validation.exception.BaseValidationException;
+import org.ibankapp.base.exception.BaseValidationException;
 
 import java.util.Collection;
 import java.util.Map;

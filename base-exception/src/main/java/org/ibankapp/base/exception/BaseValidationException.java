@@ -7,7 +7,7 @@
  * in the root directory or <http://www.apache.org/licenses/>.
  */
 
-package org.ibankapp.base.validation.exception;
+package org.ibankapp.base.exception;
 
 import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.exception.PropertyUtil;
