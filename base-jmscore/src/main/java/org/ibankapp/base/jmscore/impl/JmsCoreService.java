@@ -20,7 +20,7 @@ public class JmsCoreService implements IJmsCoreService {
   private JmsTemplate jmsTemplate;
 
   @Override
-  public void SendMessage(Destination destination, final byte[] message) {
+  public void sendMessage(Destination destination, final byte[] message) {
     jmsTemplate.send(destination, new MessageCreator() {
       public Message createMessage(Session session) {
         BytesMessage msg;
@@ -38,12 +38,12 @@ public class JmsCoreService implements IJmsCoreService {
   }
 
   @Override
-  public byte[] ReceiveMessage(Destination destination) {
-    return ReceiveMessage(destination, JmsDestinationAccessor.RECEIVE_TIMEOUT_INDEFINITE_WAIT);
+  public byte[] receiveMessage(Destination destination) {
+    return receiveMessage(destination, JmsDestinationAccessor.RECEIVE_TIMEOUT_INDEFINITE_WAIT);
   }
 
   @Override
-  public byte[] ReceiveMessage(Destination destination, long timeout) {
+  public byte[] receiveMessage(Destination destination, long timeout) {
     byte[] msg = null;
 
     jmsTemplate.setReceiveTimeout(timeout);
