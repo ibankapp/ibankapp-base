@@ -2,6 +2,7 @@ package org.ibankapp.base.jmscore.impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ibankapp.base.exception.BaseException;
 import org.ibankapp.base.jmscore.IJmsCoreService;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
@@ -20,7 +21,7 @@ public class JmsCoreService implements IJmsCoreService {
   private JmsTemplate jmsTemplate;
 
   @Override
-  public void SendMessage(Destination destination, final byte[] message) {
+  public void sendMessage(Destination destination, final byte[] message) {
     jmsTemplate.send(destination, new MessageCreator() {
       public Message createMessage(Session session) {
         BytesMessage msg;
@@ -38,12 +39,12 @@ public class JmsCoreService implements IJmsCoreService {
   }
 
   @Override
-  public byte[] ReceiveMessage(Destination destination) {
-    return ReceiveMessage(destination, JmsDestinationAccessor.RECEIVE_TIMEOUT_INDEFINITE_WAIT);
+  public byte[] receiveMessage(Destination destination) {
+    return receiveMessage(destination, JmsDestinationAccessor.RECEIVE_TIMEOUT_INDEFINITE_WAIT);
   }
 
   @Override
-  public byte[] ReceiveMessage(Destination destination, long timeout) {
+  public byte[] receiveMessage(Destination destination, long timeout) {
     byte[] msg = null;
 
     jmsTemplate.setReceiveTimeout(timeout);
@@ -61,7 +62,7 @@ public class JmsCoreService implements IJmsCoreService {
         msg = (byte[]) oMsg.getObject();
       }
     } catch (JMSException e) {
-      throw JmsUtils.convertJmsAccessException(e);
+      throw new BaseException("E-BASE-000001", "接收报文发生错误").initCause(e);
     }
 
     return msg;

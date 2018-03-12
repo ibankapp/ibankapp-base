@@ -19,7 +19,7 @@
 package org.ibankapp.base.validation;
 
 import org.apache.commons.lang.StringUtils;
-import org.ibankapp.base.validation.exception.BaseValidationException;
+import org.ibankapp.base.exception.BaseValidationException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

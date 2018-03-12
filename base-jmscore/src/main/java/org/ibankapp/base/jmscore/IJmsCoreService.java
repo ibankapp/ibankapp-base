@@ -5,10 +5,10 @@ import javax.jms.JMSException;
 
 public interface IJmsCoreService {
 
-  void SendMessage(Destination destination, byte[] message);
+  void sendMessage(Destination destination, byte[] message);
 
-  byte[] ReceiveMessage(Destination destination) throws JMSException;
+  byte[] receiveMessage(Destination destination) throws JMSException;
 
-  byte[] ReceiveMessage(Destination destination,long timeout);
+  byte[] receiveMessage(Destination destination, long timeout);
 
 }
