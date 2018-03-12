@@ -49,7 +49,7 @@ public class IdentifierValidationTest {
     assertFalse(IdentifierValidation.isIdCardNo("170404198703240001"));
     assertFalse(IdentifierValidation.isIdCardNo("130404760229301"));
     assertFalse(IdentifierValidation.isIdCardNo("13040419760229301A"));
-    assertFalse(IdentifierValidation.isIdCardNo("110105201801020129"));
+    assertFalse(IdentifierValidation.isIdCardNo("110105209901020128"));
     assertTrue(IdentifierValidation.isOcc("685104709"));
     assertTrue(IdentifierValidation.isOcc("MA06A7081"));
     assertTrue(IdentifierValidation.isOcc("103939950"));

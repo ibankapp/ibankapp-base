@@ -24,13 +24,13 @@ public class JmsTest {
     String xml = "abc";
     Destination destination = mockQueue;
     try {
-      jmsCoreService.SendMessage(destination,xml.getBytes("UTF-8"));
+      jmsCoreService.sendMessage(destination,xml.getBytes("UTF-8"));
     } catch (UnsupportedEncodingException e) {
       e.printStackTrace();
     }
 
     try {
-      byte[] bRecv = jmsCoreService.ReceiveMessage(destination);
+      byte[] bRecv = jmsCoreService.receiveMessage(destination);
       String sRecv = new String(bRecv);
       Assert.assertEquals("abc",sRecv);
     } catch (JMSException e) {

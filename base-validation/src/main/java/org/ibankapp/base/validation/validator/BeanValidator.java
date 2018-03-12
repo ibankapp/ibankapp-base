@@ -14,7 +14,7 @@ import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
-import org.ibankapp.base.validation.exception.BaseValidationException;
+import org.ibankapp.base.exception.BaseValidationException;
 
 /**
  * Bean校验类
