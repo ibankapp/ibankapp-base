@@ -29,6 +29,4 @@ workflows:
   version: 2
   builds:
     jobs:
-      - build6
-      - build7
       - build8

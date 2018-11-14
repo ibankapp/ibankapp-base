@@ -15,6 +15,9 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -59,7 +62,7 @@ public class DateUtil {
   }
 
   public static XMLGregorianCalendar getXMLGregorianCalendarFromString(String sdate, String pattern)
-          throws ParseException, DatatypeConfigurationException {
+      throws ParseException, DatatypeConfigurationException {
 
     return getXMLGregorianCalendarFromDate(getDateFromString(sdate, pattern));
 
@@ -73,6 +76,34 @@ public class DateUtil {
   public static Date getDateFromXMLGregorianCalendar(XMLGregorianCalendar cal) {
     GregorianCalendar gCal = cal.toGregorianCalendar();
     return gCal.getTime();
+  }
+
+  public static LocalDate getLocalDateFromXMLGregorianCalendar(XMLGregorianCalendar cal) {
+    return cal.toGregorianCalendar().toZonedDateTime().toLocalDate();
+  }
+
+  public static XMLGregorianCalendar getXMLGregorianCalendarFromLocalDateTime(LocalDateTime dateTime) {
+
+    Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
+    try {
+      return getXMLGregorianCalendarFromDate(date);
+    } catch (DatatypeConfigurationException e) {
+      throw new IllegalArgumentException("日期非法");
+    }
+  }
+
+  public static XMLGregorianCalendar getXMLGregorianCalendarFromLocalDate(LocalDate localDate) {
+
+    Date date = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+    String FORMATER = "yyyy-MM-dd";
+    DateFormat format = new SimpleDateFormat(FORMATER);
+
+    try {
+      return DatatypeFactory.newInstance().newXMLGregorianCalendar(format.format(date));
+    } catch (DatatypeConfigurationException e) {
+      throw new IllegalArgumentException("日期非法");
+    }
   }
 
   public static XMLGregorianCalendar getXMLGregorianCalendarFromDate(Date date) throws DatatypeConfigurationException {
