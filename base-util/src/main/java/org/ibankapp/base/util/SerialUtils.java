@@ -9,22 +9,16 @@
 
 package org.ibankapp.base.util;
 
-import java.sql.Date;
-import java.util.Calendar;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class SerialUtils {
 
-  public static String getTimeStampSerialNo(Date date) {
+  public static String getTimeStampSerialNo(LocalDate date) {
 
-    java.util.Date now = new java.util.Date();
-    Calendar cal = Calendar.getInstance();
-    cal.setTime(now);
+    long seq = LocalTime.now().toNanoOfDay() / 1000000;
 
-    long seq = cal.get(Calendar.HOUR_OF_DAY) * 3600000 + cal.get(Calendar.MINUTE) * 60000
-            + cal.get(Calendar.SECOND) * 1000 + cal.get(Calendar.MILLISECOND);
-
-    return DateUtil.getFmtFromDate(date, "yyyyMMdd") + String
-            .format("%08d", seq);
-
+    return date.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + String.format("%08d", seq);
   }
 }

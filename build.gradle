@@ -18,8 +18,8 @@ subprojects {
     apply plugin: 'maven'
 //    apply plugin: 'checkstyle'
 
-    sourceCompatibility = 1.6
-    targetCompatibility = 1.6
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
 //
 //    checkstyleMain {
 //        enabled = JavaVersion.current() != JavaVersion.VERSION_1_6
