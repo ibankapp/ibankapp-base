@@ -7,7 +7,7 @@ jobs:
     steps:
       - checkout
       - run: export TERM="dumb";./gradlew check
-      - run: bash <(curl -s https://codecov.io/bash) -t 860d85d1-4f86-43ca-b022-42188ce57a34
+      - run: bash <(curl -s https://codecov.io/bash) -t 0a1b86f4-6abf-4c46-a263-6af680efbf0f
 
   build7:
     working_directory: ~/ibankapp-base
@@ -24,6 +24,7 @@ jobs:
       steps:
         - checkout
         - run: export TERM="dumb";./gradlew check
+        - run: bash <(curl -s https://codecov.io/bash) -t 0a1b86f4-6abf-4c46-a263-6af680efbf0f
 
 workflows:
   version: 2
