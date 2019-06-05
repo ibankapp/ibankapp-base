@@ -145,4 +145,25 @@ public class DateUtilTest {
     assertEquals(4, localDate.getMonthValue());
     assertEquals(24, localDate.getDayOfMonth());
   }
+
+  @Test
+  public void testGetLocalDateTimeFromXMLGregorianCalendar() throws ParseException, DatatypeConfigurationException {
+
+    DateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+    Date date = format.parse("2014-04-24 11:15:00");
+
+    GregorianCalendar cal = new GregorianCalendar();
+    cal.setTime(date);
+
+    XMLGregorianCalendar xmlGregCal = DatatypeFactory.newInstance().newXMLGregorianCalendar(cal);
+
+    LocalDateTime localDateTime = DateUtil.getLocalDateTimeFromXMLGregorianCalendar(xmlGregCal);
+
+    assertEquals(2014, localDateTime.getYear());
+    assertEquals(4, localDateTime.getMonthValue());
+    assertEquals(24, localDateTime.getDayOfMonth());
+    assertEquals(11,localDateTime.getHour());
+    assertEquals(15,localDateTime.getMinute());
+    assertEquals(0,localDateTime.getSecond());
+  }
 }
