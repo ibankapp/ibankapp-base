@@ -82,6 +82,10 @@ public class DateUtil {
     return cal.toGregorianCalendar().toZonedDateTime().toLocalDate();
   }
 
+  public static LocalDateTime getLocalDateTimeFromXMLGregorianCalendar(XMLGregorianCalendar cal) {
+    return cal.toGregorianCalendar().toZonedDateTime().toLocalDateTime();
+  }
+
   public static XMLGregorianCalendar getXMLGregorianCalendarFromLocalDateTime(LocalDateTime dateTime) {
 
     Date date = Date.from(dateTime.atZone(ZoneId.systemDefault()).toInstant());
