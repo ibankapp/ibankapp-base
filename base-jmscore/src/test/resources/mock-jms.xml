@@ -10,7 +10,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 
   <!--  mockrunner  -->
   <bean id="destinationManager" class="com.mockrunner.jms.DestinationManager"/>
-  <bean id="mockQueue" factory-bean="destinationManager" factory-method="createQueue">
+  <bean id="mockQueue" name="mockQueue" factory-bean="destinationManager" factory-method="createQueue">
     <constructor-arg index="0" value="demoMockRunnerQueue"/>
   </bean>
   <bean id="configurationManager" class="com.mockrunner.jms.ConfigurationManager"/>
