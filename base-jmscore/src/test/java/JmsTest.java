@@ -13,7 +13,8 @@ import javax.jms.JMSException;
 import java.nio.charset.StandardCharsets;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = {TestConfigure.class})
+//@ContextConfiguration(classes = {TestConfigure.class})
+@ContextConfiguration("classpath:mock-jms.xml")
 public class JmsTest {
 
   @Autowired
@@ -38,14 +39,13 @@ public class JmsTest {
   }
 
   @Test
-  @Ignore
   public void TestSendByDestinationAndReceiveByQueueName() throws JMSException {
     String xml = "abc";
     MockQueue destination = mockQueue;
     System.out.println(destination.getQueueName());
     jmsCoreService.sendMessage(destination, xml.getBytes(StandardCharsets.UTF_8));
 
-    byte[] bRecv = jmsCoreService.receiveMessage("demoQueue",1);
+    byte[] bRecv = jmsCoreService.receiveMessage("demoMockRunnerQueue",1);
     String sRecv = new String(bRecv);
     Assert.assertEquals("abc", sRecv);
   }
@@ -53,9 +53,9 @@ public class JmsTest {
   @Test
   public void TestSendByQueueNameAndReceiveByQueueName() {
     String xml = "abc";
-    jmsCoreService.sendMessage("demoQueue", xml.getBytes(StandardCharsets.UTF_8));
+    jmsCoreService.sendMessage("demoMockRunnerQueue", xml.getBytes(StandardCharsets.UTF_8));
 
-    byte[] bRecv = jmsCoreService.receiveMessage("demoQueue");
+    byte[] bRecv = jmsCoreService.receiveMessage("demoMockRunnerQueue",1000);
     String sRecv = new String(bRecv);
     Assert.assertEquals("abc", sRecv);
   }
