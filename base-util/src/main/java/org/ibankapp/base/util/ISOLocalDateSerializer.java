@@ -8,8 +8,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class LocalDateSerializer extends StdSerializer<LocalDate> {
-  public LocalDateSerializer() {
+public class ISOLocalDateSerializer extends StdSerializer<LocalDate> {
+  public ISOLocalDateSerializer() {
     super(LocalDate.class);
   }
 
