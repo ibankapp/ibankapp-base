@@ -14,9 +14,7 @@ public class LocalDateSerializerTest {
   @Test
   public void testLcoalDateSerializer() throws JsonProcessingException {
     SutObject sut = new SutObject(LocalDate.of(2019, 7, 12));
-
     String sutJson = new ObjectMapper().writeValueAsString(sut);
-
     Assert.assertEquals("{\"date\":\"2019-07-12\"}", sutJson);
   }
 
@@ -27,5 +25,6 @@ public class LocalDateSerializerTest {
     SutObject(LocalDate date) {
       this.date = date;
     }
+
   }
 }
