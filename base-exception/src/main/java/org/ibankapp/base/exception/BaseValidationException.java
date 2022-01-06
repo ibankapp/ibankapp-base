@@ -9,9 +9,6 @@
 
 package org.ibankapp.base.exception;
 
-import org.ibankapp.base.exception.BaseException;
-import org.ibankapp.base.exception.PropertyUtil;
-
 /**
  * bean校验异常
  *
