@@ -47,7 +47,7 @@ public class BaseExceptionTest {
    * 测试不带插值参数的构造函数.
    */
   @Test
-  public void testBaseExcptionNoParam() {
+  public void testBaseExceptionNoParam() {
     thrown.expect(BaseException.class);
     thrown.expectMessage("测试错误1");
 
