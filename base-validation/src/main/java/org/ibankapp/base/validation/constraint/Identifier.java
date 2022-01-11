@@ -68,7 +68,7 @@ public @interface Identifier {
   /**
    * payload.
    *
-   * @return pyaload
+   * @return payload
    */
   Class<? extends Payload>[] payload() default {};
 
