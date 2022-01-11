@@ -1,7 +1,6 @@
 import com.mockrunner.mock.jms.MockQueue;
 import org.ibankapp.base.jmscore.IJmsCoreService;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
