@@ -45,9 +45,8 @@ class TestEvent extends Event {
   /**
    * 设置 事件信息.
    *
-   * @param message 事件信息
    */
-  void setMessage(String message) {
-    this.message = message;
+  void setMessage() {
+    this.message = "send a message";
   }
 }

@@ -11,6 +11,8 @@ package org.ibankapp.base.observer.test;
 
 import java.util.Map;
 import java.util.Vector;
+
+import org.ibankapp.base.observer.Event;
 import org.ibankapp.base.observer.EventConsumer;
 import org.ibankapp.base.observer.EventRegister;
 import org.junit.Assert;
@@ -57,7 +59,7 @@ public class EventRegisterTest {
   @Test
   public void testAddListener() {
 
-    Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
+    Map<Class<? extends Event>, Vector<EventConsumer>> listeners = register.getListeners();
 
     Vector<EventConsumer> consumers = new Vector<>();
     consumers.add(consumer);
@@ -74,7 +76,7 @@ public class EventRegisterTest {
 
     register.removeListener(TestEvent.class, consumer);
 
-    Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
+    Map<Class<? extends Event>, Vector<EventConsumer>> listeners = register.getListeners();
 
     Vector<EventConsumer> consumers = new Vector<>();
     consumers.add(secondConsumer);
@@ -101,7 +103,7 @@ public class EventRegisterTest {
 
     register.removeAllListeners(TestEvent.class);
 
-    Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
+    Map<Class<? extends Event>, Vector<EventConsumer>> listeners = register.getListeners();
 
     Vector<EventConsumer> consumers = new Vector<>();
     consumers.add(consumer);
@@ -119,7 +121,7 @@ public class EventRegisterTest {
 
     register.removeAllListeners();
 
-    Map<Class, Vector<EventConsumer>> listeners = register.getListeners();
+    Map<Class<? extends Event>, Vector<EventConsumer>> listeners = register.getListeners();
 
     Assert.assertEquals(0, listeners.size());
   }

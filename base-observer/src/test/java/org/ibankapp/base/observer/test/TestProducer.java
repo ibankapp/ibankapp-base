@@ -34,7 +34,7 @@ class TestProducer {
     TestEvent event = new TestEvent(this);
     TestEvent1 event1 = new TestEvent1(this);
 
-    event.setMessage("send a message");
+    event.setMessage();
     event1.setMessage("send second message");
 
     register.fireEvent(event);
