@@ -33,12 +33,12 @@ public class EventRegisterTest {
   /**
    * 事件消费者.
    */
-  private TestConsumer consumer = new TestConsumer();
+  private final TestConsumer consumer = new TestConsumer();
 
   /**
    * 另一个事件消费者.
    */
-  private TestSecondConsumer secondConsumer = new TestSecondConsumer();
+  private final TestSecondConsumer secondConsumer = new TestSecondConsumer();
 
   /**
    * 将Demo事件注册到事件注册器中并让事件消费者进行监听.
