@@ -23,7 +23,7 @@ import java.util.Vector;
  */
 public class EventRegister {
 
-  private Map<Class, Vector<EventConsumer>> listeners = new HashMap<Class, Vector<EventConsumer>>();
+  private Map<Class, Vector<EventConsumer>> listeners = new HashMap<>();
 
   /**
    * 添加事件监听器.
@@ -35,7 +35,7 @@ public class EventRegister {
   public synchronized <T extends Event> void addListener(Class<T> clazz, EventConsumer consumer) {
     Vector<EventConsumer> consumers = listeners.get(clazz);
     if (consumers == null) {
-      consumers = new Vector<EventConsumer>();
+      consumers = new Vector<>();
     }
     consumers.add(consumer);
     listeners.put(clazz, consumers);
@@ -61,7 +61,7 @@ public class EventRegister {
    * 移除所有的事件监听.
    */
   public synchronized void removeAllListeners() {
-    listeners = new HashMap<Class, Vector<EventConsumer>>();
+    listeners = new HashMap<>();
   }
 
   /**
