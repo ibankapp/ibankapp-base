@@ -42,17 +42,17 @@ public class EntityInformationTest {
   public void testMultiIdEntityInformation() {
 
     EntityInformation<TestCompositedModel> entityInformation =
-        new EntityInformation<TestCompositedModel>(
+        new EntityInformation<>(
             TestCompositedModel.class, em
             .getMetamodel());
 
     Assert.assertEquals("TestCompositedModel", entityInformation.getEntityName());
 
-    Set<String> expectAttributNames = new HashSet<String>();
+    Set<String> expectAttributNames = new HashSet<>();
     expectAttributNames.add("firstName");
     expectAttributNames.add("lastName");
 
-    Set<String> actualAttributNames = new HashSet<String>(
+    Set<String> actualAttributNames = new HashSet<>(
         (Collection<? extends String>) entityInformation
             .getIdAttributeNames());
 
@@ -65,12 +65,12 @@ public class EntityInformationTest {
    */
   @Test
   public void testSingleIdEntityInfomation() {
-    EntityInformation<TestSimpleModel> entityInformation = new EntityInformation<TestSimpleModel>(
+    EntityInformation<TestSimpleModel> entityInformation = new EntityInformation<>(
         TestSimpleModel.class, em
         .getMetamodel());
 
     for (String name : entityInformation.getIdAttributeNames()) {
-      Assert.assertTrue(name.equals("name"));
+      Assert.assertEquals("name", name);
     }
   }
 }

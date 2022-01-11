@@ -9,15 +9,11 @@
 
 package org.ibankapp.base.persistence.domain;
 
+import javax.persistence.metamodel.*;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
-import javax.persistence.metamodel.EntityType;
-import javax.persistence.metamodel.IdentifiableType;
-import javax.persistence.metamodel.ManagedType;
-import javax.persistence.metamodel.Metamodel;
-import javax.persistence.metamodel.SingularAttribute;
+import java.util.stream.Collectors;
 
 /**
  * 实体信息类，通过此类的方法可获得实体类的一些静态信息
@@ -30,13 +26,13 @@ import javax.persistence.metamodel.SingularAttribute;
 public class EntityInformation<T> {
 
   private final IdMetadata<T> idMetadata;
-  private String entityName;
+  private final String entityName;
 
   /**
    * 构造函数.
    *
    * @param domainClass 实体类CLASS
-   * @param metamodel 模型元数据,可从jpa的实体管理器EntityManage获取
+   * @param metamodel   模型元数据,可从jpa的实体管理器EntityManage获取
    */
   public EntityInformation(Class<T> domainClass, Metamodel metamodel) {
 
@@ -46,7 +42,7 @@ public class EntityInformation<T> {
 
     IdentifiableType<T> identifiableType = (IdentifiableType<T>) type;
 
-    this.idMetadata = new IdMetadata<T>(identifiableType);
+    this.idMetadata = new IdMetadata<>(identifiableType);
   }
 
   /**
@@ -64,14 +60,7 @@ public class EntityInformation<T> {
    * @return id属性列表
    */
   public Iterable<String> getIdAttributeNames() {
-
-    List<String> attributeNames = new ArrayList<String>(idMetadata.attributes.size());
-
-    for (SingularAttribute attribute : idMetadata.attributes) {
-      attributeNames.add(attribute.getName());
-    }
-
-    return attributeNames;
+    return idMetadata.attributes.stream().map(Attribute::getName).collect(Collectors.toCollection(() -> new ArrayList<>(idMetadata.attributes.size())));
   }
 
   /**
@@ -90,12 +79,8 @@ public class EntityInformation<T> {
      *
      * @param source id类型
      */
-    @SuppressWarnings("unchecked")
     IdMetadata(IdentifiableType<T> source) {
-
-      this.attributes = (Set<SingularAttribute<? super T, ?>>) (source.hasSingleIdAttribute()
-          ? Collections.singleton(source.getId(source.getIdType().getJavaType()))
-          : source.getIdClassAttributes());
+      this.attributes = source.hasSingleIdAttribute() ? Collections.singleton(source.getId(source.getIdType().getJavaType())) : source.getIdClassAttributes();
     }
   }
 }
