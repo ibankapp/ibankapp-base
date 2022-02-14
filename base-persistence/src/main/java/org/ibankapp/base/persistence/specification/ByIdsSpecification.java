@@ -32,9 +32,9 @@ public class ByIdsSpecification<T> implements Specification<T> {
 
   public ParameterExpression<Iterable> parameter;
   private EntityManager em;
-  private Class entityClass;
+  private Class<T> entityClass;
 
-  public ByIdsSpecification(EntityManager em, Class entityClass) {
+  public ByIdsSpecification(EntityManager em, Class<T> entityClass) {
     this.em = em;
     this.entityClass = entityClass;
   }
@@ -42,17 +42,16 @@ public class ByIdsSpecification<T> implements Specification<T> {
   /**
    * 获取按ID集合进行实体查询的Predicate.
    *
-   * @param root 实体类ROOT
+   * @param root  实体类ROOT
    * @param query 条件查询
-   * @param cb 查询构建器
+   * @param cb    查询构建器
    */
   @Override
-  @SuppressWarnings("unchecked")
   public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
 
-    ManagedType type = em.getMetamodel().managedType(entityClass);
+    ManagedType<T> type = em.getMetamodel().managedType(entityClass);
 
-    IdentifiableType identifiableType = (IdentifiableType) type;
+    IdentifiableType<?> identifiableType = (IdentifiableType<?>) type;
 
     Path<?> path = root.get(identifiableType.getId(identifiableType.getIdType().getJavaType()));
 
