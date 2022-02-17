@@ -33,7 +33,7 @@ public class TestModelWithInheritedUniques extends TestModelWithUniques {
     return number;
   }
 
-  public void setNumber(String type) {
+  public void setNumber(String number) {
     this.number = number;
   }
 }
